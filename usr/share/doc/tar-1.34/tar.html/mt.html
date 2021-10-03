@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>mt (GNU tar 1.34)</title>
+
+<meta name="description" content="mt (GNU tar 1.34)">
+<meta name="keywords" content="mt (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Many.html" rel="up" title="Many">
+<link href="Tape-Positioning.html" rel="prev" title="Tape Positioning">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection" id="mt">
+<div class="header">
+<p>
+Previous: <a href="Tape-Positioning.html" accesskey="p" rel="prev">Tape Positions and Tape Marks</a>, Up: <a href="Many.html" accesskey="u" rel="up">Many Archives on One Tape</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="The-mt-Utility"></span><h4 class="subsection">9.5.2 The <code>mt</code> Utility</h4>
+<blockquote>
+<p><em>(This message will disappear, once this node revised.)</em>
+</p></blockquote>
+
+
+<p>See <a href="Blocking-Factor.html">The Blocking Factor of an Archive</a>.
+</p>
+<p>You can use the <code>mt</code> utility to advance or rewind a tape past a
+specified number of archive files on the tape.  This will allow you
+to move to the beginning of an archive before extracting or reading
+it, or to the end of all the archives before writing a new one.
+</p>
+
+<p>The syntax of the <code>mt</code> command is:
+</p>
+<div class="example">
+<pre class="example"><kbd>mt [-f <var>tapename</var>] <var>operation</var> [<var>number</var>]</kbd>
+</pre></div>
+
+<p>where <var>tapename</var> is the name of the tape device, <var>number</var> is
+the number of times an operation is performed (with a default of one),
+and <var>operation</var> is one of the following:
+</p>
+
+
+<dl compact="compact">
+<dt><span><samp>eof</samp></span></dt>
+<dt><span><samp>weof</samp></span></dt>
+<dd><p>Writes <var>number</var> tape marks at the current position on the tape.
+</p>
+</dd>
+<dt><span><samp>fsf</samp></span></dt>
+<dd><p>Moves tape position forward <var>number</var> files.
+</p>
+</dd>
+<dt><span><samp>bsf</samp></span></dt>
+<dd><p>Moves tape position back <var>number</var> files.
+</p>
+</dd>
+<dt><span><samp>rewind</samp></span></dt>
+<dd><p>Rewinds the tape.  (Ignores <var>number</var>.)
+</p>
+</dd>
+<dt><span><samp>offline</samp></span></dt>
+<dt><span><samp>rewoff1</samp></span></dt>
+<dd><p>Rewinds the tape and takes the tape device off-line.  (Ignores <var>number</var>.)
+</p>
+</dd>
+<dt><span><samp>status</samp></span></dt>
+<dd><p>Prints status information about the tape unit.
+</p>
+</dd>
+</dl>
+
+<p>If you don&rsquo;t specify a <var>tapename</var>, <code>mt</code> uses the environment
+variable <code>TAPE</code>; if <code>TAPE</code> is not set, <code>mt</code> will use
+the default device specified in your <samp>sys/mtio.h</samp> file
+(<code>DEFTAPE</code> variable).  If this is not defined, the program will
+display a descriptive error message and exit with code 1.
+</p>
+<p><code>mt</code> returns a 0 exit status when the operation(s) were
+successful, 1 if the command was unrecognized, and 2 if an operation
+failed.
+</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Previous: <a href="Tape-Positioning.html">Tape Positions and Tape Marks</a>, Up: <a href="Many.html">Many Archives on One Tape</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

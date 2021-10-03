@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Formats (GNU tar 1.34)</title>
+
+<meta name="description" content="Formats (GNU tar 1.34)">
+<meta name="keywords" content="Formats (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html" rel="up" title="Top">
+<link href="Media.html" rel="next" title="Media">
+<link href="Date-input-formats.html" rel="prev" title="Date input formats">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="chapter" id="Formats">
+<div class="header">
+<p>
+Next: <a href="Media.html" accesskey="n" rel="next">Tapes and Other Archive Media</a>, Previous: <a href="Date-input-formats.html" accesskey="p" rel="prev">Date input formats</a>, Up: <a href="index.html" accesskey="u" rel="up"><acronym>GNU</acronym> tar: an archiver tool</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Controlling-the-Archive-Format"></span><h2 class="chapter">8 Controlling the Archive Format</h2>
+
+<span id="index-Tar-archive-formats"></span>
+<p>Due to historical reasons, there are several formats of tar archives.
+All of them are based on the same principles, but have some subtle
+differences that often make them incompatible with each other.
+</p>
+<p>GNU tar is able to create and handle archives in a variety of formats.
+The most frequently used formats are (in alphabetical order):
+</p>
+<dl compact="compact">
+<dt><span>gnu</span></dt>
+<dd><p>Format used by <acronym>GNU</acronym> <code>tar</code> versions up to 1.13.25.  This format derived
+from an early <acronym>POSIX</acronym> standard, adding some improvements such as
+sparse file handling and incremental archives.  Unfortunately these
+features were implemented in a way incompatible with other archive
+formats.
+</p>
+<p>Archives in &lsquo;<samp>gnu</samp>&rsquo; format are able to hold file names of unlimited
+length.
+</p>
+</dd>
+<dt><span>oldgnu</span></dt>
+<dd><p>Format used by <acronym>GNU</acronym> <code>tar</code> of versions prior to 1.12.
+</p>
+</dd>
+<dt><span>v7</span></dt>
+<dd><p>Archive format, compatible with the V7 implementation of tar.  This
+format imposes a number of limitations.  The most important of them
+are:
+</p>
+<ol>
+<li> The maximum length of a file name is limited to 99 characters.
+</li><li> The maximum length of a symbolic link is limited to 99 characters.
+</li><li> It is impossible to store special files (block and character
+devices, fifos etc.)
+</li><li> Maximum value of user or group <acronym>ID</acronym> is limited to 2097151 (7777777
+octal)
+</li><li> V7 archives do not contain symbolic ownership information (user
+and group name of the file owner).
+</li></ol>
+
+<p>This format has traditionally been used by Automake when producing
+Makefiles.  This practice will change in the future, in the meantime,
+however this means that projects containing file names more than 99
+characters long will not be able to use <acronym>GNU</acronym> <code>tar</code> 1.34 and
+Automake prior to 1.9.
+</p>
+</dd>
+<dt><span>ustar</span></dt>
+<dd><p>Archive format defined by <acronym>POSIX.1-1988</acronym> specification.  It stores
+symbolic ownership information.  It is also able to store
+special files.  However, it imposes several restrictions as well:
+</p>
+<ol>
+<li> The maximum length of a file name is limited to 256 characters,
+provided that the file name can be split at a directory separator in
+two parts, first of them being at most 155 bytes long.  So, in most
+cases the maximum file name length will be shorter than 256
+characters.
+</li><li> The maximum length of a symbolic link name is limited to
+100 characters.
+</li><li> Maximum size of a file the archive is able to accommodate
+is 8GB
+</li><li> Maximum value of UID/GID is 2097151.
+</li><li> Maximum number of bits in device major and minor numbers is 21.
+</li></ol>
+
+</dd>
+<dt><span>star</span></dt>
+<dd><p>Format used by J&ouml;rg Schilling <code>star</code>
+implementation.  <acronym>GNU</acronym> <code>tar</code> is able to read &lsquo;<samp>star</samp>&rsquo; archives but
+currently does not produce them.
+</p>
+</dd>
+<dt><span>posix</span></dt>
+<dd><p>Archive format defined by <acronym>POSIX.1-2001</acronym> specification.  This is the
+most flexible and feature-rich format.  It does not impose any
+restrictions on file sizes or file name lengths.  This format is quite
+recent, so not all tar implementations are able to handle it properly.
+However, this format is designed in such a way that any tar
+implementation able to read &lsquo;<samp>ustar</samp>&rsquo; archives will be able to read
+most &lsquo;<samp>posix</samp>&rsquo; archives as well, with the only exception that any
+additional information (such as long file names etc.) will in such
+case be extracted as plain text files along with the files it refers to.
+</p>
+<p>This archive format will be the default format for future versions
+of <acronym>GNU</acronym> <code>tar</code>.
+</p>
+</dd>
+</dl>
+
+<p>The following table summarizes the limitations of each of these
+formats:
+</p>
+<table>
+<thead><tr><th width="10%">Format</th><th width="20%">UID</th><th width="20%">File Size</th><th width="20%">File Name</th><th width="20%">Devn</th></tr></thead>
+<tr><td width="10%">gnu</td><td width="20%">1.8e19</td><td width="20%">Unlimited</td><td width="20%">Unlimited</td><td width="20%">63</td></tr>
+<tr><td width="10%">oldgnu</td><td width="20%">1.8e19</td><td width="20%">Unlimited</td><td width="20%">Unlimited</td><td width="20%">63</td></tr>
+<tr><td width="10%">v7</td><td width="20%">2097151</td><td width="20%">8GB</td><td width="20%">99</td><td width="20%">n/a</td></tr>
+<tr><td width="10%">ustar</td><td width="20%">2097151</td><td width="20%">8GB</td><td width="20%">256</td><td width="20%">21</td></tr>
+<tr><td width="10%">posix</td><td width="20%">Unlimited</td><td width="20%">Unlimited</td><td width="20%">Unlimited</td><td width="20%">Unlimited</td></tr>
+</table>
+
+<p>The default format for <acronym>GNU</acronym> <code>tar</code> is defined at compilation
+time.  You may check it by running <code>tar --help</code>, and examining
+the last lines of its output.  Usually, <acronym>GNU</acronym> <code>tar</code> is configured
+to create archives in &lsquo;<samp>gnu</samp>&rsquo; format, however, future version will
+switch to &lsquo;<samp>posix</samp>&rsquo;.
+</p>
+
+<ul class="section-toc">
+<li><a href="Compression.html" accesskey="1">Using Less Space through Compression</a></li>
+<li><a href="Attributes.html" accesskey="2">Handling File Attributes</a></li>
+<li><a href="Portability.html" accesskey="3">Making <code>tar</code> Archives More Portable</a></li>
+<li><a href="cpio.html" accesskey="4">Comparison of <code>tar</code> and <code>cpio</code></a></li>
+</ul>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Media.html">Tapes and Other Archive Media</a>, Previous: <a href="Date-input-formats.html">Date input formats</a>, Up: <a href="index.html"><acronym>GNU</acronym> tar: an archiver tool</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

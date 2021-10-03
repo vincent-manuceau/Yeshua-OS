@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>verify (GNU tar 1.34)</title>
+
+<meta name="description" content="verify (GNU tar 1.34)">
+<meta name="keywords" content="verify (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Media.html" rel="up" title="Media">
+<link href="Write-Protection.html" rel="next" title="Write Protection">
+<link href="label.html" rel="prev" title="label">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section" id="verify">
+<div class="header">
+<p>
+Next: <a href="Write-Protection.html" accesskey="n" rel="next">Write Protection</a>, Previous: <a href="label.html" accesskey="p" rel="prev">Including a Label in the Archive</a>, Up: <a href="Media.html" accesskey="u" rel="up">Tapes and Other Archive Media</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Verifying-Data-as-It-is-Stored"></span><h3 class="section">9.8 Verifying Data as It is Stored</h3>
+<span id="index-Verifying-a-write-operation"></span>
+<span id="index-Double_002dchecking-a-write-operation"></span>
+
+<dl compact="compact">
+<dt id='index-verify_002c-short-description'><span><samp>-W</samp><a href='#index-verify_002c-short-description' class='copiable-anchor'> &para;</a></span></dt>
+<dt><span><samp>--verify</samp></span></dt>
+<dd><p>Attempt to verify the archive after writing.
+</p></dd>
+</dl>
+
+<p>This option causes <code>tar</code> to verify the archive after writing it.
+Each volume is checked after it is written, and any discrepancies
+are recorded on the standard error output.
+</p>
+<p>Verification requires that the archive be on a back-space-able medium.
+This means pipes, some cartridge tape drives, and some other devices
+cannot be verified.
+</p>
+<p>You can insure the accuracy of an archive by comparing files in the
+system with archive members.  <code>tar</code> can compare an archive to the
+file system as the archive is being written, to verify a write
+operation, or can compare a previously written archive, to insure that
+it is up to date.
+</p>
+<span id="index-verify_002c-using-with-_002d_002dcreate"></span>
+<span id="index-create_002c-using-with-_002d_002dverify"></span>
+<p>To check for discrepancies in an archive immediately after it is
+written, use the <samp>--verify</samp> (<samp>-W</samp>) option in conjunction with
+the <samp>--create</samp> operation.  When this option is
+specified, <code>tar</code> checks archive members against their counterparts
+in the file system, and reports discrepancies on the standard error.
+</p>
+<p>To verify an archive, you must be able to read it from before the end
+of the last written entry.  This option is useful for detecting data
+errors on some tapes.  Archives written to pipes, some cartridge tape
+drives, and some other devices cannot be verified.
+</p>
+<p>One can explicitly compare an already made archive with the file
+system by using the <samp>--compare</samp> (<samp>--diff</samp>, <samp>-d</samp>)
+option, instead of using the more automatic <samp>--verify</samp> option.
+See <a href="compare.html">Comparing Archive Members with the File System</a>.
+</p>
+<p>Note that these two options have a slightly different intent.  The
+<samp>--compare</samp> option checks how identical are the logical contents of some
+archive with what is on your disks, while the <samp>--verify</samp> option is
+really for checking if the physical contents agree and if the recording
+media itself is of dependable quality.  So, for the <samp>--verify</samp>
+operation, <code>tar</code> tries to defeat all in-memory cache pertaining to
+the archive, while it lets the speed optimization undisturbed for the
+<samp>--compare</samp> option.  If you nevertheless use <samp>--compare</samp> for
+media verification, you may have to defeat the in-memory cache yourself,
+maybe by opening and reclosing the door latch of your recording unit,
+forcing some doubt in your operating system about the fact this is really
+the same volume as the one just written or read.
+</p>
+<p>The <samp>--verify</samp> option would not be necessary if drivers were indeed
+able to detect dependably all write failures.  This sometimes require many
+magnetic heads, some able to read after the writes occurred.  One would
+not say that drivers unable to detect all cases are necessarily flawed,
+as long as programming is concerned.
+</p>
+<p>The <samp>--verify</samp> (<samp>-W</samp>) option will not work in
+conjunction with the <samp>--multi-volume</samp> (<samp>-M</samp>) option or
+the <samp>--append</samp> (<samp>-r</samp>), <samp>--update</samp> (<samp>-u</samp>)
+and <samp>--delete</samp> operations.  See <a href="Operations.html">The Five Advanced <code>tar</code> Operations</a>, for more
+information on these operations.
+</p>
+<p>Also, since <code>tar</code> normally strips leading &lsquo;<samp>/</samp>&rsquo; from file
+names (see <a href="absolute.html">Absolute File Names</a>), a command like &lsquo;<samp>tar --verify -cf
+/tmp/foo.tar /etc</samp>&rsquo; will work as desired only if the working directory is
+<samp>/</samp>, as <code>tar</code> uses the archive&rsquo;s relative member names
+(e.g., <samp>etc/motd</samp>) when verifying the archive.
+</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Write-Protection.html">Write Protection</a>, Previous: <a href="label.html">Including a Label in the Archive</a>, Up: <a href="Media.html">Tapes and Other Archive Media</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

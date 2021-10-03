@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>recurse (GNU tar 1.34)</title>
+
+<meta name="description" content="recurse (GNU tar 1.34)">
+<meta name="keywords" content="recurse (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Choosing.html" rel="up" title="Choosing">
+<link href="one.html" rel="next" title="one">
+<link href="after.html" rel="prev" title="after">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section" id="recurse">
+<div class="header">
+<p>
+Next: <a href="one.html" accesskey="n" rel="next">Crossing File System Boundaries</a>, Previous: <a href="after.html" accesskey="p" rel="prev">Operating Only on New Files</a>, Up: <a href="Choosing.html" accesskey="u" rel="up">Choosing Files and Names for <code>tar</code></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Descending-into-Directories"></span><h3 class="section">6.9 Descending into Directories</h3>
+<span id="index-Avoiding-recursion-in-directories"></span>
+<span id="index-Descending-directories_002c-avoiding"></span>
+<span id="index-Directories_002c-avoiding-recursion"></span>
+<span id="index-Recursion-in-directories_002c-avoiding"></span>
+
+<p>Usually, <code>tar</code> will recursively explore all directories (either
+those given on the command line or through the <samp>--files-from</samp>
+option) for the various files they contain.  However, you may not always
+want <code>tar</code> to act this way.
+</p>
+<span id="index-no_002drecursion"></span>
+<span id="index-find_002c-using-with-tar-1"></span>
+<p>The <samp>--no-recursion</samp> option inhibits <code>tar</code>&rsquo;s recursive descent
+into specified directories.  If you specify <samp>--no-recursion</samp>, you can
+use the <code>find</code> (see <a data-manual="find" href="../find/index.html#Top">find</a> in <cite>GNU Find Manual</cite>)
+utility for hunting through levels of directories to
+construct a list of file names which you could then pass to <code>tar</code>.
+<code>find</code> allows you to be more selective when choosing which files to
+archive; see <a href="files.html">Reading Names from a File</a>, for more information on using <code>find</code> with
+<code>tar</code>.
+</p>
+<dl compact="compact">
+<dt><span><samp>--no-recursion</samp></span></dt>
+<dd><p>Prevents <code>tar</code> from recursively descending directories.
+</p>
+<span id="index-recursion"></span>
+</dd>
+<dt><span><samp>--recursion</samp></span></dt>
+<dd><p>Requires <code>tar</code> to recursively descend directories.
+This is the default.
+</p></dd>
+</dl>
+
+<p>When you use <samp>--no-recursion</samp>, <acronym>GNU</acronym> <code>tar</code> grabs
+directory entries themselves, but does not descend on them
+recursively.  Many people use <code>find</code> for locating files they
+want to back up, and since <code>tar</code> <em>usually</em> recursively
+descends on directories, they have to use the &lsquo;<samp><span class="nolinebreak">-not</span>&nbsp;<span class="nolinebreak">-type</span>&nbsp;d<!-- /@w --></samp>&rsquo;
+test in their <code>find</code> invocation (see <a data-manual="find" href="../find/Type.html#Type">Type test</a> in <cite>Finding Files</cite>), as they usually do not want all the files in a
+directory. They then use the <samp>--files-from</samp> option to archive
+the files located via <code>find</code>.
+</p>
+<p>The problem when restoring files archived in this manner is that the
+directories themselves are not in the archive; so the
+<samp>--same-permissions</samp> (<samp>--preserve-permissions</samp>,
+<samp>-p</samp>) option does not affect them&mdash;while users might really
+like it to.  Specifying <samp>--no-recursion</samp> is a way to tell
+<code>tar</code> to grab only the directory entries given to it, adding
+no new files on its own.  To summarize, if you use <code>find</code> to
+create a list of files to be stored in an archive, use it as follows:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>find <var>dir</var> <var>tests</var> | \
+  tar -cf <var>archive</var> --no-recursion -T -</kbd>
+</pre></div>
+
+<p>The <samp>--no-recursion</samp> option also applies when extracting: it
+causes <code>tar</code> to extract only the matched directory entries, not
+the files under those directories.
+</p>
+<p>The <samp>--no-recursion</samp> option also affects how globbing patterns
+are interpreted (see <a href="controlling-pattern_002dmatching.html">Controlling Pattern-Matching</a>).
+</p>
+<p>The <samp>--no-recursion</samp> and <samp>--recursion</samp> options apply to
+later options and operands, and can be overridden by later occurrences
+of <samp>--no-recursion</samp> and <samp>--recursion</samp>.  For example:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -cf jams.tar --no-recursion grape --recursion grape/concord</kbd>
+</pre></div>
+
+<p>creates an archive with one entry for <samp>grape</samp>, and the recursive
+contents of <samp>grape/concord</samp>, but no entries under <samp>grape</samp>
+other than <samp>grape/concord</samp>.
+</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="one.html">Crossing File System Boundaries</a>, Previous: <a href="after.html">Operating Only on New Files</a>, Up: <a href="Choosing.html">Choosing Files and Names for <code>tar</code></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

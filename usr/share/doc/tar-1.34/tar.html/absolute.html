@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>absolute (GNU tar 1.34)</title>
+
+<meta name="description" content="absolute (GNU tar 1.34)">
+<meta name="keywords" content="absolute (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="one.html" rel="up" title="one">
+<link href="directory.html" rel="prev" title="directory">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection" id="absolute">
+<div class="header">
+<p>
+Previous: <a href="directory.html" accesskey="p" rel="prev">Changing the Working Directory</a>, Up: <a href="one.html" accesskey="u" rel="up">Crossing File System Boundaries</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Absolute-File-Names"></span><h4 class="subsection">6.10.2 Absolute File Names</h4>
+<span id="index-absolute-file-names"></span>
+<span id="index-file-names_002c-absolute"></span>
+
+<p>By default, <acronym>GNU</acronym> <code>tar</code> drops a leading &lsquo;<samp>/</samp>&rsquo; on
+input or output, and complains about file names containing a <samp>..</samp>
+component.  There is an option that turns off this behavior:
+</p>
+<dl compact="compact">
+<dd><span id="index-absolute_002dnames"></span>
+</dd>
+<dt><span><samp>--absolute-names</samp></span></dt>
+<dt><span><samp>-P</samp></span></dt>
+<dd><p>Do not strip leading slashes from file names, and permit file names
+containing a <samp>..</samp> file name component.
+</p></dd>
+</dl>
+
+<p>When <code>tar</code> extracts archive members from an archive, it strips any
+leading slashes (&lsquo;<samp>/</samp>&rsquo;) from the member name.  This causes absolute
+member names in the archive to be treated as relative file names.  This
+allows you to have such members extracted wherever you want, instead of
+being restricted to extracting the member in the exact directory named
+in the archive.  For example, if the archive member has the name
+<samp>/etc/passwd</samp>, <code>tar</code> will extract it as if the name were
+really <samp>etc/passwd</samp>.
+</p>
+<p>File names containing <samp>..</samp> can cause problems when extracting, so
+<code>tar</code> normally warns you about such files when creating an
+archive, and rejects attempts to extracts such files.
+</p>
+<p>Other <code>tar</code> programs do not do this.  As a result, if you
+create an archive whose member names start with a slash, they will be
+difficult for other people with a non-<acronym>GNU</acronym> <code>tar</code>
+program to use.  Therefore, <acronym>GNU</acronym> <code>tar</code> also strips
+leading slashes from member names when putting members into the
+archive.  For example, if you ask <code>tar</code> to add the file
+<samp>/bin/ls</samp> to an archive, it will do so, but the member name will
+be <samp>bin/ls</samp><a id="DOCF19" href="#FOOT19"><sup>19</sup></a>.
+</p>
+<p>Symbolic links containing <samp>..</samp> or leading &lsquo;<samp>/</samp>&rsquo; can also cause
+problems when extracting, so <code>tar</code> normally extracts them last;
+it may create empty files as placeholders during extraction.
+</p>
+<p>If you use the <samp>--absolute-names</samp> (<samp>-P</samp>) option,
+<code>tar</code> will do none of these transformations.
+</p>
+<p>To archive or extract files relative to the root directory, specify
+the <samp>--absolute-names</samp> (<samp>-P</samp>) option.
+</p>
+<p>Normally, <code>tar</code> acts on files relative to the working
+directory&mdash;ignoring superior directory names when archiving, and
+ignoring leading slashes when extracting.
+</p>
+<p>When you specify <samp>--absolute-names</samp> (<samp>-P</samp>),
+<code>tar</code> stores file names including all superior directory
+names, and preserves leading slashes.  If you only invoked
+<code>tar</code> from the root directory you would never need the
+<samp>--absolute-names</samp> option, but using this option
+may be more convenient than switching to root.
+</p>
+
+
+<dl compact="compact">
+<dt><span><samp>--absolute-names</samp></span></dt>
+<dd><p>Preserves full file names (including superior directory names) when
+archiving and extracting files.
+</p>
+</dd>
+</dl>
+
+<p><code>tar</code> prints out a message about removing the &lsquo;<samp>/</samp>&rsquo; from
+file names.  This message appears once per <acronym>GNU</acronym> <code>tar</code>
+invocation.  It represents something which ought to be told; ignoring
+what it means can cause very serious surprises, later.
+</p>
+<p>Some people, nevertheless, do not want to see this message.  Wanting to
+play really dangerously, one may of course redirect <code>tar</code> standard
+error to the sink.  For example, under <code>sh</code>:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -c -f archive.tar /home 2&gt; /dev/null</kbd>
+</pre></div>
+
+<p>Another solution, both nicer and simpler, would be to change to
+the <samp>/</samp> directory first, and then avoid absolute notation.
+For example:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -c -f archive.tar -C / home</kbd>
+</pre></div>
+
+<p>See <a href="Integrity.html">Integrity</a>, for some of the security-related implications
+of using this option.
+</p>
+
+
+
+</div>
+<div class="footnote">
+<hr>
+<h4 class="footnotes-heading">Footnotes</h4>
+
+<h5><a id="FOOT19" href="#DOCF19">(19)</a></h5>
+<p>A side effect of this is that when
+<samp>--create</samp> is used with <samp>--verbose</samp> the resulting output
+is not, generally speaking, the same as the one you&rsquo;d get running
+<kbd>tar --list</kbd> command.  This may be important if you use some
+scripts for comparing both outputs.  See <a href="list.html#listing-member-and-file-names">listing member and file names</a>,
+for the information on how to handle this case.</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Previous: <a href="directory.html">Changing the Working Directory</a>, Up: <a href="one.html">Crossing File System Boundaries</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

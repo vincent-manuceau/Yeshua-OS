@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual describes how to install and use the GNU multiple precision
+arithmetic library, version 6.2.1.
+
+Copyright 1991, 1993-2016, 2018-2020 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document under
+the terms of the GNU Free Documentation License, Version 1.3 or any later
+version published by the Free Software Foundation; with no Invariant Sections,
+with the Front-Cover Texts being "A GNU Manual", and with the Back-Cover
+Texts being "You have freedom to copy and modify this GNU Manual, like GNU
+software".  A copy of the license is included in
+GNU Free Documentation License. -->
+<title>Integer Arithmetic (GNU MP 6.2.1)</title>
+
+<meta name="description" content="How to install and use the GNU multiple precision arithmetic library, version 6.2.1.">
+<meta name="keywords" content="Integer Arithmetic (GNU MP 6.2.1)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Concept-Index.html" rel="index" title="Concept Index">
+<link href="Integer-Functions.html" rel="up" title="Integer Functions">
+<link href="Integer-Division.html" rel="next" title="Integer Division">
+<link href="Converting-Integers.html" rel="prev" title="Converting Integers">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section" id="Integer-Arithmetic">
+<div class="header">
+<p>
+Next: <a href="Integer-Division.html" accesskey="n" rel="next">Division Functions</a>, Previous: <a href="Converting-Integers.html" accesskey="p" rel="prev">Conversion Functions</a>, Up: <a href="Integer-Functions.html" accesskey="u" rel="up">Integer Functions</a> &nbsp; [<a href="Concept-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Arithmetic-Functions"></span><h3 class="section">5.5 Arithmetic Functions</h3>
+<span id="index-Integer-arithmetic-functions"></span>
+<span id="index-Arithmetic-functions"></span>
+
+<dl class="def">
+<dt id="index-mpz_005fadd"><span class="category">Function: </span><span><em>void</em> <strong>mpz_add</strong> <em>(mpz_t <var>rop</var>, const mpz_t <var>op1</var>, const mpz_t <var>op2</var>)</em><a href='#index-mpz_005fadd' class='copiable-anchor'> &para;</a></span></dt>
+<dt id="index-mpz_005fadd_005fui"><span class="category">Function: </span><span><em>void</em> <strong>mpz_add_ui</strong> <em>(mpz_t <var>rop</var>, const mpz_t <var>op1</var>, unsigned long int <var>op2</var>)</em><a href='#index-mpz_005fadd_005fui' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>Set <var>rop</var> to <em class='math'><var>op1</var> + <var>op2</var></em>.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-mpz_005fsub"><span class="category">Function: </span><span><em>void</em> <strong>mpz_sub</strong> <em>(mpz_t <var>rop</var>, const mpz_t <var>op1</var>, const mpz_t <var>op2</var>)</em><a href='#index-mpz_005fsub' class='copiable-anchor'> &para;</a></span></dt>
+<dt id="index-mpz_005fsub_005fui"><span class="category">Function: </span><span><em>void</em> <strong>mpz_sub_ui</strong> <em>(mpz_t <var>rop</var>, const mpz_t <var>op1</var>, unsigned long int <var>op2</var>)</em><a href='#index-mpz_005fsub_005fui' class='copiable-anchor'> &para;</a></span></dt>
+<dt id="index-mpz_005fui_005fsub"><span class="category">Function: </span><span><em>void</em> <strong>mpz_ui_sub</strong> <em>(mpz_t <var>rop</var>, unsigned long int <var>op1</var>, const mpz_t <var>op2</var>)</em><a href='#index-mpz_005fui_005fsub' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>Set <var>rop</var> to <var>op1</var> - <var>op2</var>.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-mpz_005fmul"><span class="category">Function: </span><span><em>void</em> <strong>mpz_mul</strong> <em>(mpz_t <var>rop</var>, const mpz_t <var>op1</var>, const mpz_t <var>op2</var>)</em><a href='#index-mpz_005fmul' class='copiable-anchor'> &para;</a></span></dt>
+<dt id="index-mpz_005fmul_005fsi"><span class="category">Function: </span><span><em>void</em> <strong>mpz_mul_si</strong> <em>(mpz_t <var>rop</var>, const mpz_t <var>op1</var>, long int <var>op2</var>)</em><a href='#index-mpz_005fmul_005fsi' class='copiable-anchor'> &para;</a></span></dt>
+<dt id="index-mpz_005fmul_005fui"><span class="category">Function: </span><span><em>void</em> <strong>mpz_mul_ui</strong> <em>(mpz_t <var>rop</var>, const mpz_t <var>op1</var>, unsigned long int <var>op2</var>)</em><a href='#index-mpz_005fmul_005fui' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>Set <var>rop</var> to <em class='math'><var>op1</var> times <var>op2</var></em>.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-mpz_005faddmul"><span class="category">Function: </span><span><em>void</em> <strong>mpz_addmul</strong> <em>(mpz_t <var>rop</var>, const mpz_t <var>op1</var>, const mpz_t <var>op2</var>)</em><a href='#index-mpz_005faddmul' class='copiable-anchor'> &para;</a></span></dt>
+<dt id="index-mpz_005faddmul_005fui"><span class="category">Function: </span><span><em>void</em> <strong>mpz_addmul_ui</strong> <em>(mpz_t <var>rop</var>, const mpz_t <var>op1</var>, unsigned long int <var>op2</var>)</em><a href='#index-mpz_005faddmul_005fui' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>Set <var>rop</var> to <em class='math'><var>rop</var> + <var>op1</var> times <var>op2</var></em>.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-mpz_005fsubmul"><span class="category">Function: </span><span><em>void</em> <strong>mpz_submul</strong> <em>(mpz_t <var>rop</var>, const mpz_t <var>op1</var>, const mpz_t <var>op2</var>)</em><a href='#index-mpz_005fsubmul' class='copiable-anchor'> &para;</a></span></dt>
+<dt id="index-mpz_005fsubmul_005fui"><span class="category">Function: </span><span><em>void</em> <strong>mpz_submul_ui</strong> <em>(mpz_t <var>rop</var>, const mpz_t <var>op1</var>, unsigned long int <var>op2</var>)</em><a href='#index-mpz_005fsubmul_005fui' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>Set <var>rop</var> to <em class='math'><var>rop</var> - <var>op1</var> times <var>op2</var></em>.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-mpz_005fmul_005f2exp"><span class="category">Function: </span><span><em>void</em> <strong>mpz_mul_2exp</strong> <em>(mpz_t <var>rop</var>, const mpz_t <var>op1</var>, mp_bitcnt_t <var>op2</var>)</em><a href='#index-mpz_005fmul_005f2exp' class='copiable-anchor'> &para;</a></span></dt>
+<dd><span id="index-Bit-shift-left"></span>
+<p>Set <var>rop</var> to <em class='math'><var>op1</var> times 2 raised to
+<var>op2</var></em>.  This operation can also be defined as a left shift by <var>op2</var>
+bits.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-mpz_005fneg"><span class="category">Function: </span><span><em>void</em> <strong>mpz_neg</strong> <em>(mpz_t <var>rop</var>, const mpz_t <var>op</var>)</em><a href='#index-mpz_005fneg' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>Set <var>rop</var> to -<var>op</var>.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-mpz_005fabs"><span class="category">Function: </span><span><em>void</em> <strong>mpz_abs</strong> <em>(mpz_t <var>rop</var>, const mpz_t <var>op</var>)</em><a href='#index-mpz_005fabs' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>Set <var>rop</var> to the absolute value of <var>op</var>.
+</p></dd></dl>
+
+
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Integer-Division.html">Division Functions</a>, Previous: <a href="Converting-Integers.html">Conversion Functions</a>, Up: <a href="Integer-Functions.html">Integer Functions</a> &nbsp; [<a href="Concept-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

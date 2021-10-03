@@ -1,0 +1,286 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Sparse Recovery (GNU tar 1.34)</title>
+
+<meta name="description" content="Sparse Recovery (GNU tar 1.34)">
+<meta name="keywords" content="Sparse Recovery (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Other-Tars.html" rel="up" title="Other Tars">
+<link href="Split-Recovery.html" rel="prev" title="Split Recovery">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsubsection" id="Sparse-Recovery">
+<div class="header">
+<p>
+Previous: <a href="Split-Recovery.html" accesskey="p" rel="prev">Extracting Members Split Between Volumes</a>, Up: <a href="Other-Tars.html" accesskey="u" rel="up">How to Extract GNU-Specific Data Using Other <code>tar</code> Implementations</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Extracting-Sparse-Members"></span><h4 class="subsubsection">8.3.10.2 Extracting Sparse Members</h4>
+
+<span id="index-sparse-files_002c-extracting-with-non_002dGNU-tars"></span>
+<p>Any <code>tar</code> implementation will be able to extract sparse members from a
+PAX archive.  However, the extracted files will be <em>condensed</em>,
+i.e., any zero blocks will be removed from them.  When we restore such
+a condensed file to its original form, by adding zero blocks (or
+<em>holes</em>) back to their original locations, we call this process
+<em>expanding</em> a compressed sparse file.
+</p>
+<span id="index-xsparse"></span>
+<p>To expand a file, you will need a simple auxiliary program called
+<code>xsparse</code>.  It is available in source form from
+<a href="http://www.gnu.org/software/tar/utils/xsparse.html"><acronym>GNU</acronym> <code>tar</code>
+home page</a>.
+</p>
+<span id="index-sparse-files-v_002e1_002e0_002c-extracting-with-non_002dGNU-tars"></span>
+<p>Let&rsquo;s begin with archive members in <em>sparse format
+version 1.0</em><a id="DOCF23" href="#FOOT23"><sup>23</sup></a>, which are the easiest to expand.
+The condensed file will contain both file map and file data, so no
+additional data will be needed to restore it.  If the original file
+name was <samp><var>dir</var>/<var>name</var></samp>, then the condensed file will be
+named <samp><var>dir</var>/GNUSparseFile.<var>n</var>/<var>name</var></samp>, where
+<var>n</var> is a decimal number<a id="DOCF24" href="#FOOT24"><sup>24</sup></a>.
+</p>
+<p>To expand a version 1.0 file, run <code>xsparse</code> as follows:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>xsparse <samp>cond-file</samp></kbd>
+</pre></div>
+
+<p>where <samp>cond-file</samp> is the name of the condensed file.  The utility
+will deduce the name for the resulting expanded file using the
+following algorithm:
+</p>
+<ol>
+<li> If <samp>cond-file</samp> does not contain any directories,
+<samp>../cond-file</samp> will be used;
+
+</li><li> If <samp>cond-file</samp> has the form
+<samp><var>dir</var>/<var>t</var>/<var>name</var></samp>, where both <var>t</var> and <var>name</var>
+are simple names, with no &lsquo;<samp>/</samp>&rsquo; characters in them, the output file
+name will be <samp><var>dir</var>/<var>name</var></samp>.
+
+</li><li> Otherwise, if <samp>cond-file</samp> has the form
+<samp><var>dir</var>/<var>name</var></samp>, the output file name will be
+<samp><var>name</var></samp>.
+</li></ol>
+
+<p>In the unlikely case when this algorithm does not suit your needs,
+you can explicitly specify output file name as a second argument to
+the command:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>xsparse <samp>cond-file</samp> <samp>out-file</samp></kbd>
+</pre></div>
+
+<p>It is often a good idea to run <code>xsparse</code> in <em>dry run</em> mode
+first.  In this mode, the command does not actually expand the file,
+but verbosely lists all actions it would be taking to do so.  The dry
+run mode is enabled by <samp>-n</samp> command line argument:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>xsparse -n /home/gray/GNUSparseFile.6058/sparsefile</kbd>
+Reading v.1.0 sparse map
+Expanding file '/home/gray/GNUSparseFile.6058/sparsefile' to
+'/home/gray/sparsefile'
+Finished dry run
+</pre></div>
+
+<p>To actually expand the file, you would run:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>xsparse /home/gray/GNUSparseFile.6058/sparsefile</kbd>
+</pre></div>
+
+<p>The program behaves the same way all UNIX utilities do: it will keep
+quiet unless it has something important to tell you (e.g. an error
+condition or something).  If you wish it to produce verbose output,
+similar to that from the dry run mode, use <samp>-v</samp> option:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>xsparse -v /home/gray/GNUSparseFile.6058/sparsefile</kbd>
+Reading v.1.0 sparse map
+Expanding file '/home/gray/GNUSparseFile.6058/sparsefile' to
+'/home/gray/sparsefile'
+Done
+</pre></div>
+
+<p>Additionally, if your <code>tar</code> implementation has extracted the
+<em>extended headers</em> for this file, you can instruct <code>xstar</code>
+to use them in order to verify the integrity of the expanded file.
+The option <samp>-x</samp> sets the name of the extended header file to
+use.  Continuing our example:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>xsparse -v -x /home/gray/PaxHeaders/sparsefile \
+  /home/gray/GNUSparseFile/sparsefile</kbd>
+Reading extended header file
+Found variable GNU.sparse.major = 1
+Found variable GNU.sparse.minor = 0
+Found variable GNU.sparse.name = sparsefile
+Found variable GNU.sparse.realsize = 217481216
+Reading v.1.0 sparse map
+Expanding file '/home/gray/GNUSparseFile.6058/sparsefile' to
+'/home/gray/sparsefile'
+Done
+</pre></div>
+
+<span id="extracting-sparse-v0x"></span><span id="index-sparse-files-v_002e0_002e1_002c-extracting-with-non_002dGNU-tars"></span>
+<span id="index-sparse-files-v_002e0_002e0_002c-extracting-with-non_002dGNU-tars"></span>
+<p>An <em>extended header</em> is a special <code>tar</code> archive header
+that precedes an archive member and contains a set of
+<em>variables</em>, describing the member properties that cannot be
+stored in the standard <code>ustar</code> header.  While optional for
+expanding sparse version 1.0 members, the use of extended headers is
+mandatory when expanding sparse members in older sparse formats: v.0.0
+and v.0.1 (The sparse formats are described in detail in <a href="Sparse-Formats.html">Storing Sparse Files</a>.)  So, for these formats, the question is: how to obtain
+extended headers from the archive?
+</p>
+<p>If you use a <code>tar</code> implementation that does not support PAX
+format, extended headers for each member will be extracted as a
+separate file.  If we represent the member name as
+<samp><var>dir</var>/<var>name</var></samp>, then the extended header file will be
+named <samp><var>dir</var>/PaxHeaders/<var>name</var></samp>.
+</p>
+<p>Things become more difficult if your <code>tar</code> implementation
+does support PAX headers, because in this case you will have to
+manually extract the headers.  We recommend the following algorithm:
+</p>
+<ol>
+<li> Consult the documentation of your <code>tar</code> implementation for an
+option that prints <em>block numbers</em> along with the archive
+listing (analogous to <acronym>GNU</acronym> <code>tar</code>&rsquo;s <samp>-R</samp> option).  For example,
+<code>star</code> has <samp>-block-number</samp>.
+
+</li><li> Obtain verbose listing using the &lsquo;<samp>block number</samp>&rsquo; option, and
+find block numbers of the sparse member in question and the member
+immediately following it.  For example, running <code>star</code> on our
+archive we obtain:
+
+<div class="example">
+<pre class="example">$ <kbd>star -t -v -block-number -f arc.tar</kbd>
+&hellip;
+star: Unknown extended header keyword 'GNU.sparse.size' ignored.
+star: Unknown extended header keyword 'GNU.sparse.numblocks' ignored.
+star: Unknown extended header keyword 'GNU.sparse.name' ignored.
+star: Unknown extended header keyword 'GNU.sparse.map' ignored.
+block        56:  425984 -rw-r--r--  gray/users Jun 25 14:46 2006 GNUSparseFile.28124/sparsefile
+block       897:   65391 -rw-r--r--  gray/users Jun 24 20:06 2006 README
+&hellip;
+</pre></div>
+
+<p>(as usual, ignore the warnings about unknown keywords.)
+</p>
+</li><li> Let <var>size</var> be the size of the sparse member, <var>Bs</var> be its block number
+and <var>Bn</var> be the block number of the next member.
+Compute:
+
+<div class="example">
+<pre class="example"><var>N</var> = <var>Bs</var> - <var>Bn</var> - <var>size</var>/512 - 2
+</pre></div>
+
+<p>This number gives the size of the extended header part in tar <em>blocks</em>.
+In our example, this formula gives: <code>897 - 56 - 425984 / 512 - 2
+= 7</code>.
+</p>
+</li><li> Use <code>dd</code> to extract the headers:
+
+<div class="example">
+<pre class="example"><kbd>dd if=<var>archive</var> of=<var>hname</var> bs=512 skip=<var>Bs</var> count=<var>N</var></kbd>
+</pre></div>
+
+<p>where <var>archive</var> is the archive name, <var>hname</var> is a name of the
+file to store the extended header in, <var>Bs</var> and <var>N</var> are
+computed in previous steps.
+</p>
+<p>In our example, this command will be
+</p>
+<div class="example">
+<pre class="example">$ <kbd>dd if=arc.tar of=xhdr bs=512 skip=56 count=7</kbd>
+</pre></div>
+</li></ol>
+
+<p>Finally, you can expand the condensed file, using the obtained header:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>xsparse -v -x xhdr GNUSparseFile.6058/sparsefile</kbd>
+Reading extended header file
+Found variable GNU.sparse.size = 217481216
+Found variable GNU.sparse.numblocks = 208
+Found variable GNU.sparse.name = sparsefile
+Found variable GNU.sparse.map = 0,2048,1050624,2048,&hellip;
+Expanding file 'GNUSparseFile.28124/sparsefile' to 'sparsefile'
+Done
+</pre></div>
+
+</div>
+<div class="footnote">
+<hr>
+<h4 class="footnotes-heading">Footnotes</h4>
+
+<h5><a id="FOOT23" href="#DOCF23">(23)</a></h5>
+<p>See <a href="PAX-1.html">PAX Format, Version 1.0</a>.</p>
+<h5><a id="FOOT24" href="#DOCF24">(24)</a></h5>
+<p>Technically speaking, <var>n</var> is a
+<em>process <acronym>ID</acronym></em> of the <code>tar</code> process which created the
+archive (see <a href="PAX-keywords.html">Controlling Extended Header Keywords</a>).</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Previous: <a href="Split-Recovery.html">Extracting Members Split Between Volumes</a>, Up: <a href="Other-Tars.html">How to Extract GNU-Specific Data Using Other <code>tar</code> Implementations</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

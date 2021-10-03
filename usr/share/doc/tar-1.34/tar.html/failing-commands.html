@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>failing commands (GNU tar 1.34)</title>
+
+<meta name="description" content="failing commands (GNU tar 1.34)">
+<meta name="keywords" content="failing commands (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="extract.html" rel="up" title="extract">
+<link href="extracting-untrusted-archives.html" rel="prev" title="extracting untrusted archives">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection" id="failing-commands">
+<div class="header">
+<p>
+Previous: <a href="extracting-untrusted-archives.html" accesskey="p" rel="prev">Extracting Archives from Untrusted Sources</a>, Up: <a href="extract.html" accesskey="u" rel="up">How to Extract Members from an Archive</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Commands-That-Will-Fail"></span><h4 class="subsection">2.8.5 Commands That Will Fail</h4>
+
+<p>Here are some sample commands you might try which will not work, and why
+they won&rsquo;t work.
+</p>
+<p>If you try to use this command,
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -xvf music.tar folk jazz</kbd>
+</pre></div>
+
+<p>you will get the following response:
+</p>
+<div class="example">
+<pre class="example">tar: folk: Not found in archive
+tar: jazz: Not found in archive
+</pre></div>
+
+<p>This is because these files were not originally <em>in</em> the parent
+directory <samp>..</samp>, where the archive is located; they were in the
+<samp>practice</samp> directory, and their file names reflect this:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -tvf music.tar</kbd>
+practice/blues
+practice/folk
+practice/jazz
+</pre></div>
+
+<p>Likewise, if you try to use this command,
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -tvf music.tar folk jazz</kbd>
+</pre></div>
+
+<p>you would get a similar response.  Members with those names are not in the
+archive.  You must use the correct member names, or wildcards, in order
+to extract the files from the archive.
+</p>
+<p>If you have forgotten the correct names of the files in the archive,
+use <kbd>tar&nbsp;<span class="nolinebreak">--list</span>&nbsp;<span class="nolinebreak">--verbose</span></kbd><!-- /@w --> to list them correctly.
+</p>
+<p>To extract the member named <samp>practice/folk</samp>, you must specify
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar --extract --file=music.tar practice/folk</kbd>
+</pre></div>
+
+<p>Notice also, that as explained above, the <samp>practice</samp> directory
+will be created, if it didn&rsquo;t already exist.  There are options that
+allow you to strip away a certain number of leading directory
+components (see <a href="transform.html">Modifying File and Member Names</a>).  For example,
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar --extract --file=music.tar --strip-components=1 folk</kbd>
+</pre></div>
+
+<p>will extract the file <samp>folk</samp> into the current working directory.
+</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Previous: <a href="extracting-untrusted-archives.html">Extracting Archives from Untrusted Sources</a>, Up: <a href="extract.html">How to Extract Members from an Archive</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

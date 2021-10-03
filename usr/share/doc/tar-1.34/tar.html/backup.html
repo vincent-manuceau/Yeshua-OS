@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>backup (GNU tar 1.34)</title>
+
+<meta name="description" content="backup (GNU tar 1.34)">
+<meta name="keywords" content="backup (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="operations.html" rel="up" title="operations">
+<link href="looking-ahead.html" rel="next" title="looking ahead">
+<link href="extract-options.html" rel="prev" title="extract options">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section" id="backup">
+<div class="header">
+<p>
+Next: <a href="looking-ahead.html" accesskey="n" rel="next">Looking Ahead: The Rest of this Manual</a>, Previous: <a href="extract-options.html" accesskey="p" rel="prev">Options Used by <samp>--extract</samp></a>, Up: <a href="operations.html" accesskey="u" rel="up"><acronym>GNU</acronym> <code>tar</code> Operations</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Backup-options"></span><h3 class="section">4.5 Backup options</h3>
+
+<span id="index-backup-options"></span>
+
+<p><acronym>GNU</acronym> <code>tar</code> offers options for making backups of files
+before writing new versions.  These options control the details of
+these backups.  They may apply to the archive itself before it is
+created or rewritten, as well as individual extracted members.  Other
+<acronym>GNU</acronym> programs (<code>cp</code>, <code>install</code>, <code>ln</code>,
+and <code>mv</code>, for example) offer similar options.
+</p>
+<p>Backup options may prove unexpectedly useful when extracting archives
+containing many members having identical name, or when extracting archives
+on systems having file name limitations, making different members appear
+as having similar names through the side-effect of name truncation.
+</p>
+<p>When any existing file is backed up before being overwritten by extraction,
+then clashing files are automatically be renamed to be unique, and the
+true name is kept for only the last file of a series of clashing files.
+By using verbose mode, users may track exactly what happens.
+</p>
+<p>At the detail level, some decisions are still experimental, and may
+change in the future, we are waiting comments from our users.  So, please
+do not learn to depend blindly on the details of the backup features.
+For example, currently, directories themselves are never renamed through
+using these options, so, extracting a file over a directory still has
+good chances to fail.  Also, backup options apply to created archives,
+not only to extracted members.  For created archives, backups will not
+be attempted when the archive is a block or character device, or when it
+refers to a remote file.
+</p>
+<p>For the sake of simplicity and efficiency, backups are made by renaming old
+files prior to creation or extraction, and not by copying.  The original
+name is restored if the file creation fails.  If a failure occurs after a
+partial extraction of a file, both the backup and the partially extracted
+file are kept.
+</p>
+<dl compact="compact">
+<dt id='index-backup'><span>&lsquo;<samp>--backup[=<var>method</var>]</samp>&rsquo;<a href='#index-backup' class='copiable-anchor'> &para;</a></span></dt>
+<dd><span id="index-VERSION_005fCONTROL"></span>
+<span id="index-backups"></span>
+<p>Back up files that are about to be overwritten or removed.
+Without this option, the original versions are destroyed.
+</p>
+<p>Use <var>method</var> to determine the type of backups made.
+If <var>method</var> is not specified, use the value of the <code>VERSION_CONTROL</code>
+environment variable.  And if <code>VERSION_CONTROL</code> is not set,
+use the &lsquo;<samp>existing</samp>&rsquo; method.
+</p>
+<span id="index-version_002dcontrol-Emacs-variable"></span>
+<p>This option corresponds to the Emacs variable &lsquo;<samp>version-control</samp>&rsquo;;
+the same values for <var>method</var> are accepted as in Emacs.  This option
+also allows more descriptive names.  The valid <var>method</var>s are:
+</p>
+<dl compact="compact">
+<dt id='index-numbered-backup-method'><span>&lsquo;<samp>t</samp>&rsquo;<a href='#index-numbered-backup-method' class='copiable-anchor'> &para;</a></span></dt>
+<dt><span>&lsquo;<samp>numbered</samp>&rsquo;</span></dt>
+<dd><p>Always make numbered backups.
+</p>
+</dd>
+<dt id='index-existing-backup-method'><span>&lsquo;<samp>nil</samp>&rsquo;<a href='#index-existing-backup-method' class='copiable-anchor'> &para;</a></span></dt>
+<dt><span>&lsquo;<samp>existing</samp>&rsquo;</span></dt>
+<dd><p>Make numbered backups of files that already have them, simple backups
+of the others.
+</p>
+</dd>
+<dt id='index-simple-backup-method'><span>&lsquo;<samp>never</samp>&rsquo;<a href='#index-simple-backup-method' class='copiable-anchor'> &para;</a></span></dt>
+<dt><span>&lsquo;<samp>simple</samp>&rsquo;</span></dt>
+<dd><p>Always make simple backups.
+</p>
+</dd>
+</dl>
+
+</dd>
+<dt id='index-suffix'><span>&lsquo;<samp>--suffix=<var>suffix</var></samp>&rsquo;<a href='#index-suffix' class='copiable-anchor'> &para;</a></span></dt>
+<dd><span id="index-backup-suffix"></span>
+<span id="index-SIMPLE_005fBACKUP_005fSUFFIX"></span>
+<p>Append <var>suffix</var> to each backup file made with <samp>--backup</samp>.  If this
+option is not specified, the value of the <code>SIMPLE_BACKUP_SUFFIX</code>
+environment variable is used.  And if <code>SIMPLE_BACKUP_SUFFIX</code> is not
+set, the default is &lsquo;<samp>~</samp>&rsquo;, just as in Emacs.
+</p>
+</dd>
+</dl>
+
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="looking-ahead.html">Looking Ahead: The Rest of this Manual</a>, Previous: <a href="extract-options.html">Options Used by <samp>--extract</samp></a>, Up: <a href="operations.html"><acronym>GNU</acronym> <code>tar</code> Operations</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

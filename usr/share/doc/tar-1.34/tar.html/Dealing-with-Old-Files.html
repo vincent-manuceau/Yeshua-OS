@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Dealing with Old Files (GNU tar 1.34)</title>
+
+<meta name="description" content="Dealing with Old Files (GNU tar 1.34)">
+<meta name="keywords" content="Dealing with Old Files (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Writing.html" rel="up" title="Writing">
+<link href="Overwrite-Old-Files.html" rel="next" title="Overwrite Old Files">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="unnumberedsubsubsec" id="Dealing-with-Old-Files">
+<div class="header">
+<p>
+Next: <a href="Overwrite-Old-Files.html" accesskey="n" rel="next">Overwrite Old Files</a>, Up: <a href="Writing.html" accesskey="u" rel="up">Changing How <code>tar</code> Writes Files</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Options-Controlling-the-Overwriting-of-Existing-Files"></span><h4 class="unnumberedsubsubsec">Options Controlling the Overwriting of Existing Files</h4>
+
+<span id="index-overwrite_002ddir_002c-introduced"></span>
+<p>When extracting files, if <code>tar</code> discovers that the extracted
+file already exists, it normally replaces the file by removing it before
+extracting it, to prevent confusion in the presence of hard or symbolic
+links.  (If the existing file is a symbolic link, it is removed, not
+followed.)  However, if a directory cannot be removed because it is
+nonempty, <code>tar</code> normally overwrites its metadata (ownership,
+permission, etc.).  The <samp>--overwrite-dir</samp> option enables this
+default behavior.  To be more cautious and preserve the metadata of
+such a directory, use the <samp>--no-overwrite-dir</samp> option.
+</p>
+<span id="index-Overwriting-old-files_002c-prevention"></span>
+<span id="index-keep_002dold_002dfiles_002c-introduced"></span>
+<p>To be even more cautious and prevent existing files from being replaced, use
+the <samp>--keep-old-files</samp> (<samp>-k</samp>) option.  It causes
+<code>tar</code> to refuse to replace or update a file that already
+exists, i.e., a file with the same name as an archive member prevents
+extraction of that archive member.  Instead, it reports an error.  For
+example:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>ls</kbd>
+blues
+$ <kbd>tar -x -k -f archive.tar</kbd>
+tar: blues: Cannot open: File exists
+tar: Exiting with failure status due to previous errors
+</pre></div>
+
+<span id="index-skip_002dold_002dfiles_002c-introduced"></span>
+<p>If you wish to preserve old files untouched, but don&rsquo;t want
+<code>tar</code> to treat them as errors, use the
+<samp>--skip-old-files</samp> option.  This option causes <code>tar</code> to
+silently skip extracting over existing files.
+</p>
+<span id="index-overwrite_002c-introduced"></span>
+<p>To be more aggressive about altering existing files, use the
+<samp>--overwrite</samp> option.  It causes <code>tar</code> to overwrite
+existing files and to follow existing symbolic links when extracting.
+</p>
+<span id="index-Protecting-old-files"></span>
+<p>Some people argue that <acronym>GNU</acronym> <code>tar</code> should not hesitate
+to overwrite files with other files when extracting.  When extracting
+a <code>tar</code> archive, they expect to see a faithful copy of the
+state of the file system when the archive was created.  It is debatable
+that this would always be a proper behavior.  For example, suppose one
+has an archive in which <samp>usr/local</samp> is a link to
+<samp>usr/local2</samp>.  Since then, maybe the site removed the link and
+renamed the whole hierarchy from <samp>/usr/local2</samp> to
+<samp>/usr/local</samp>.  Such things happen all the time.  I guess it would
+not be welcome at all that <acronym>GNU</acronym> <code>tar</code> removes the
+whole hierarchy just to make room for the link to be reinstated
+(unless it <em>also</em> simultaneously restores the full
+<samp>/usr/local2</samp>, of course!)  <acronym>GNU</acronym> <code>tar</code> is indeed
+able to remove a whole hierarchy to reestablish a symbolic link, for
+example, but <em>only if</em> <samp>--recursive-unlink</samp> is specified
+to allow this behavior.  In any case, single files are silently
+removed.
+</p>
+<span id="index-unlink_002dfirst_002c-introduced"></span>
+<p>Finally, the <samp>--unlink-first</samp> (<samp>-U</samp>) option can improve performance in
+some cases by causing <code>tar</code> to remove files unconditionally
+before extracting them.
+</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Overwrite-Old-Files.html">Overwrite Old Files</a>, Up: <a href="Writing.html">Changing How <code>tar</code> Writes Files</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

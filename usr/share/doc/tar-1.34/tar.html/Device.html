@@ -1,0 +1,224 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Device (GNU tar 1.34)</title>
+
+<meta name="description" content="Device (GNU tar 1.34)">
+<meta name="keywords" content="Device (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Media.html" rel="up" title="Media">
+<link href="Remote-Tape-Server.html" rel="next" title="Remote Tape Server">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section" id="Device">
+<div class="header">
+<p>
+Next: <a href="Remote-Tape-Server.html" accesskey="n" rel="next">Remote Tape Server</a>, Up: <a href="Media.html" accesskey="u" rel="up">Tapes and Other Archive Media</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Device-Selection-and-Switching"></span><h3 class="section">9.1 Device Selection and Switching</h3>
+<blockquote>
+<p><em>(This message will disappear, once this node revised.)</em>
+</p></blockquote>
+
+<dl compact="compact">
+<dt><span><samp>-f [<var>hostname</var>:]<var>file</var></samp></span></dt>
+<dt><span><samp>--file=[<var>hostname</var>:]<var>file</var></samp></span></dt>
+<dd><p>Use archive file or device <var>file</var> on <var>hostname</var>.
+</p></dd>
+</dl>
+
+<p>This option is used to specify the file name of the archive <code>tar</code>
+works on.
+</p>
+<p>If the file name is &lsquo;<samp>-</samp>&rsquo;, <code>tar</code> reads the archive from standard
+input (when listing or extracting), or writes it to standard output
+(when creating).  If the &lsquo;<samp>-</samp>&rsquo; file name is given when updating an
+archive, <code>tar</code> will read the original archive from its standard
+input, and will write the entire new archive to its standard output.
+</p>
+<p>If the file name contains a &lsquo;<samp>:</samp>&rsquo;, it is interpreted as
+&lsquo;<samp>hostname:file name</samp>&rsquo;.  If the <var>hostname</var> contains an <em>at</em>
+sign (&lsquo;<samp>@</samp>&rsquo;), it is treated as &lsquo;<samp>user@hostname:file name</samp>&rsquo;.  In
+either case, <code>tar</code> will invoke the command <code>rsh</code> (or
+<code>remsh</code>) to start up an <code>/usr/libexec/rmt</code> on the remote
+machine.  If you give an alternate login name, it will be given to the
+<code>rsh</code>.
+Naturally, the remote machine must have an executable
+<code>/usr/libexec/rmt</code>.  This program is free software from the
+University of California, and a copy of the source code can be found
+with the sources for <code>tar</code>; it&rsquo;s compiled and installed by default.
+The exact path to this utility is determined when configuring the package.
+It is <samp><var>prefix</var>/libexec/rmt</samp>, where <var>prefix</var> stands for
+your installation prefix.  This location may also be overridden at
+runtime by using the <samp>--rmt-command=<var>command</var></samp> option (See <a href="Option-Summary.html">&mdash;rmt-command</a>, for detailed description of this option.  See <a href="Remote-Tape-Server.html">Remote Tape Server</a>, for the description of <code>rmt</code> command).
+</p>
+<p>If this option is not given, but the environment variable <code>TAPE</code>
+is set, its value is used; otherwise, old versions of <code>tar</code>
+used a default archive name (which was picked when <code>tar</code> was
+compiled).  The default is normally set up to be the <em>first</em> tape
+drive or other transportable I/O medium on the system.
+</p>
+<p>Starting with version 1.11.5, <acronym>GNU</acronym> <code>tar</code> uses
+standard input and standard output as the default device, and I will
+not try anymore supporting automatic device detection at installation
+time.  This was failing really in too many cases, it was hopeless.
+This is now completely left to the installer to override standard
+input and standard output for default device, if this seems
+preferable.  Further, I think <em>most</em> actual usages of
+<code>tar</code> are done with pipes or disks, not really tapes,
+cartridges or diskettes.
+</p>
+<p>Some users think that using standard input and output is running
+after trouble.  This could lead to a nasty surprise on your screen if
+you forget to specify an output file name&mdash;especially if you are going
+through a network or terminal server capable of buffering large amounts
+of output.  We had so many bug reports in that area of configuring
+default tapes automatically, and so many contradicting requests, that
+we finally consider the problem to be portably intractable.  We could
+of course use something like &lsquo;<samp>/dev/tape</samp>&rsquo; as a default, but this
+is <em>also</em> running after various kind of trouble, going from hung
+processes to accidental destruction of real tapes.  After having seen
+all this mess, using standard input and output as a default really
+sounds like the only clean choice left, and a very useful one too.
+</p>
+<p><acronym>GNU</acronym> <code>tar</code> reads and writes archive in records, I
+suspect this is the main reason why block devices are preferred over
+character devices.  Most probably, block devices are more efficient
+too.  The installer could also check for &lsquo;<samp>DEFTAPE</samp>&rsquo; in
+<samp>&lt;sys/mtio.h&gt;</samp>.
+</p>
+<dl compact="compact">
+<dd><span id="index-force_002dlocal_002c-short-description"></span>
+</dd>
+<dt><span><samp>--force-local</samp></span></dt>
+<dd><p>Archive file is local even if it contains a colon.
+</p>
+<span id="index-rsh_002dcommand"></span>
+</dd>
+<dt><span><samp>--rsh-command=<var>command</var></samp></span></dt>
+<dd><p>Use remote <var>command</var> instead of <code>rsh</code>.  This option exists
+so that people who use something other than the standard <code>rsh</code>
+(e.g., a Kerberized <code>rsh</code>) can access a remote device.
+</p>
+<p>When this command is not used, the shell command found when
+the <code>tar</code> program was installed is used instead.  This is
+the first found of <samp>/usr/ucb/rsh</samp>, <samp>/usr/bin/remsh</samp>,
+<samp>/usr/bin/rsh</samp>, <samp>/usr/bsd/rsh</samp> or <samp>/usr/bin/nsh</samp>.
+The installer may have overridden this by defining the environment
+variable <code>RSH</code> <em>at installation time</em>.
+</p>
+</dd>
+<dt><span><samp>-[0-7][lmh]</samp></span></dt>
+<dd><p>Specify drive and density.
+</p>
+<span id="index-multi_002dvolume_002c-short-description"></span>
+</dd>
+<dt><span><samp>-M</samp></span></dt>
+<dt><span><samp>--multi-volume</samp></span></dt>
+<dd><p>Create/list/extract multi-volume archive.
+</p>
+<p>This option causes <code>tar</code> to write a <em>multi-volume</em> archive&mdash;one
+that may be larger than will fit on the medium used to hold it.
+See <a href="Multi_002dVolume-Archives.html">Archives Longer than One Tape or Disk</a>.
+</p>
+<span id="index-tape_002dlength_002c-short-description"></span>
+</dd>
+<dt><span><samp>-L <var>num</var></samp></span></dt>
+<dt><span><samp>--tape-length=<var>size</var>[<var>suf</var>]</samp></span></dt>
+<dd><p>Change tape after writing <var>size</var> units of data.  Unless <var>suf</var> is
+given, <var>size</var> is treated as kilobytes, i.e. &lsquo;<samp><var>size</var> x
+1024</samp>&rsquo; bytes.  The following suffixes alter this behavior:
+</p>
+<div class="float"><span id="size_002dsuffixes"></span>
+
+<table>
+<thead><tr><th width="20%">Suffix</th><th width="30%">Units</th><th width="30%">Byte Equivalent</th></tr></thead>
+<tr><td width="20%">b</td><td width="30%">Blocks</td><td width="30%"><var>size</var> x 512</td></tr>
+<tr><td width="20%">B</td><td width="30%">Kilobytes</td><td width="30%"><var>size</var> x 1024</td></tr>
+<tr><td width="20%">c</td><td width="30%">Bytes</td><td width="30%"><var>size</var></td></tr>
+<tr><td width="20%">G</td><td width="30%">Gigabytes</td><td width="30%"><var>size</var> x 1024^3</td></tr>
+<tr><td width="20%">K</td><td width="30%">Kilobytes</td><td width="30%"><var>size</var> x 1024</td></tr>
+<tr><td width="20%">k</td><td width="30%">Kilobytes</td><td width="30%"><var>size</var> x 1024</td></tr>
+<tr><td width="20%">M</td><td width="30%">Megabytes</td><td width="30%"><var>size</var> x 1024^2</td></tr>
+<tr><td width="20%">P</td><td width="30%">Petabytes</td><td width="30%"><var>size</var> x 1024^5</td></tr>
+<tr><td width="20%">T</td><td width="30%">Terabytes</td><td width="30%"><var>size</var> x 1024^4</td></tr>
+<tr><td width="20%">w</td><td width="30%">Words</td><td width="30%"><var>size</var> x 2</td></tr>
+</table>
+<div class="float-caption"><p><strong>Table 9.1: </strong>Size Suffixes</p></div></div>
+<p>This option might be useful when your tape drivers do not properly
+detect end of physical tapes.  By being slightly conservative on the
+maximum tape length, you might avoid the problem entirely.
+</p>
+<span id="index-info_002dscript_002c-short-description"></span>
+<span id="index-new_002dvolume_002dscript_002c-short-description"></span>
+</dd>
+<dt><span><samp>-F <var>command</var></samp></span></dt>
+<dt><span><samp>--info-script=<var>command</var></samp></span></dt>
+<dt><span><samp>--new-volume-script=<var>command</var></samp></span></dt>
+<dd><p>Execute <var>command</var> at end of each tape.  This implies
+<samp>--multi-volume</samp> (<samp>-M</samp>).  See <a href="Multi_002dVolume-Archives.html#info_002dscript">info-script</a>, for a detailed
+description of this option.
+</p></dd>
+</dl>
+
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Remote-Tape-Server.html">Remote Tape Server</a>, Up: <a href="Media.html">Tapes and Other Archive Media</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

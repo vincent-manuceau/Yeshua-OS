@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>General-Purpose Variables (GNU tar 1.34)</title>
+
+<meta name="description" content="General-Purpose Variables (GNU tar 1.34)">
+<meta name="keywords" content="General-Purpose Variables (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Backup-Parameters.html" rel="up" title="Backup Parameters">
+<link href="Magnetic-Tape-Control.html" rel="next" title="Magnetic Tape Control">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection" id="General_002dPurpose-Variables">
+<div class="header">
+<p>
+Next: <a href="Magnetic-Tape-Control.html" accesskey="n" rel="next">Magnetic Tape Control</a>, Up: <a href="Backup-Parameters.html" accesskey="u" rel="up">Setting Parameters for Backups and Restoration</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="General_002dPurpose-Variables-1"></span><h4 class="subsection">5.4.1 General-Purpose Variables</h4>
+
+<dl class="def">
+<dt id="index-ADMINISTRATOR"><span class="category">Backup variable: </span><span><strong>ADMINISTRATOR</strong><a href='#index-ADMINISTRATOR' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>The user name of the backup administrator.  <code>Backup</code> scripts
+sends a backup report to this address.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-BACKUP_005fHOUR"><span class="category">Backup variable: </span><span><strong>BACKUP_HOUR</strong><a href='#index-BACKUP_005fHOUR' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>The hour at which the backups are done.  This can be a number from 0
+to 23, or the time specification in form <var>hours</var>:<var>minutes</var>,
+or the string &lsquo;<samp>now</samp>&rsquo;.
+</p>
+<p>This variable is used by <code>backup</code>.  Its value may be overridden
+using <samp>--time</samp> option (see <a href="Scripted-Backups.html">Using the Backup Scripts</a>).
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-TAPE_005fFILE"><span class="category">Backup variable: </span><span><strong>TAPE_FILE</strong><a href='#index-TAPE_005fFILE' class='copiable-anchor'> &para;</a></span></dt>
+<dd>
+<p>The device <code>tar</code> writes the archive to.  If <var>TAPE_FILE</var>
+is a remote archive (see <a href="file.html#remote_002ddev">remote-dev</a>), backup script will suppose
+that your <code>mt</code> is able to access remote devices.  If <var>RSH</var>
+(see <a href="#RSH">RSH</a>) is set, <samp>--rsh-command</samp> option will be added to
+invocations of <code>mt</code>.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-BLOCKING"><span class="category">Backup variable: </span><span><strong>BLOCKING</strong><a href='#index-BLOCKING' class='copiable-anchor'> &para;</a></span></dt>
+<dd>
+<p>The blocking factor <code>tar</code> will use when writing the dump archive.
+See <a href="Blocking-Factor.html">The Blocking Factor of an Archive</a>.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-BACKUP_005fDIRS"><span class="category">Backup variable: </span><span><strong>BACKUP_DIRS</strong><a href='#index-BACKUP_005fDIRS' class='copiable-anchor'> &para;</a></span></dt>
+<dd>
+<p>A list of file systems to be dumped (for <code>backup</code>), or restored
+(for <code>restore</code>).  You can include any directory
+name in the list &mdash; subdirectories on that file system will be
+included, regardless of how they may look to other networked machines.
+Subdirectories on other file systems will be ignored.
+</p>
+<p>The host name specifies which host to run <code>tar</code> on, and should
+normally be the host that actually contains the file system.  However,
+the host machine must have <acronym>GNU</acronym> <code>tar</code> installed, and
+must be able to access the directory containing the backup scripts and
+their support files using the same file name that is used on the
+machine where the scripts are run (i.e., what <code>pwd</code> will print
+when in that directory on that machine).  If the host that contains
+the file system does not have this capability, you can specify another
+host as long as it can access the file system through <acronym>NFS</acronym>.
+</p>
+<p>If the list of file systems is very long you may wish to put it
+in a separate file.  This file is usually named
+<samp>/etc/backup/dirs</samp>, but this name may be overridden in
+<samp>backup-specs</samp> using <code>DIRLIST</code> variable.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-DIRLIST"><span class="category">Backup variable: </span><span><strong>DIRLIST</strong><a href='#index-DIRLIST' class='copiable-anchor'> &para;</a></span></dt>
+<dd>
+<p>The name of the file that contains a list of file systems to backup
+or restore.  By default it is <samp>/etc/backup/dirs</samp>.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-BACKUP_005fFILES"><span class="category">Backup variable: </span><span><strong>BACKUP_FILES</strong><a href='#index-BACKUP_005fFILES' class='copiable-anchor'> &para;</a></span></dt>
+<dd>
+<p>A list of individual files to be dumped (for <code>backup</code>), or restored
+(for <code>restore</code>).  These should be accessible from the machine on
+which the backup script is run.
+</p>
+<p>If the list of individual files is very long you may wish to store it
+in a separate file.  This file is usually named
+<samp>/etc/backup/files</samp>, but this name may be overridden in
+<samp>backup-specs</samp> using <code>FILELIST</code> variable.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-FILELIST"><span class="category">Backup variable: </span><span><strong>FILELIST</strong><a href='#index-FILELIST' class='copiable-anchor'> &para;</a></span></dt>
+<dd>
+<p>The name of the file that contains a list of individual files to backup
+or restore.  By default it is <samp>/etc/backup/files</samp>.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-MT"><span class="category">Backup variable: </span><span><strong>MT</strong><a href='#index-MT' class='copiable-anchor'> &para;</a></span></dt>
+<dd>
+<p>Full file name of <code>mt</code> binary.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-RSH"><span class="category">Backup variable: </span><span><strong>RSH</strong><a href='#index-RSH' class='copiable-anchor'> &para;</a></span></dt>
+<dd><span id="RSH"></span><p>Full file name of <code>rsh</code> binary or its equivalent.  You may wish to
+set it to <code>ssh</code>, to improve security.  In this case you will have
+to use public key authentication.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-RSH_005fCOMMAND"><span class="category">Backup variable: </span><span><strong>RSH_COMMAND</strong><a href='#index-RSH_005fCOMMAND' class='copiable-anchor'> &para;</a></span></dt>
+<dd>
+<p>Full file name of <code>rsh</code> binary on remote machines.  This will
+be passed via <samp>--rsh-command</samp> option to the remote invocation
+of <acronym>GNU</acronym> <code>tar</code>.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-VOLNO_005fFILE"><span class="category">Backup variable: </span><span><strong>VOLNO_FILE</strong><a href='#index-VOLNO_005fFILE' class='copiable-anchor'> &para;</a></span></dt>
+<dd>
+<p>Name of temporary file to hold volume numbers.  This needs to be accessible
+by all the machines which have file systems to be dumped.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-XLIST"><span class="category">Backup variable: </span><span><strong>XLIST</strong><a href='#index-XLIST' class='copiable-anchor'> &para;</a></span></dt>
+<dd>
+<p>Name of <em>exclude file list</em>.  An <em>exclude file list</em> is a file
+located on the remote machine and containing the list of files to
+be excluded from the backup.  Exclude file lists are searched in
+/etc/tar-backup directory.  A common use for exclude file lists
+is to exclude files containing security-sensitive information
+(e.g., <samp>/etc/shadow</samp> from backups).
+</p>
+<p>This variable affects only <code>backup</code>.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-SLEEP_005fTIME"><span class="category">Backup variable: </span><span><strong>SLEEP_TIME</strong><a href='#index-SLEEP_005fTIME' class='copiable-anchor'> &para;</a></span></dt>
+<dd>
+<p>Time to sleep between dumps of any two successive file systems
+</p>
+<p>This variable affects only <code>backup</code>.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-DUMP_005fREMIND_005fSCRIPT"><span class="category">Backup variable: </span><span><strong>DUMP_REMIND_SCRIPT</strong><a href='#index-DUMP_005fREMIND_005fSCRIPT' class='copiable-anchor'> &para;</a></span></dt>
+<dd>
+<p>Script to be run when it&rsquo;s time to insert a new tape in for the next
+volume.  Administrators may want to tailor this script for their site.
+If this variable isn&rsquo;t set, <acronym>GNU</acronym> <code>tar</code> will display its built-in
+prompt, and will expect confirmation from the console.  For the
+description of the default prompt, see <a href="Multi_002dVolume-Archives.html#change-volume-prompt">change volume prompt</a>.
+</p>
+</dd></dl>
+
+<dl class="def">
+<dt id="index-SLEEP_005fMESSAGE"><span class="category">Backup variable: </span><span><strong>SLEEP_MESSAGE</strong><a href='#index-SLEEP_005fMESSAGE' class='copiable-anchor'> &para;</a></span></dt>
+<dd>
+<p>Message to display on the terminal while waiting for dump time.  Usually
+this will just be some literal text.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-TAR"><span class="category">Backup variable: </span><span><strong>TAR</strong><a href='#index-TAR' class='copiable-anchor'> &para;</a></span></dt>
+<dd>
+<p>Full file name of the <acronym>GNU</acronym> <code>tar</code> executable.  If this is not set, backup
+scripts will search <code>tar</code> in the current shell path.
+</p></dd></dl>
+
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Magnetic-Tape-Control.html">Magnetic Tape Control</a>, Up: <a href="Backup-Parameters.html">Setting Parameters for Backups and Restoration</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Writing to an External Program (GNU tar 1.34)</title>
+
+<meta name="description" content="Writing to an External Program (GNU tar 1.34)">
+<meta name="keywords" content="Writing to an External Program (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Writing.html" rel="up" title="Writing">
+<link href="remove-files.html" rel="next" title="remove files">
+<link href="Writing-to-Standard-Output.html" rel="prev" title="Writing to Standard Output">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="unnumberedsubsubsec" id="Writing-to-an-External-Program">
+<div class="header">
+<p>
+Next: <a href="remove-files.html" accesskey="n" rel="next">Removing Files</a>, Previous: <a href="Writing-to-Standard-Output.html" accesskey="p" rel="prev">Writing to Standard Output</a>, Up: <a href="Writing.html" accesskey="u" rel="up">Changing How <code>tar</code> Writes Files</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Writing-to-an-External-Program-1"></span><h4 class="unnumberedsubsubsec">Writing to an External Program</h4>
+
+<p>You can instruct <code>tar</code> to send the contents of each extracted
+file to the standard input of an external program:
+</p>
+<dl compact="compact">
+<dd><span id="index-to_002dcommand"></span>
+</dd>
+<dt><span><samp>--to-command=<var>command</var></samp></span></dt>
+<dd><p>Extract files and pipe their contents to the standard input of
+<var>command</var>.  When this option is used, instead of creating the
+files specified, <code>tar</code> invokes <var>command</var> and pipes the
+contents of the files to its standard output.  The <var>command</var> may
+contain command line arguments (see <a href="external.html">Running External Commands</a>,
+for more detail).
+</p>
+<p>Notice, that <var>command</var> is executed once for each regular file
+extracted.  Non-regular files (directories, etc.) are ignored when this
+option is used.
+</p></dd>
+</dl>
+
+<p>The command can obtain the information about the file it processes
+from the following environment variables:
+</p>
+<dl compact="compact">
+<dd><span id="index-TAR_005fFILETYPE_002c-to_002dcommand-environment"></span>
+</dd>
+<dt><span><code>TAR_FILETYPE</code></span></dt>
+<dd><p>Type of the file. It is a single letter with the following meaning:
+</p>
+<table>
+<tr><td width="10%">f</td><td width="90%">Regular file</td></tr>
+<tr><td width="10%">d</td><td width="90%">Directory</td></tr>
+<tr><td width="10%">l</td><td width="90%">Symbolic link</td></tr>
+<tr><td width="10%">h</td><td width="90%">Hard link</td></tr>
+<tr><td width="10%">b</td><td width="90%">Block device</td></tr>
+<tr><td width="10%">c</td><td width="90%">Character device</td></tr>
+</table>
+
+<p>Currently only regular files are supported.
+</p>
+<span id="index-TAR_005fMODE_002c-to_002dcommand-environment"></span>
+</dd>
+<dt><span><code>TAR_MODE</code></span></dt>
+<dd><p>File mode, an octal number.
+</p>
+<span id="index-TAR_005fFILENAME_002c-to_002dcommand-environment"></span>
+</dd>
+<dt><span><code>TAR_FILENAME</code></span></dt>
+<dd><p>The name of the file.
+</p>
+<span id="index-TAR_005fREALNAME_002c-to_002dcommand-environment"></span>
+</dd>
+<dt><span><code>TAR_REALNAME</code></span></dt>
+<dd><p>Name of the file as stored in the archive.
+</p>
+<span id="index-TAR_005fUNAME_002c-to_002dcommand-environment"></span>
+</dd>
+<dt><span><code>TAR_UNAME</code></span></dt>
+<dd><p>Name of the file owner.
+</p>
+<span id="index-TAR_005fGNAME_002c-to_002dcommand-environment"></span>
+</dd>
+<dt><span><code>TAR_GNAME</code></span></dt>
+<dd><p>Name of the file owner group.
+</p>
+<span id="index-TAR_005fATIME_002c-to_002dcommand-environment"></span>
+</dd>
+<dt><span><code>TAR_ATIME</code></span></dt>
+<dd><p>Time of last access. It is a decimal number, representing seconds
+since the Epoch.  If the archive provides times with nanosecond
+precision, the nanoseconds are appended to the timestamp after a
+decimal point.
+</p>
+<span id="index-TAR_005fMTIME_002c-to_002dcommand-environment"></span>
+</dd>
+<dt><span><code>TAR_MTIME</code></span></dt>
+<dd><p>Time of last modification.
+</p>
+<span id="index-TAR_005fCTIME_002c-to_002dcommand-environment"></span>
+</dd>
+<dt><span><code>TAR_CTIME</code></span></dt>
+<dd><p>Time of last status change.
+</p>
+<span id="index-TAR_005fSIZE_002c-to_002dcommand-environment"></span>
+</dd>
+<dt><span><code>TAR_SIZE</code></span></dt>
+<dd><p>Size of the file.
+</p>
+<span id="index-TAR_005fUID_002c-to_002dcommand-environment"></span>
+</dd>
+<dt><span><code>TAR_UID</code></span></dt>
+<dd><p>UID of the file owner.
+</p>
+<span id="index-TAR_005fGID_002c-to_002dcommand-environment"></span>
+</dd>
+<dt><span><code>TAR_GID</code></span></dt>
+<dd><p>GID of the file owner.
+</p></dd>
+</dl>
+
+<p>Additionally, the following variables contain information about
+tar mode and the archive being processed:
+</p>
+<dl compact="compact">
+<dd><span id="index-TAR_005fVERSION_002c-to_002dcommand-environment"></span>
+</dd>
+<dt><span><code>TAR_VERSION</code></span></dt>
+<dd><p><acronym>GNU</acronym> <code>tar</code> version number.
+</p>
+<span id="index-TAR_005fARCHIVE_002c-to_002dcommand-environment"></span>
+</dd>
+<dt><span><code>TAR_ARCHIVE</code></span></dt>
+<dd><p>The name of the archive <code>tar</code> is processing.
+</p>
+<span id="index-TAR_005fBLOCKING_005fFACTOR_002c-to_002dcommand-environment"></span>
+</dd>
+<dt><span><code>TAR_BLOCKING_FACTOR</code></span></dt>
+<dd><p>Current blocking factor (see <a href="Blocking.html">Blocking</a>).
+</p>
+<span id="index-TAR_005fVOLUME_002c-to_002dcommand-environment"></span>
+</dd>
+<dt><span><code>TAR_VOLUME</code></span></dt>
+<dd><p>Ordinal number of the volume <code>tar</code> is processing.
+</p>
+<span id="index-TAR_005fFORMAT_002c-to_002dcommand-environment"></span>
+</dd>
+<dt><span><code>TAR_FORMAT</code></span></dt>
+<dd><p>Format of the archive being processed. See <a href="Formats.html">Controlling the Archive Format</a>, for a complete
+list of archive format names.
+</p></dd>
+</dl>
+
+<p>These variables are defined prior to executing the command, so you can
+pass them as arguments, if you prefer.  For example, if the command
+<var>proc</var> takes the member name and size as its arguments, then you
+could do:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -x -f archive.tar \
+       --to-command='proc $TAR_FILENAME $TAR_SIZE'</kbd>
+</pre></div>
+
+<p>Notice single quotes to prevent variable names from being expanded by
+the shell when invoking <code>tar</code>.
+</p>
+<p>If <var>command</var> exits with a non-0 status, <code>tar</code> will print
+an error message similar to the following:
+</p>
+<div class="example">
+<pre class="example">tar: 2345: Child returned status 1
+</pre></div>
+
+<p>Here, &lsquo;<samp>2345</samp>&rsquo; is the PID of the finished process.
+</p>
+<p>If this behavior is not wanted, use <samp>--ignore-command-error</samp>:
+</p>
+<dl compact="compact">
+<dd><span id="index-ignore_002dcommand_002derror"></span>
+</dd>
+<dt><span><samp>--ignore-command-error</samp></span></dt>
+<dd><p>Ignore exit codes of subprocesses.  Notice that if the program
+exits on signal or otherwise terminates abnormally, the error message
+will be printed even if this option is used.
+</p>
+<span id="index-no_002dignore_002dcommand_002derror"></span>
+</dd>
+<dt><span><samp>--no-ignore-command-error</samp></span></dt>
+<dd><p>Cancel the effect of any previous <samp>--ignore-command-error</samp>
+option. This option is useful if you have set
+<samp>--ignore-command-error</samp> in <code>TAR_OPTIONS</code>
+(see <a href="using-tar-options.html#TAR_005fOPTIONS">TAR_OPTIONS</a>) and wish to temporarily cancel it.
+</p></dd>
+</dl>
+
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="remove-files.html">Removing Files</a>, Previous: <a href="Writing-to-Standard-Output.html">Writing to Standard Output</a>, Up: <a href="Writing.html">Changing How <code>tar</code> Writes Files</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

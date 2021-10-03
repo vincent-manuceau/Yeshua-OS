@@ -1,0 +1,336 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Blocking Factor (GNU tar 1.34)</title>
+
+<meta name="description" content="Blocking Factor (GNU tar 1.34)">
+<meta name="keywords" content="Blocking Factor (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Blocking.html" rel="up" title="Blocking">
+<link href="Format-Variations.html" rel="prev" title="Format Variations">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection" id="Blocking-Factor">
+<div class="header">
+<p>
+Previous: <a href="Format-Variations.html" accesskey="p" rel="prev">Format Variations</a>, Up: <a href="Blocking.html" accesskey="u" rel="up">Blocking</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="The-Blocking-Factor-of-an-Archive"></span><h4 class="subsection">9.4.2 The Blocking Factor of an Archive</h4>
+<span id="index-Blocking-Factor"></span>
+<span id="index-Record-Size"></span>
+<span id="index-Number-of-blocks-per-record"></span>
+<span id="index-Number-of-bytes-per-record"></span>
+<span id="index-Bytes-per-record"></span>
+<span id="index-Blocks-per-record"></span>
+<blockquote>
+<p><em>(This message will disappear, once this node revised.)</em>
+</p></blockquote>
+
+<span id="index-blocking_002dfactor"></span>
+<p>The data in an archive is grouped into blocks, which are 512 bytes.
+Blocks are read and written in whole number multiples called
+<em>records</em>.  The number of blocks in a record (i.e., the size of a
+record in units of 512 bytes) is called the <em>blocking factor</em>.
+The <samp>--blocking-factor=<var>512-size</var></samp> (<samp>-b
+<var>512-size</var></samp>) option specifies the blocking factor of an archive.
+The default blocking factor is typically 20 (i.e., 10240 bytes), but
+can be specified at installation.  To find out the blocking factor of
+an existing archive, use &lsquo;<samp>tar --list --file=<var>archive-name</var></samp>&rsquo;.
+This may not work on some devices.
+</p>
+<p>Records are separated by gaps, which waste space on the archive media.
+If you are archiving on magnetic tape, using a larger blocking factor
+(and therefore larger records) provides faster throughput and allows you
+to fit more data on a tape (because there are fewer gaps).  If you are
+archiving on cartridge, a very large blocking factor (say 126 or more)
+greatly increases performance.  A smaller blocking factor, on the other
+hand, may be useful when archiving small files, to avoid archiving lots
+of nulls as <code>tar</code> fills out the archive to the end of the record.
+In general, the ideal record size depends on the size of the
+inter-record gaps on the tape you are using, and the average size of the
+files you are archiving.  See <a href="create.html">How to Create Archives</a>, for information on
+writing archives.
+</p>
+
+
+<p>Archives with blocking factors larger than 20 cannot be read
+by very old versions of <code>tar</code>, or by some newer versions
+of <code>tar</code> running on old machines with small address spaces.
+With <acronym>GNU</acronym> <code>tar</code>, the blocking factor of an archive is limited
+only by the maximum record size of the device containing the archive,
+or by the amount of available virtual memory.
+</p>
+<p>Also, on some systems, not using adequate blocking factors, as sometimes
+imposed by the device drivers, may yield unexpected diagnostics.  For
+example, this has been reported:
+</p>
+<div class="example">
+<pre class="example">Cannot write to /dev/dlt: Invalid argument
+</pre></div>
+
+<p>In such cases, it sometimes happen that the <code>tar</code> bundled by
+the system is aware of block size idiosyncrasies, while <acronym>GNU</acronym> <code>tar</code>
+requires an explicit specification for the block size,
+which it cannot guess.  This yields some people to consider
+<acronym>GNU</acronym> <code>tar</code> is misbehaving, because by comparison,
+<cite>the bundle <code>tar</code> works OK</cite>.  Adding <kbd><span class="nolinebreak">-b</span>&nbsp;256</kbd><!-- /@w -->,
+for example, might resolve the problem.
+</p>
+<p>If you use a non-default blocking factor when you create an archive, you
+must specify the same blocking factor when you modify that archive.  Some
+archive devices will also require you to specify the blocking factor when
+reading that archive, however this is not typically the case.  Usually, you
+can use <samp>--list</samp> (<samp>-t</samp>) without specifying a blocking factor&mdash;<code>tar</code>
+reports a non-default record size and then lists the archive members as
+it would normally.  To extract files from an archive with a non-standard
+blocking factor (particularly if you&rsquo;re not sure what the blocking factor
+is), you can usually use the <samp>--read-full-records</samp> (<samp>-B</samp>) option while
+specifying a blocking factor larger then the blocking factor of the archive
+(i.e., &lsquo;<samp>tar --extract --read-full-records --blocking-factor=300</samp>&rsquo;).
+See <a href="list.html">How to List Archives</a>, for more information on the <samp>--list</samp> (<samp>-t</samp>)
+operation.  See <a href="Reading.html">Options to Help Read Archives</a>, for a more detailed explanation of that option.
+</p>
+<dl compact="compact">
+<dt><span><samp>--blocking-factor=<var>number</var></samp></span></dt>
+<dt><span><samp>-b <var>number</var></samp></span></dt>
+<dd><p>Specifies the blocking factor of an archive.  Can be used with any
+operation, but is usually not necessary with <samp>--list</samp> (<samp>-t</samp>).
+</p></dd>
+</dl>
+
+<p>Device blocking
+</p>
+<dl compact="compact">
+<dt><span><samp>-b <var>blocks</var></samp></span></dt>
+<dt><span><samp>--blocking-factor=<var>blocks</var></samp></span></dt>
+<dd><p>Set record size to <em class='math'><var>blocks</var>*512</em> bytes.
+</p>
+<p>This option is used to specify a <em>blocking factor</em> for the archive.
+When reading or writing the archive, <code>tar</code>, will do reads and writes
+of the archive in records of <em class='math'><var>block</var>*512</em> bytes.  This is true
+even when the archive is compressed.  Some devices requires that all
+write operations be a multiple of a certain size, and so, <code>tar</code>
+pads the archive out to the next record boundary.
+</p>
+<p>The default blocking factor is set when <code>tar</code> is compiled, and is
+typically 20.  Blocking factors larger than 20 cannot be read by very
+old versions of <code>tar</code>, or by some newer versions of <code>tar</code>
+running on old machines with small address spaces.
+</p>
+<p>With a magnetic tape, larger records give faster throughput and fit
+more data on a tape (because there are fewer inter-record gaps).
+If the archive is in a disk file or a pipe, you may want to specify
+a smaller blocking factor, since a large one will result in a large
+number of null bytes at the end of the archive.
+</p>
+<p>When writing cartridge or other streaming tapes, a much larger
+blocking factor (say 126 or more) will greatly increase performance.
+However, you must specify the same blocking factor when reading or
+updating the archive.
+</p>
+<p>Apparently, Exabyte drives have a physical block size of 8K bytes.
+If we choose our blocksize as a multiple of 8k bytes, then the problem
+seems to disappear.  Id est, we are using block size of 112 right
+now, and we haven&rsquo;t had the problem since we switched&hellip;
+</p>
+<p>With <acronym>GNU</acronym> <code>tar</code> the blocking factor is limited only
+by the maximum record size of the device containing the archive, or by
+the amount of available virtual memory.
+</p>
+<p>However, deblocking or reblocking is virtually avoided in a special
+case which often occurs in practice, but which requires all the
+following conditions to be simultaneously true:
+</p><ul>
+<li> the archive is subject to a compression option,
+</li><li> the archive is not handled through standard input or output, nor
+redirected nor piped,
+</li><li> the archive is directly handled to a local disk, instead of any special
+device,
+</li><li> <samp>--blocking-factor</samp> is not explicitly specified on the <code>tar</code>
+invocation.
+</li></ul>
+
+<p>If the output goes directly to a local disk, and not through
+stdout, then the last write is not extended to a full record size.
+Otherwise, reblocking occurs.  Here are a few other remarks on this
+topic:
+</p>
+<ul>
+<li> <code>gzip</code> will complain about trailing garbage if asked to
+uncompress a compressed archive on tape, there is an option to turn
+the message off, but it breaks the regularity of simply having to use
+&lsquo;<samp><var>prog</var> -d</samp>&rsquo; for decompression.  It would be nice if gzip was
+silently ignoring any number of trailing zeros.  I&rsquo;ll ask Jean-loup
+Gailly, by sending a copy of this message to him.
+
+</li><li> <code>compress</code> does not show this problem, but as Jean-loup pointed
+out to Michael, &lsquo;<samp>compress -d</samp>&rsquo; silently adds garbage after
+the result of decompression, which tar ignores because it already
+recognized its end-of-file indicator.  So this bug may be safely
+ignored.
+
+</li><li> &lsquo;<samp>gzip -d -q</samp>&rsquo; will be silent about the trailing zeros indeed,
+but will still return an exit status of 2 which tar reports in turn.
+<code>tar</code> might ignore the exit status returned, but I hate doing
+that, as it weakens the protection <code>tar</code> offers users against
+other possible problems at decompression time.  If <code>gzip</code> was
+silently skipping trailing zeros <em>and</em> also avoiding setting the
+exit status in this innocuous case, that would solve this situation.
+
+</li><li> <code>tar</code> should become more solid at not stopping to read a pipe at
+the first null block encountered.  This inelegantly breaks the pipe.
+<code>tar</code> should rather drain the pipe out before exiting itself.
+</li></ul>
+
+<span id="index-ignore_002dzeros_002c-short-description"></span>
+</dd>
+<dt><span><samp>-i</samp></span></dt>
+<dt><span><samp>--ignore-zeros</samp></span></dt>
+<dd><p>Ignore blocks of zeros in archive (means EOF).
+</p>
+<p>The <samp>--ignore-zeros</samp> (<samp>-i</samp>) option causes <code>tar</code> to ignore blocks
+of zeros in the archive.  Normally a block of zeros indicates the
+end of the archive, but when reading a damaged archive, or one which
+was created by concatenating several archives together, this option
+allows <code>tar</code> to read the entire archive.  This option is not on
+by default because many versions of <code>tar</code> write garbage after
+the zeroed blocks.
+</p>
+<p>Note that this option causes <code>tar</code> to read to the end of the
+archive file, which may sometimes avoid problems when multiple files
+are stored on a single physical tape.
+</p>
+<span id="index-read_002dfull_002drecords_002c-short-description"></span>
+</dd>
+<dt><span><samp>-B</samp></span></dt>
+<dt><span><samp>--read-full-records</samp></span></dt>
+<dd><p>Reblock as we read (for reading 4.2<acronym>BSD</acronym> pipes).
+</p>
+<p>If <samp>--read-full-records</samp> is used, <code>tar</code>
+will not panic if an attempt to read a record from the archive does
+not return a full record.  Instead, <code>tar</code> will keep reading
+until it has obtained a full
+record.
+</p>
+<p>This option is turned on by default when <code>tar</code> is reading
+an archive from standard input, or from a remote machine.  This is
+because on <acronym>BSD</acronym> Unix systems, a read of a pipe will return however
+much happens to be in the pipe, even if it is less than <code>tar</code>
+requested.  If this option was not used, <code>tar</code> would fail as
+soon as it read an incomplete record from the pipe.
+</p>
+<p>This option is also useful with the commands for updating an archive.
+</p>
+</dd>
+</dl>
+
+<p>Tape blocking
+</p>
+
+
+<span id="index-blocking-factor"></span>
+<span id="index-tape-blocking"></span>
+
+<p>When handling various tapes or cartridges, you have to take care of
+selecting a proper blocking, that is, the number of disk blocks you
+put together as a single tape block on the tape, without intervening
+tape gaps.  A <em>tape gap</em> is a small landing area on the tape
+with no information on it, used for decelerating the tape to a
+full stop, and for later regaining the reading or writing speed.
+When the tape driver starts reading a record, the record has to
+be read whole without stopping, as a tape gap is needed to stop the
+tape motion without losing information.
+</p>
+<span id="index-Exabyte-blocking"></span>
+<span id="index-DAT-blocking"></span>
+<p>Using higher blocking (putting more disk blocks per tape block) will use
+the tape more efficiently as there will be less tape gaps.  But reading
+such tapes may be more difficult for the system, as more memory will be
+required to receive at once the whole record.  Further, if there is a
+reading error on a huge record, this is less likely that the system will
+succeed in recovering the information.  So, blocking should not be too
+low, nor it should be too high.  <code>tar</code> uses by default a blocking of
+20 for historical reasons, and it does not really matter when reading or
+writing to disk.  Current tape technology would easily accommodate higher
+blockings.  Sun recommends a blocking of 126 for Exabytes and 96 for DATs.
+We were told that for some DLT drives, the blocking should be a multiple
+of 4Kb, preferably 64Kb (<kbd><span class="nolinebreak">-b</span>&nbsp;128</kbd><!-- /@w -->) or 256 for decent performance.
+Other manufacturers may use different recommendations for the same tapes.
+This might also depends of the buffering techniques used inside modern
+tape controllers.  Some imposes a minimum blocking, or a maximum blocking.
+Others request blocking to be some exponent of two.
+</p>
+<p>So, there is no fixed rule for blocking.  But blocking at read time
+should ideally be the same as blocking used at write time.  At one place
+I know, with a wide variety of equipment, they found it best to use a
+blocking of 32 to guarantee that their tapes are fully interchangeable.
+</p>
+<p>I was also told that, for recycled tapes, prior erasure (by the same
+drive unit that will be used to create the archives) sometimes lowers
+the error rates observed at rewriting time.
+</p>
+<p>I might also use <samp>--number-blocks</samp> instead of
+<samp>--block-number</samp>, so <samp>--block</samp> will then expand to
+<samp>--blocking-factor</samp> unambiguously.
+</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Previous: <a href="Format-Variations.html">Format Variations</a>, Up: <a href="Blocking.html">Blocking</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

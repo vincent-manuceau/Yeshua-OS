@@ -1,0 +1,266 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>override (GNU tar 1.34)</title>
+
+<meta name="description" content="override (GNU tar 1.34)">
+<meta name="keywords" content="override (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="create-options.html" rel="up" title="create options">
+<link href="Extended-File-Attributes.html" rel="next" title="Extended File Attributes">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection" id="override">
+<div class="header">
+<p>
+Next: <a href="Extended-File-Attributes.html" accesskey="n" rel="next">Extended File Attributes</a>, Up: <a href="create-options.html" accesskey="u" rel="up">Options Used by <samp>--create</samp></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Overriding-File-Metadata"></span><h4 class="subsection">4.3.1 Overriding File Metadata</h4>
+
+<p>As described above, a <code>tar</code> archive keeps, for each member it contains,
+its <em>metadata</em>, such as modification time, mode and ownership of
+the file.  <acronym>GNU</acronym> <code>tar</code> allows to replace these data with other values
+when adding files to the archive.  The options described in this
+section affect creation of archives of any type.  For POSIX archives,
+see also <a href="PAX-keywords.html">Controlling Extended Header Keywords</a>, for additional ways of controlling
+metadata, stored in the archive.
+</p>
+<dl compact="compact">
+<dd><span id="index-mode"></span>
+</dd>
+<dt><span><samp>--mode=<var>permissions</var></samp></span></dt>
+<dd>
+<p>When adding files to an archive, <code>tar</code> will use
+<var>permissions</var> for the archive members, rather than the permissions
+from the files.  <var>permissions</var> can be specified either as an octal
+number or as symbolic permissions, like with
+<code>chmod</code> (See <a data-manual="fileutils" href="../fileutils/File-permissions.html#File-permissions">File
+permissions</a> in <cite><acronym>GNU</acronym> file utilities</cite>.  This reference
+also has useful information for those not being overly familiar with
+the UNIX permission system).  Using latter syntax allows for
+more flexibility.  For example, the value &lsquo;<samp>a+rw</samp>&rsquo; adds read and write
+permissions for everybody, while retaining executable bits on directories
+or on any other file already marked as executable:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -c -f archive.tar --mode='a+rw' .</kbd>
+</pre></div>
+
+</dd>
+<dt id='index-mtime'><span><samp>--mtime=<var>date</var></samp><a href='#index-mtime' class='copiable-anchor'> &para;</a></span></dt>
+<dd>
+<p>When adding files to an archive, <code>tar</code> will use <var>date</var> as
+the modification time of members when creating archives, instead of
+their actual modification times.  The argument <var>date</var> can be
+either a textual date representation in almost arbitrary format
+(see <a href="Date-input-formats.html">Date input formats</a>) or a name of an existing file, starting
+with &lsquo;<samp>/</samp>&rsquo; or &lsquo;<samp>.</samp>&rsquo;.  In the latter case, the modification time
+of that file will be used.
+</p>
+<p>The following example will set the modification date to 00:00:00,
+January 1, 1970:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -c -f archive.tar --mtime='1970-01-01' .</kbd>
+</pre></div>
+
+<p>When used with <samp>--verbose</samp> (see <a href="verbose-tutorial.html">The <samp>--verbose</samp> Option</a>) <acronym>GNU</acronym> <code>tar</code>
+will try to convert the specified date back to its textual
+representation and compare it with the one given with
+<samp>--mtime</samp> options.  If the two dates differ, <code>tar</code> will
+print a warning saying what date it will use.  This is to help user
+ensure he is using the right date.
+</p>
+<p>For example:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -c -f archive.tar -v --mtime=yesterday .</kbd>
+tar: Option --mtime: Treating date 'yesterday' as 2006-06-20
+13:06:29.152478
+&hellip;
+</pre></div>
+
+<p>When used with <samp>--clamp-mtime</samp> <acronym>GNU</acronym> <code>tar</code> will only set the
+modification date to <var>date</var> on files whose actual modification
+date is later than <var>date</var>.  This is to make it easy to build
+reproducible archives given a common timestamp for generated files
+while still retaining the original timestamps of untouched files.
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -c -f archive.tar --clamp-mtime --mtime=@$SOURCE_DATE_EPOCH .</kbd>
+</pre></div>
+
+</dd>
+<dt id='index-owner'><span><samp>--owner=<var>user</var></samp><a href='#index-owner' class='copiable-anchor'> &para;</a></span></dt>
+<dd>
+<p>Specifies that <code>tar</code> should use <var>user</var> as the owner of members
+when creating archives, instead of the user associated with the source
+file.
+</p>
+<p>If <var>user</var> contains a colon, it is taken to be of the form
+<var>name</var>:<var>id</var> where a nonempty <var>name</var> specifies the user
+name and a nonempty <var>id</var> specifies the decimal numeric user
+<acronym>ID</acronym>.  If <var>user</var> does not contain a colon, it is taken to
+be a user number if it is one or more decimal digits; otherwise it is
+taken to be a user name.
+</p>
+<p>If a name is given but no number, the number is inferred from the
+current host&rsquo;s user database if possible, and the file&rsquo;s user number
+is used otherwise.  If a number is given but no name, the name is
+inferred from the number if possible, and an empty name is used
+otherwise.  If both name and number are given, the user database is
+not consulted, and the name and number need not be valid on the
+current host.
+</p>
+<p>There is no value indicating a missing number, and &lsquo;<samp>0</samp>&rsquo; usually means
+<code>root</code>.  Some people like to force &lsquo;<samp>0</samp>&rsquo; as the value to offer in
+their distributions for the owner of files, because the <code>root</code> user is
+anonymous anyway, so that might as well be the owner of anonymous
+archives.  For example:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -c -f archive.tar --owner=0 .</kbd>
+</pre></div>
+
+<p>or:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -c -f archive.tar --owner=root .</kbd>
+</pre></div>
+
+</dd>
+<dt id='index-group'><span><samp>--group=<var>group</var></samp><a href='#index-group' class='copiable-anchor'> &para;</a></span></dt>
+<dd>
+<p>Files added to the <code>tar</code> archive will have a group <acronym>ID</acronym> of <var>group</var>,
+rather than the group from the source file.  As with <samp>--owner</samp>,
+the argument <var>group</var> can be an existing group symbolic name, or a
+decimal numeric group <acronym>ID</acronym>, or <var>name</var>:<var>id</var>.
+</p></dd>
+</dl>
+
+<p>The <samp>--owner</samp> and <samp>--group</samp> options affect all files
+added to the archive.  <acronym>GNU</acronym> <code>tar</code> provides also two options that allow
+for more detailed control over owner translation:
+</p>
+<dl compact="compact">
+<dt><span><samp>--owner-map=<var>file</var></samp></span></dt>
+<dd><p>Read UID translation map from <var>file</var>.
+</p>
+<p>When reading, empty lines are ignored.  The &lsquo;<samp>#</samp>&rsquo; sign, unless
+quoted, introduces a comment, which extends to the end of the line.
+Each nonempty line defines mapping for a single UID.  It must consist
+of two fields separated by any amount of whitespace.  The first field
+defines original username and UID.  It can be a valid user name or
+a valid UID prefixed with a plus sign.  In both cases the
+corresponding UID or user name is inferred from the current host&rsquo;s
+user database.
+</p>
+<p>The second field defines the UID and username to map the original one
+to.  Its format can be the same as described above.  Otherwise, it can
+have the form <var>newname</var>:<var>newuid</var>, in which case neither
+<var>newname</var> nor <var>newuid</var> are required to be valid as per the
+user database.
+</p>
+<p>For example, consider the following file:
+</p>
+<div class="example">
+<pre class="example">+10     bin
+smith   root:0
+</pre></div>
+
+<p>Given this file, each input file that is owner by UID 10 will be
+stored in archive with owner name &lsquo;<samp>bin</samp>&rsquo; and owner UID
+corresponding to &lsquo;<samp>bin</samp>&rsquo;.  Each file owned by user &lsquo;<samp>smith</samp>&rsquo;
+will be stored with owner name &lsquo;<samp>root</samp>&rsquo; and owner ID 0.  Other
+files will remain unchanged.
+</p>
+<p>When used together with <samp>--owner-map</samp>, the <samp>--owner</samp>
+option affects only files whose owner is not listed in the map file.
+</p>
+</dd>
+<dt><span><samp>--group-map=<var>file</var></samp></span></dt>
+<dd><p>Read GID translation map from <var>file</var>.
+</p>
+<p>The format of <var>file</var> is the same as for <samp>--owner-map</samp>
+option:
+</p>
+<p>Each nonempty line defines mapping for a single GID.  It must consist
+of two fields separated by any amount of whitespace.  The first field
+defines original group name and GID.  It can be a valid group name or
+a valid GID prefixed with a plus sign.  In both cases the
+corresponding GID or user name is inferred from the current host&rsquo;s
+group database.
+</p>
+<p>The second field defines the GID and group name to map the original one
+to.  Its format can be the same as described above.  Otherwise, it can
+have the form <var>newname</var>:<var>newgid</var>, in which case neither
+<var>newname</var> nor <var>newgid</var> are required to be valid as per the
+group database.
+</p>
+<p>When used together with <samp>--group-map</samp>, the <samp>--group</samp>
+option affects only files whose owner group is not rewritten using the
+map file.
+</p></dd>
+</dl>
+
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Extended-File-Attributes.html">Extended File Attributes</a>, Up: <a href="create-options.html">Options Used by <samp>--create</samp></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

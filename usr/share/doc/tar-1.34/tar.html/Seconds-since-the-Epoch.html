@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Seconds since the Epoch (GNU tar 1.34)</title>
+
+<meta name="description" content="Seconds since the Epoch (GNU tar 1.34)">
+<meta name="keywords" content="Seconds since the Epoch (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Date-input-formats.html" rel="up" title="Date input formats">
+<link href="Specifying-time-zone-rules.html" rel="next" title="Specifying time zone rules">
+<link href="Pure-numbers-in-date-strings.html" rel="prev" title="Pure numbers in date strings">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section" id="Seconds-since-the-Epoch">
+<div class="header">
+<p>
+Next: <a href="Specifying-time-zone-rules.html" accesskey="n" rel="next">Specifying time zone rules</a>, Previous: <a href="Pure-numbers-in-date-strings.html" accesskey="p" rel="prev">Pure numbers in date strings</a>, Up: <a href="Date-input-formats.html" accesskey="u" rel="up">Date input formats</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Seconds-since-the-Epoch-1"></span><h3 class="section">7.9 Seconds since the Epoch</h3>
+
+<p>If you precede a number with &lsquo;<samp>@</samp>&rsquo;, it represents an internal
+timestamp as a count of seconds.  The number can contain an internal
+decimal point (either &lsquo;<samp>.</samp>&rsquo; or &lsquo;<samp>,</samp>&rsquo;); any excess precision not
+supported by the internal representation is truncated toward minus
+infinity.  Such a number cannot be combined with any other date
+item, as it specifies a complete timestamp.
+</p>
+<span id="index-beginning-of-time_002c-for-POSIX"></span>
+<span id="index-Epoch_002c-for-POSIX"></span>
+<p>Internally, computer times are represented as a count of seconds since
+an Epoch&mdash;a well-defined point of time.  On GNU and
+POSIX systems, the Epoch is 1970-01-01 00:00:00 UTC, so
+&lsquo;<samp>@0</samp>&rsquo; represents this time, &lsquo;<samp>@1</samp>&rsquo; represents 1970-01-01
+00:00:01 UTC, and so forth.  GNU and most other
+POSIX-compliant systems support such times as an extension
+to POSIX, using negative counts, so that &lsquo;<samp>@-1</samp>&rsquo;
+represents 1969-12-31 23:59:59 UTC.
+</p>
+<p>Most modern systems count seconds with 64-bit two&rsquo;s-complement integers
+of seconds with nanosecond subcounts, which is a range that includes
+the known lifetime of the universe with nanosecond resolution.
+Some obsolescent systems count seconds with 32-bit two&rsquo;s-complement
+integers and can represent times from 1901-12-13 20:45:52 through
+2038-01-19 03:14:07 UTC.  A few systems sport other time ranges.
+</p>
+<span id="index-leap-seconds-2"></span>
+<p>On most hosts, these counts ignore the presence of leap seconds.
+For example, on most hosts &lsquo;<samp>@1483228799</samp>&rsquo; represents 2016-12-31
+23:59:59 UTC, &lsquo;<samp>@1483228800</samp>&rsquo; represents 2017-01-01 00:00:00
+UTC, and there is no way to represent the intervening leap second
+2016-12-31 23:59:60 UTC.
+</p>
+</div>
+
+
+
+</body>
+</html>

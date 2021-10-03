@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>cpio (GNU tar 1.34)</title>
+
+<meta name="description" content="cpio (GNU tar 1.34)">
+<meta name="keywords" content="cpio (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Formats.html" rel="up" title="Formats">
+<link href="Portability.html" rel="prev" title="Portability">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section" id="cpio">
+<div class="header">
+<p>
+Previous: <a href="Portability.html" accesskey="p" rel="prev">Making <code>tar</code> Archives More Portable</a>, Up: <a href="Formats.html" accesskey="u" rel="up">Controlling the Archive Format</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Comparison-of-tar-and-cpio"></span><h3 class="section">8.4 Comparison of <code>tar</code> and <code>cpio</code></h3>
+<blockquote>
+<p><em>(This message will disappear, once this node revised.)</em>
+</p></blockquote>
+
+
+
+<p>The <code>cpio</code> archive formats, like <code>tar</code>, do have maximum
+file name lengths.  The binary and old <acronym>ASCII</acronym> formats have a maximum file
+length of 256, and the new <acronym>ASCII</acronym> and <acronym>CRC ASCII</acronym> formats have a max
+file length of 1024.  <acronym>GNU</acronym> <code>cpio</code> can read and write archives
+with arbitrary file name lengths, but other <code>cpio</code> implementations
+may crash unexplainedly trying to read them.
+</p>
+<p><code>tar</code> handles symbolic links in the form in which it comes in <acronym>BSD</acronym>;
+<code>cpio</code> doesn&rsquo;t handle symbolic links in the form in which it comes
+in System V prior to SVR4, and some vendors may have added symlinks
+to their system without enhancing <code>cpio</code> to know about them.
+Others may have enhanced it in a way other than the way I did it
+at Sun, and which was adopted by AT&amp;T (and which is, I think, also
+present in the <code>cpio</code> that Berkeley picked up from AT&amp;T and put
+into a later <acronym>BSD</acronym> release&mdash;I think I gave them my changes).
+</p>
+<p>(SVR4 does some funny stuff with <code>tar</code>; basically, its <code>cpio</code>
+can handle <code>tar</code> format input, and write it on output, and it
+probably handles symbolic links.  They may not have bothered doing
+anything to enhance <code>tar</code> as a result.)
+</p>
+<p><code>cpio</code> handles special files; traditional <code>tar</code> doesn&rsquo;t.
+</p>
+<p><code>tar</code> comes with V7, System III, System V, and <acronym>BSD</acronym> source;
+<code>cpio</code> comes only with System III, System V, and later <acronym>BSD</acronym>
+(4.3-tahoe and later).
+</p>
+<p><code>tar</code>&rsquo;s way of handling multiple hard links to a file can handle
+file systems that support 32-bit i-numbers (e.g., the <acronym>BSD</acronym> file system);
+<code>cpio</code>s way requires you to play some games (in its &ldquo;binary&rdquo;
+format, i-numbers are only 16 bits, and in its &ldquo;portable <acronym>ASCII</acronym>&rdquo; format,
+they&rsquo;re 18 bits&mdash;it would have to play games with the &quot;file system <acronym>ID</acronym>&quot;
+field of the header to make sure that the file system <acronym>ID</acronym>/i-number pairs
+of different files were always different), and I don&rsquo;t know which
+<code>cpio</code>s, if any, play those games.  Those that don&rsquo;t might get
+confused and think two files are the same file when they&rsquo;re not, and
+make hard links between them.
+</p>
+<p><code>tar</code>s way of handling multiple hard links to a file places only
+one copy of the link on the tape, but the name attached to that copy
+is the <em>only</em> one you can use to retrieve the file; <code>cpio</code>s
+way puts one copy for every link, but you can retrieve it using any
+of the names.
+</p>
+<blockquote>
+<p>What type of check sum (if any) is used, and how is this calculated.
+</p></blockquote>
+
+<p>See the attached manual pages for <code>tar</code> and <code>cpio</code> format.
+<code>tar</code> uses a checksum which is the sum of all the bytes in the
+<code>tar</code> header for a file; <code>cpio</code> uses no checksum.
+</p>
+<blockquote>
+<p>If anyone knows why <code>cpio</code> was made when <code>tar</code> was present
+at the unix scene,
+</p></blockquote>
+
+<p>It wasn&rsquo;t.  <code>cpio</code> first showed up in PWB/UNIX 1.0; no
+generally-available version of UNIX had <code>tar</code> at the time.  I don&rsquo;t
+know whether any version that was generally available <em>within AT&amp;T</em>
+had <code>tar</code>, or, if so, whether the people within AT&amp;T who did
+<code>cpio</code> knew about it.
+</p>
+<p>On restore, if there is a corruption on a tape <code>tar</code> will stop at
+that point, while <code>cpio</code> will skip over it and try to restore the
+rest of the files.
+</p>
+<p>The main difference is just in the command syntax and header format.
+</p>
+<p><code>tar</code> is a little more tape-oriented in that everything is blocked
+to start on a record boundary.
+</p>
+<blockquote>
+<p>Is there any differences between the ability to recover crashed
+archives between the two of them.  (Is there any chance of recovering
+crashed archives at all.)
+</p></blockquote>
+
+<p>Theoretically it should be easier under <code>tar</code> since the blocking
+lets you find a header with some variation of &lsquo;<samp>dd skip=<var>nn</var></samp>&rsquo;.
+However, modern <code>cpio</code>&rsquo;s and variations have an option to just
+search for the next file header after an error with a reasonable chance
+of resyncing.  However, lots of tape driver software won&rsquo;t allow you to
+continue past a media error which should be the only reason for getting
+out of sync unless a file changed sizes while you were writing the
+archive.
+</p>
+<blockquote>
+<p>If anyone knows why <code>cpio</code> was made when <code>tar</code> was present
+at the unix scene, please tell me about this too.
+</p></blockquote>
+
+<p>Probably because it is more media efficient (by not blocking everything
+and using only the space needed for the headers where <code>tar</code>
+always uses 512 bytes per file header) and it knows how to archive
+special files.
+</p>
+<p>You might want to look at the freely available alternatives.  The
+major ones are <code>afio</code>, <acronym>GNU</acronym> <code>tar</code>, and
+<code>pax</code>, each of which have their own extensions with some
+backwards compatibility.
+</p>
+<p>Sparse files were <code>tar</code>red as sparse files (which you can
+easily test, because the resulting archive gets smaller, and
+<acronym>GNU</acronym> <code>cpio</code> can no longer read it).
+</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Previous: <a href="Portability.html">Making <code>tar</code> Archives More Portable</a>, Up: <a href="Formats.html">Controlling the Archive Format</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

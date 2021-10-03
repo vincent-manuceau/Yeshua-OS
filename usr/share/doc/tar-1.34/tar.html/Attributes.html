@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Attributes (GNU tar 1.34)</title>
+
+<meta name="description" content="Attributes (GNU tar 1.34)">
+<meta name="keywords" content="Attributes (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Formats.html" rel="up" title="Formats">
+<link href="Portability.html" rel="next" title="Portability">
+<link href="Compression.html" rel="prev" title="Compression">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section" id="Attributes">
+<div class="header">
+<p>
+Next: <a href="Portability.html" accesskey="n" rel="next">Making <code>tar</code> Archives More Portable</a>, Previous: <a href="Compression.html" accesskey="p" rel="prev">Using Less Space through Compression</a>, Up: <a href="Formats.html" accesskey="u" rel="up">Controlling the Archive Format</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Handling-File-Attributes"></span><h3 class="section">8.2 Handling File Attributes</h3>
+<span id="index-attributes_002c-files"></span>
+<span id="index-file-attributes"></span>
+
+<p>When <code>tar</code> reads files, it updates their access times.  To
+avoid this, use the <samp>--atime-preserve[=METHOD]</samp> option, which can either
+reset the access time retroactively or avoid changing it in the first
+place.
+</p>
+<dl compact="compact">
+<dd><span id="index-atime_002dpreserve"></span>
+</dd>
+<dt><span><samp>--atime-preserve</samp></span></dt>
+<dt><span><samp>--atime-preserve=replace</samp></span></dt>
+<dt><span><samp>--atime-preserve=system</samp></span></dt>
+<dd><p>Preserve the access times of files that are read.  This works only for
+files that you own, unless you have superuser privileges.
+</p>
+<p><samp>--atime-preserve=replace</samp> works on most systems, but it also
+restores the data modification time and updates the status change
+time.  Hence it doesn&rsquo;t interact with incremental dumps nicely
+(see <a href="Incremental-Dumps.html">Using <code>tar</code> to Perform Incremental Dumps</a>), and it can set access or data modification times
+incorrectly if other programs access the file while <code>tar</code> is
+running.
+</p>
+<p><samp>--atime-preserve=system</samp> avoids changing the access time in
+the first place, if the operating system supports this.
+Unfortunately, this may or may not work on any given operating system
+or file system.  If <code>tar</code> knows for sure it won&rsquo;t work, it
+complains right away.
+</p>
+<p>Currently <samp>--atime-preserve</samp> with no operand defaults to
+<samp>--atime-preserve=replace</samp>, but this is intended to change to
+<samp>--atime-preserve=system</samp> when the latter is better-supported.
+</p>
+<span id="index-touch-1"></span>
+</dd>
+<dt><span><samp>-m</samp></span></dt>
+<dt><span><samp>--touch</samp></span></dt>
+<dd><p>Do not extract data modification time.
+</p>
+<p>When this option is used, <code>tar</code> leaves the data modification times
+of the files it extracts as the times when the files were extracted,
+instead of setting it to the times recorded in the archive.
+</p>
+<p>This option is meaningless with <samp>--list</samp> (<samp>-t</samp>).
+</p>
+<span id="index-same_002downer"></span>
+</dd>
+<dt><span><samp>--same-owner</samp></span></dt>
+<dd><p>Create extracted files with the same ownership they have in the
+archive.
+</p>
+<p>This is the default behavior for the superuser,
+so this option is meaningful only for non-root users, when <code>tar</code>
+is executed on those systems able to give files away.  This is
+considered as a security flaw by many people, at least because it
+makes quite difficult to correctly account users for the disk space
+they occupy.  Also, the <code>suid</code> or <code>sgid</code> attributes of
+files are easily and silently lost when files are given away.
+</p>
+<p>When writing an archive, <code>tar</code> writes the user <acronym>ID</acronym> and user name
+separately.  If it can&rsquo;t find a user name (because the user <acronym>ID</acronym> is not
+in <samp>/etc/passwd</samp>), then it does not write one.  When restoring,
+it tries to look the name (if one was written) up in
+<samp>/etc/passwd</samp>.  If it fails, then it uses the user <acronym>ID</acronym> stored in
+the archive instead.
+</p>
+<span id="index-no_002dsame_002downer"></span>
+</dd>
+<dt><span><samp>--no-same-owner</samp></span></dt>
+<dt><span><samp>-o</samp></span></dt>
+<dd><p>Do not attempt to restore ownership when extracting.  This is the
+default behavior for ordinary users, so this option has an effect
+only for the superuser.
+</p>
+<span id="index-numeric_002downer"></span>
+</dd>
+<dt><span><samp>--numeric-owner</samp></span></dt>
+<dd><p>The <samp>--numeric-owner</samp> option allows (ANSI) archives to be written
+without user/group name information or such information to be ignored
+when extracting.  It effectively disables the generation and/or use
+of user/group name information.  This option forces extraction using
+the numeric ids from the archive, ignoring the names.
+</p>
+<p>This is useful in certain circumstances, when restoring a backup from
+an emergency floppy with different passwd/group files for example.
+It is otherwise impossible to extract files with the right ownerships
+if the password file in use during the extraction does not match the
+one belonging to the file system(s) being extracted.  This occurs,
+for example, if you are restoring your files after a major crash and
+had booted from an emergency floppy with no password file or put your
+disk into another machine to do the restore.
+</p>
+<p>The numeric ids are <em>always</em> saved into <code>tar</code> archives.
+The identifying names are added at create time when provided by the
+system, unless <samp>--format=oldgnu</samp> is used.  Numeric ids could be
+used when moving archives between a collection of machines using
+a centralized management for attribution of numeric ids to users
+and groups.  This is often made through using the NIS capabilities.
+</p>
+<p>When making a <code>tar</code> file for distribution to other sites, it
+is sometimes cleaner to use a single owner for all files in the
+distribution, and nicer to specify the write permission bits of the
+files as stored in the archive independently of their actual value on
+the file system.  The way to prepare a clean distribution is usually
+to have some Makefile rule creating a directory, copying all needed
+files in that directory, then setting ownership and permissions as
+wanted (there are a lot of possible schemes), and only then making a
+<code>tar</code> archive out of this directory, before cleaning
+everything out.  Of course, we could add a lot of options to
+<acronym>GNU</acronym> <code>tar</code> for fine tuning permissions and ownership.
+This is not the good way, I think.  <acronym>GNU</acronym> <code>tar</code> is
+already crowded with options and moreover, the approach just explained
+gives you a great deal of control already.
+</p>
+<span id="index-same_002dpermissions_002c-short-description"></span>
+<span id="index-preserve_002dpermissions_002c-short-description"></span>
+</dd>
+<dt><span><samp>-p</samp></span></dt>
+<dt><span><samp>--same-permissions</samp></span></dt>
+<dt><span><samp>--preserve-permissions</samp></span></dt>
+<dd><p>Extract all protection information.
+</p>
+<p>This option causes <code>tar</code> to set the modes (access permissions) of
+extracted files exactly as recorded in the archive.  If this option
+is not used, the current <code>umask</code> setting limits the permissions
+on extracted files.  This option is by default enabled when
+<code>tar</code> is executed by a superuser.
+</p>
+
+<p>This option is meaningless with <samp>--list</samp> (<samp>-t</samp>).
+</p></dd>
+</dl>
+
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Portability.html">Making <code>tar</code> Archives More Portable</a>, Previous: <a href="Compression.html">Using Less Space through Compression</a>, Up: <a href="Formats.html">Controlling the Archive Format</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

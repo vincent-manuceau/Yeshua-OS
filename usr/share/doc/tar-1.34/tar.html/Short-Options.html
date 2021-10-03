@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Short Options (GNU tar 1.34)</title>
+
+<meta name="description" content="Short Options (GNU tar 1.34)">
+<meta name="keywords" content="Short Options (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Styles.html" rel="up" title="Styles">
+<link href="Old-Options.html" rel="next" title="Old Options">
+<link href="Long-Options.html" rel="prev" title="Long Options">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection" id="Short-Options">
+<div class="header">
+<p>
+Next: <a href="Old-Options.html" accesskey="n" rel="next">Old Option Style</a>, Previous: <a href="Long-Options.html" accesskey="p" rel="prev">Long Option Style</a>, Up: <a href="Styles.html" accesskey="u" rel="up">The Three Option Styles</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Short-Option-Style"></span><h4 class="subsection">3.3.2 Short Option Style</h4>
+
+<span id="index-short-options"></span>
+<span id="index-options_002c-short-style"></span>
+<span id="index-options_002c-traditional"></span>
+<p>Most options also have a <em>short option</em> name.  Short options start with
+a single dash, and are followed by a single character, e.g., <samp>-t</samp>
+(which is equivalent to <samp>--list</samp>).  The forms are absolutely
+identical in function; they are interchangeable.
+</p>
+<p>The short option names are faster to type than long option names.
+</p>
+<span id="index-arguments-to-short-options"></span>
+<span id="index-short-options-with-mandatory-arguments"></span>
+<p>Short options which require arguments take their arguments immediately
+following the option, usually separated by white space.  It is also
+possible to stick the argument right after the short option name, using
+no intervening space.  For example, you might write <samp><span class="nolinebreak">-f</span>&nbsp;archive.tar</samp><!-- /@w --> or <samp>-farchive.tar</samp> instead of using
+<samp>--file=archive.tar</samp>.  Both <samp>--file=<var>archive-name</var></samp> and
+<samp><span class="nolinebreak">-f</span>&nbsp;<var><span class="nolinebreak">archive-name</span></var></samp><!-- /@w --> denote the option which indicates a
+specific archive, here named <samp>archive.tar</samp>.
+</p>
+<span id="index-optional-arguments-to-short-options"></span>
+<span id="index-short-options-with-optional-arguments"></span>
+<p>Short options which take optional arguments take their arguments
+immediately following the option letter, <em>without any intervening
+white space characters</em>.
+</p>
+<p>Short options&rsquo; letters may be clumped together, but you are not
+required to do this (as compared to old options; see below).  When
+short options are clumped as a set, use one (single) dash for them
+all, e.g., &lsquo;<samp><code>tar</code>&nbsp;<span class="nolinebreak">-cvf</span></samp>&rsquo;<!-- /@w -->.  Only the last option in
+such a set is allowed to have an argument<a id="DOCF3" href="#FOOT3"><sup>3</sup></a>.
+</p>
+<p>When the options are separated, the argument for each option which requires
+an argument directly follows that option, as is usual for Unix programs.
+For example:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -c -v -b 20 -f /dev/rmt0</kbd>
+</pre></div>
+
+<p>If you reorder short options&rsquo; locations, be sure to move any arguments
+that belong to them.  If you do not move the arguments properly, you may
+end up overwriting files.
+</p>
+</div>
+<div class="footnote">
+<hr>
+<h4 class="footnotes-heading">Footnotes</h4>
+
+<h5><a id="FOOT3" href="#DOCF3">(3)</a></h5>
+<p>Clustering many
+options, the last of which has an argument, is a rather opaque way to
+write options.  Some wonder if <acronym>GNU</acronym> <code>getopt</code> should not
+even be made helpful enough for considering such usages as invalid.</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Old-Options.html">Old Option Style</a>, Previous: <a href="Long-Options.html">Long Option Style</a>, Up: <a href="Styles.html">The Three Option Styles</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>verbose tutorial (GNU tar 1.34)</title>
+
+<meta name="description" content="verbose tutorial (GNU tar 1.34)">
+<meta name="keywords" content="verbose tutorial (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Two-Frequent-Options.html" rel="up" title="Two Frequent Options">
+<link href="help-tutorial.html" rel="next" title="help tutorial">
+<link href="file-tutorial.html" rel="prev" title="file tutorial">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="unnumberedsubsec" id="verbose-tutorial">
+<div class="header">
+<p>
+Next: <a href="help-tutorial.html" accesskey="n" rel="next">Getting Help: Using the <samp>--help</samp> Option</a>, Previous: <a href="file-tutorial.html" accesskey="p" rel="prev">The <samp>--file</samp> Option</a>, Up: <a href="Two-Frequent-Options.html" accesskey="u" rel="up">Two Frequently Used Options</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="The-_002d_002dverbose-Option"></span><h4 class="unnumberedsubsec">The <samp>--verbose</samp> Option</h4>
+
+<dl compact="compact">
+<dd><span id="index-verbose_002c-introduced"></span>
+</dd>
+<dt><span><samp>--verbose</samp></span></dt>
+<dt><span><samp>-v</samp></span></dt>
+<dd><p>Show the files being worked on as <code>tar</code> is running.
+</p></dd>
+</dl>
+
+<p><samp>--verbose</samp> (<samp>-v</samp>) shows details about the results of running
+<code>tar</code>.  This can be especially useful when the results might not be
+obvious.  For example, if you want to see the progress of <code>tar</code> as
+it writes files into the archive, you can use the <samp>--verbose</samp>
+option.  In the beginning, you may find it useful to use
+<samp>--verbose</samp> at all times; when you are more accustomed to
+<code>tar</code>, you will likely want to use it at certain times but not at
+others.  We will use <samp>--verbose</samp> at times to help make something
+clear, and we will give many examples both using and not using
+<samp>--verbose</samp> to show the differences.
+</p>
+<p>Each instance of <samp>--verbose</samp> on the command line increases the
+verbosity level by one, so if you need more details on the output,
+specify it twice.
+</p>
+<p>When reading archives (<samp>--list</samp>, <samp>--extract</samp>,
+<samp>--diff</samp>), <code>tar</code> by default prints only the names of
+the members being extracted.  Using <samp>--verbose</samp> will show a full,
+<code>ls</code> style member listing.
+</p>
+<p>In contrast, when writing archives (<samp>--create</samp>, <samp>--append</samp>,
+<samp>--update</samp>), <code>tar</code> does not print file names by
+default.  So, a single <samp>--verbose</samp> option shows the file names
+being added to the archive, while two <samp>--verbose</samp> options
+enable the full listing.
+</p>
+<p>For example, to create an archive in verbose mode:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -cvf afiles.tar apple angst aspic</kbd>
+apple
+angst
+aspic
+</pre></div>
+
+<p>Creating the same archive with the verbosity level 2 could give:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -cvvf afiles.tar apple angst aspic</kbd>
+-rw-r--r-- gray/staff    62373 2006-06-09 12:06 apple
+-rw-r--r-- gray/staff    11481 2006-06-09 12:06 angst
+-rw-r--r-- gray/staff    23152 2006-06-09 12:06 aspic
+</pre></div>
+
+<p>This works equally well using short or long forms of options.  Using
+long forms, you would simply write out the mnemonic form of the option
+twice, like this:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar --create --verbose --verbose &hellip;</kbd>
+</pre></div>
+
+<p>Note that you must double the hyphens properly each time.
+</p>
+<p>Later in the tutorial, we will give examples using <samp><span class="nolinebreak">--verbose</span>&nbsp;<span class="nolinebreak">--verbose</span></samp><!-- /@w -->.
+</p>
+<span id="verbose-member-listing"></span><p>The full output consists of six fields:
+</p>
+<ul>
+<li> File type and permissions in symbolic form.
+These are displayed in the same format as the first column of
+<code>ls -l</code> output (see <a data-manual="fileutils" href="../fileutils/What-information-is-listed.html#What-information-is-listed">Verbose listing</a> in <cite>GNU file utilities</cite>).
+
+</li><li> Owner name and group separated by a slash character.
+If these data are not available (for example, when listing a &lsquo;<samp>v7</samp>&rsquo; format
+archive), numeric <acronym>ID</acronym> values are printed instead.
+
+</li><li> Size of the file, in bytes.
+
+</li><li> File modification date in ISO 8601 format.
+
+</li><li> File modification time.
+
+</li><li> File name.
+If the name contains any special characters (white space, newlines,
+etc.) these are displayed in an unambiguous form using so called
+<em>quoting style</em>.  For the detailed discussion of available styles
+and on how to use them, see <a href="quoting-styles.html">Quoting Member Names</a>.
+
+<p>Depending on the file type, the name can be followed by some
+additional information, described in the following table:
+</p>
+<dl compact="compact">
+<dt><span>&lsquo;<samp>-&gt; <var>link-name</var></samp>&rsquo;</span></dt>
+<dd><p>The file or archive member is a <em>symbolic link</em> and
+<var>link-name</var> is the name of file it links to.
+</p>
+</dd>
+<dt><span>&lsquo;<samp>link to <var>link-name</var></samp>&rsquo;</span></dt>
+<dd><p>The file or archive member is a <em>hard link</em> and <var>link-name</var> is
+the name of file it links to.
+</p>
+</dd>
+<dt><span>&lsquo;<samp>--Long Link--</samp>&rsquo;</span></dt>
+<dd><p>The archive member is an old GNU format long link.  You will normally
+not encounter this.
+</p>
+</dd>
+<dt><span>&lsquo;<samp>--Long Name--</samp>&rsquo;</span></dt>
+<dd><p>The archive member is an old GNU format long name.  You will normally
+not encounter this.
+</p>
+</dd>
+<dt><span>&lsquo;<samp>--Volume Header--</samp>&rsquo;</span></dt>
+<dd><p>The archive member is a GNU <em>volume header</em> (see <a href="Tape-Files.html">Tape Files</a>).
+</p>
+</dd>
+<dt><span>&lsquo;<samp>--Continued at byte <var>n</var>--</samp>&rsquo;</span></dt>
+<dd><p>Encountered only at the beginning of a multi-volume archive
+(see <a href="Using-Multiple-Tapes.html">Using Multiple Tapes</a>).  This archive member is a continuation
+from the previous volume. The number <var>n</var> gives the offset where
+the original file was split.
+</p>
+</dd>
+<dt><span>&lsquo;<samp>unknown file type <var>c</var></samp>&rsquo;</span></dt>
+<dd><p>An archive member of unknown type. <var>c</var> is the type character from
+the archive header.  If you encounter such a message, it means that
+either your archive contains proprietary member types <acronym>GNU</acronym> <code>tar</code> is not
+able to handle, or the archive is corrupted.
+</p></dd>
+</dl>
+
+</li></ul>
+
+<p>For example, here is an archive listing containing most of the special
+suffixes explained above:
+</p>
+<div class="example">
+<pre class="example">V--------- 0/0            1536 2006-06-09 13:07 MyVolume--Volume Header--
+-rw-r--r-- gray/staff   456783 2006-06-09 12:06 aspic--Continued at byte 32456--
+-rw-r--r-- gray/staff    62373 2006-06-09 12:06 apple
+lrwxrwxrwx gray/staff        0 2006-06-09 13:01 angst -&gt; apple
+-rw-r--r-- gray/staff    35793 2006-06-09 12:06 blues
+hrw-r--r-- gray/staff        0 2006-06-09 12:06 music link to blues
+</pre></div>
+
+
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="help-tutorial.html">Getting Help: Using the <samp>--help</samp> Option</a>, Previous: <a href="file-tutorial.html">The <samp>--file</samp> Option</a>, Up: <a href="Two-Frequent-Options.html">Two Frequently Used Options</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

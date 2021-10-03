@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Starting File (GNU tar 1.34)</title>
+
+<meta name="description" content="Starting File (GNU tar 1.34)">
+<meta name="keywords" content="Starting File (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Scarce.html" rel="up" title="Scarce">
+<link href="Same-Order.html" rel="next" title="Same Order">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="unnumberedsubsubsec" id="Starting-File">
+<div class="header">
+<p>
+Next: <a href="Same-Order.html" accesskey="n" rel="next">Same Order</a>, Up: <a href="Scarce.html" accesskey="u" rel="up">Coping with Scarce Resources</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Starting-File-1"></span><h4 class="unnumberedsubsubsec">Starting File</h4>
+
+<dl compact="compact">
+<dd><span id="index-starting_002dfile"></span>
+</dd>
+<dt><span><samp>--starting-file=<var>name</var></samp></span></dt>
+<dt><span><samp>-K <var>name</var></samp></span></dt>
+<dd><p>Starts an operation in the middle of an archive.  Use in conjunction
+with <samp>--extract</samp> (<samp>--get</samp>, <samp>-x</samp>) or <samp>--list</samp> (<samp>-t</samp>).
+</p></dd>
+</dl>
+
+<span id="index-Middle-of-the-archive_002c-starting-in-the"></span>
+<p>If a previous attempt to extract files failed due to lack of disk
+space, you can use <samp>--starting-file=<var>name</var></samp> (<samp>-K
+<var>name</var></samp>) to start extracting only after member <var>name</var> of the
+archive.  This assumes, of course, that there is now free space, or
+that you are now extracting into a different file system.  (You could
+also choose to suspend <code>tar</code>, remove unnecessary files from
+the file system, and then resume the same <code>tar</code> operation.
+In this case, <samp>--starting-file</samp> is not necessary.)  See also
+<a href="interactive.html">Asking for Confirmation During Operations</a>, and <a href="exclude.html">Excluding Some Files</a>.
+</p>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Many (GNU tar 1.34)</title>
+
+<meta name="description" content="Many (GNU tar 1.34)">
+<meta name="keywords" content="Many (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Media.html" rel="up" title="Media">
+<link href="Using-Multiple-Tapes.html" rel="next" title="Using Multiple Tapes">
+<link href="Blocking.html" rel="prev" title="Blocking">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section" id="Many">
+<div class="header">
+<p>
+Next: <a href="Using-Multiple-Tapes.html" accesskey="n" rel="next">Using Multiple Tapes</a>, Previous: <a href="Blocking.html" accesskey="p" rel="prev">Blocking</a>, Up: <a href="Media.html" accesskey="u" rel="up">Tapes and Other Archive Media</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Many-Archives-on-One-Tape"></span><h3 class="section">9.5 Many Archives on One Tape</h3>
+
+
+
+<span id="index-ntape-device"></span>
+<p>Most tape devices have two entries in the <samp>/dev</samp> directory, or
+entries that come in pairs, which differ only in the minor number for
+this device.  Let&rsquo;s take for example <samp>/dev/tape</samp>, which often
+points to the only or usual tape device of a given system.  There might
+be a corresponding <samp>/dev/nrtape</samp> or <samp>/dev/ntape</samp>.  The simpler
+name is the <em>rewinding</em> version of the device, while the name
+having &lsquo;<samp>nr</samp>&rsquo; in it is the <em>no rewinding</em> version of the same
+device.
+</p>
+<p>A rewinding tape device will bring back the tape to its beginning point
+automatically when this device is opened or closed.  Since <code>tar</code>
+opens the archive file before using it and closes it afterwards, this
+means that a simple:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar cf /dev/tape <var>directory</var></kbd>
+</pre></div>
+
+<p>will reposition the tape to its beginning both prior and after saving
+<var>directory</var> contents to it, thus erasing prior tape contents and
+making it so that any subsequent write operation will destroy what has
+just been saved.
+</p>
+<span id="index-tape-positioning"></span>
+<p>So, a rewinding device is normally meant to hold one and only one file.
+If you want to put more than one <code>tar</code> archive on a given tape, you
+will need to avoid using the rewinding version of the tape device.  You
+will also have to pay special attention to tape positioning.  Errors in
+positioning may overwrite the valuable data already on your tape.  Many
+people, burnt by past experiences, will only use rewinding devices and
+limit themselves to one file per tape, precisely to avoid the risk of
+such errors.  Be fully aware that writing at the wrong position on a
+tape loses all information past this point and most probably until the
+end of the tape, and this destroyed information <em>cannot</em> be
+recovered.
+</p>
+<p>To save <var>directory-1</var> as a first archive at the beginning of a
+tape, and leave that tape ready for a second archive, you should use:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>mt -f /dev/nrtape rewind</kbd>
+$ <kbd>tar cf /dev/nrtape <var>directory-1</var></kbd>
+</pre></div>
+
+<span id="index-tape-marks"></span>
+<p><em>Tape marks</em> are special magnetic patterns written on the tape
+media, which are later recognizable by the reading hardware.  These
+marks are used after each file, when there are many on a single tape.
+An empty file (that is to say, two tape marks in a row) signal the
+logical end of the tape, after which no file exist.  Usually,
+non-rewinding tape device drivers will react to the close request issued
+by <code>tar</code> by first writing two tape marks after your archive, and by
+backspacing over one of these.  So, if you remove the tape at that time
+from the tape drive, it is properly terminated.  But if you write
+another file at the current position, the second tape mark will be
+erased by the new information, leaving only one tape mark between files.
+</p>
+<p>So, you may now save <var>directory-2</var> as a second archive after the
+first on the same tape by issuing the command:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar cf /dev/nrtape <var>directory-2</var></kbd>
+</pre></div>
+
+<p>and so on for all the archives you want to put on the same tape.
+</p>
+<p>Another usual case is that you do not write all the archives the same
+day, and you need to remove and store the tape between two archive
+sessions.  In general, you must remember how many files are already
+saved on your tape.  Suppose your tape already has 16 files on it, and
+that you are ready to write the 17th.  You have to take care of skipping
+the first 16 tape marks before saving <var>directory-17</var>, say, by using
+these commands:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>mt -f /dev/nrtape rewind</kbd>
+$ <kbd>mt -f /dev/nrtape fsf 16</kbd>
+$ <kbd>tar cf /dev/nrtape <var>directory-17</var></kbd>
+</pre></div>
+
+<p>In all the previous examples, we put aside blocking considerations, but
+you should do the proper things for that as well.  See <a href="Blocking.html">Blocking</a>.
+</p>
+
+<ul class="section-toc">
+<li><a href="Tape-Positioning.html" accesskey="1">Tape Positions and Tape Marks</a></li>
+<li><a href="mt.html" accesskey="2">The <code>mt</code> Utility</a></li>
+</ul>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Using-Multiple-Tapes.html">Using Multiple Tapes</a>, Previous: <a href="Blocking.html">Blocking</a>, Up: <a href="Media.html">Tapes and Other Archive Media</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

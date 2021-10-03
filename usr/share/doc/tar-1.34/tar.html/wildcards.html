@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>wildcards (GNU tar 1.34)</title>
+
+<meta name="description" content="wildcards (GNU tar 1.34)">
+<meta name="keywords" content="wildcards (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Choosing.html" rel="up" title="Choosing">
+<link href="quoting-styles.html" rel="next" title="quoting styles">
+<link href="exclude.html" rel="prev" title="exclude">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section" id="wildcards">
+<div class="header">
+<p>
+Next: <a href="quoting-styles.html" accesskey="n" rel="next">Quoting Member Names</a>, Previous: <a href="exclude.html" accesskey="p" rel="prev">Excluding Some Files</a>, Up: <a href="Choosing.html" accesskey="u" rel="up">Choosing Files and Names for <code>tar</code></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Wildcards-Patterns-and-Matching"></span><h3 class="section">6.5 Wildcards Patterns and Matching</h3>
+
+<p><em>Globbing</em> is the operation by which <em>wildcard</em> characters,
+&lsquo;<samp>*</samp>&rsquo; or &lsquo;<samp>?</samp>&rsquo; for example, are replaced and expanded into all
+existing files matching the given pattern.  <acronym>GNU</acronym> <code>tar</code> can use wildcard
+patterns for matching (or globbing) archive members when extracting
+from or listing an archive.  Wildcard patterns are also used for
+verifying volume labels of <code>tar</code> archives.  This section has the
+purpose of explaining wildcard syntax for <code>tar</code>.
+</p>
+
+
+<p>A <var>pattern</var> should be written according to shell syntax, using wildcard
+characters to effect globbing.  Most characters in the pattern stand
+for themselves in the matched string, and case is significant: &lsquo;<samp>a</samp>&rsquo;
+will match only &lsquo;<samp>a</samp>&rsquo;, and not &lsquo;<samp>A</samp>&rsquo;.  The character &lsquo;<samp>?</samp>&rsquo; in the
+pattern matches any single character in the matched string.  The character
+&lsquo;<samp>*</samp>&rsquo; in the pattern matches zero, one, or more single characters in
+the matched string.  The character &lsquo;<samp>\</samp>&rsquo; says to take the following
+character of the pattern <em>literally</em>; it is useful when one needs to
+match the &lsquo;<samp>?</samp>&rsquo;, &lsquo;<samp>*</samp>&rsquo;, &lsquo;<samp>[</samp>&rsquo; or &lsquo;<samp>\</samp>&rsquo; characters, themselves.
+</p>
+<p>The character &lsquo;<samp>[</samp>&rsquo;, up to the matching &lsquo;<samp>]</samp>&rsquo;, introduces a character
+class.  A <em>character class</em> is a list of acceptable characters
+for the next single character of the matched string.  For example,
+&lsquo;<samp>[abcde]</samp>&rsquo; would match any of the first five letters of the alphabet.
+Note that within a character class, all of the &ldquo;special characters&rdquo;
+listed above other than &lsquo;<samp>\</samp>&rsquo; lose their special meaning; for example,
+&lsquo;<samp>[-\\[*?]]</samp>&rsquo; would match any of the characters, &lsquo;<samp>-</samp>&rsquo;, &lsquo;<samp>\</samp>&rsquo;,
+&lsquo;<samp>[</samp>&rsquo;, &lsquo;<samp>*</samp>&rsquo;, &lsquo;<samp>?</samp>&rsquo;, or &lsquo;<samp>]</samp>&rsquo;.  (Due to parsing constraints,
+the characters &lsquo;<samp>-</samp>&rsquo; and &lsquo;<samp>]</samp>&rsquo; must either come <em>first</em> or
+<em>last</em> in a character class.)
+</p>
+<span id="index-Excluding-characters-from-a-character-class"></span>
+<span id="index-Character-class_002c-excluding-characters-from"></span>
+<p>If the first character of the class after the opening &lsquo;<samp>[</samp>&rsquo;
+is &lsquo;<samp>!</samp>&rsquo; or &lsquo;<samp>^</samp>&rsquo;, then the meaning of the class is reversed.
+Rather than listing character to match, it lists those characters which
+are <em>forbidden</em> as the next single character of the matched string.
+</p>
+<p>Other characters of the class stand for themselves.  The special
+construction &lsquo;<samp>[<var>a</var>-<var>e</var>]</samp>&rsquo;, using an hyphen between two
+letters, is meant to represent all characters between <var>a</var> and
+<var>e</var>, inclusive.
+</p>
+
+
+<p>Periods (&lsquo;<samp>.</samp>&rsquo;) or forward slashes (&lsquo;<samp>/</samp>&rsquo;) are not considered
+special for wildcard matches.  However, if a pattern completely matches
+a directory prefix of a matched string, then it matches the full matched
+string: thus, excluding a directory also excludes all the files beneath it.
+</p>
+
+<ul class="section-toc">
+<li><a href="controlling-pattern_002dmatching.html" accesskey="1">Controlling Pattern-Matching</a></li>
+</ul>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="quoting-styles.html">Quoting Member Names</a>, Previous: <a href="exclude.html">Excluding Some Files</a>, Up: <a href="Choosing.html">Choosing Files and Names for <code>tar</code></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

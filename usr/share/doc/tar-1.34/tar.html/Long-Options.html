@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Long Options (GNU tar 1.34)</title>
+
+<meta name="description" content="Long Options (GNU tar 1.34)">
+<meta name="keywords" content="Long Options (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Styles.html" rel="up" title="Styles">
+<link href="Short-Options.html" rel="next" title="Short Options">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection" id="Long-Options">
+<div class="header">
+<p>
+Next: <a href="Short-Options.html" accesskey="n" rel="next">Short Option Style</a>, Up: <a href="Styles.html" accesskey="u" rel="up">The Three Option Styles</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Long-Option-Style"></span><h4 class="subsection">3.3.1 Long Option Style</h4>
+
+<span id="index-long-options"></span>
+<span id="index-options_002c-long-style"></span>
+<span id="index-options_002c-GNU-style"></span>
+<span id="index-options_002c-mnemonic-names"></span>
+<p>Each option has at least one <em>long</em> (or <em>mnemonic</em>) name starting with two
+dashes in a row, e.g., <samp>--list</samp>.  The long names are more clear than
+their corresponding short or old names.  It sometimes happens that a
+single long option has many different names which are
+synonymous, such as <samp>--compare</samp> and <samp>--diff</samp>.  In addition,
+long option names can be given unique abbreviations.  For example,
+<samp>--cre</samp> can be used in place of <samp>--create</samp> because there is no
+other long option which begins with &lsquo;<samp>cre</samp>&rsquo;.  (One way to find
+this out is by trying it and seeing what happens; if a particular
+abbreviation could represent more than one option, <code>tar</code> will tell
+you that that abbreviation is ambiguous and you&rsquo;ll know that that
+abbreviation won&rsquo;t work.  You may also choose to run &lsquo;<samp>tar --help</samp>&rsquo;
+to see a list of options.  Be aware that if you run <code>tar</code> with a
+unique abbreviation for the long name of an option you didn&rsquo;t want to
+use, you are stuck; <code>tar</code> will perform the command as ordered.)
+</p>
+<p>Long options are meant to be obvious and easy to remember, and their
+meanings are generally easier to discern than those of their
+corresponding short options (see below).  For example:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar --create --verbose --blocking-factor=20 --file=/dev/rmt0</kbd>
+</pre></div>
+
+<p>gives a fairly good set of hints about what the command does, even
+for those not fully acquainted with <code>tar</code>.
+</p>
+<span id="index-arguments-to-long-options"></span>
+<span id="index-long-options-with-mandatory-arguments"></span>
+<p>Long options which require arguments take those arguments
+immediately following the option name.  There are two ways of
+specifying a mandatory argument.  It can be separated from the
+option name either by an equal sign, or by any amount of
+white space characters.  For example, the <samp>--file</samp> option (which
+tells the name of the <code>tar</code> archive) is given a file such as
+<samp>archive.tar</samp> as argument by using any of the following notations:
+<samp>--file=archive.tar</samp> or <samp>--file archive.tar</samp>.
+</p>
+<span id="index-optional-arguments-to-long-options"></span>
+<span id="index-long-options-with-optional-arguments"></span>
+<p>In contrast, optional arguments must always be introduced using
+an equal sign.  For example, the <samp>--backup</samp> option takes
+an optional argument specifying backup type.  It must be used
+as <samp>--backup=<var>backup-type</var></samp>.
+</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Short-Options.html">Short Option Style</a>, Up: <a href="Styles.html">The Three Option Styles</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

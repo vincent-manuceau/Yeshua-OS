@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>compare (GNU tar 1.34)</title>
+
+<meta name="description" content="compare (GNU tar 1.34)">
+<meta name="keywords" content="compare (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Advanced-tar.html" rel="up" title="Advanced tar">
+<link href="delete.html" rel="prev" title="delete">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection" id="compare">
+<div class="header">
+<p>
+Previous: <a href="delete.html" accesskey="p" rel="prev">Removing Archive Members Using <samp>--delete</samp></a>, Up: <a href="Advanced-tar.html" accesskey="u" rel="up">Advanced <acronym>GNU</acronym> <code>tar</code> Operations</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Comparing-Archive-Members-with-the-File-System"></span><h4 class="subsection">4.2.6 Comparing Archive Members with the File System</h4>
+<span id="index-Verifying-the-currency-of-an-archive"></span>
+
+<span id="index-compare"></span>
+<p>The <samp>--compare</samp> (<samp>-d</samp>), or <samp>--diff</samp> operation compares
+specified archive members against files with the same names, and then
+reports differences in file size, mode, owner, modification date and
+contents.  You should <em>only</em> specify archive member names, not file
+names.  If you do not name any members, then <code>tar</code> will compare the
+entire archive.  If a file is represented in the archive but does not
+exist in the file system, <code>tar</code> reports a difference.
+</p>
+<p>You have to specify the record size of the archive when modifying an
+archive with a non-default record size.
+</p>
+<p><code>tar</code> ignores files in the file system that do not have
+corresponding members in the archive.
+</p>
+<p>The following example compares the archive members <samp>rock</samp>,
+<samp>blues</samp> and <samp>funk</samp> in the archive <samp>bluesrock.tar</samp> with
+files of the same name in the file system.  (Note that there is no file,
+<samp>funk</samp>; <code>tar</code> will report an error message.)
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar --compare --file=bluesrock.tar rock blues funk</kbd>
+rock
+blues
+tar: funk not found in archive
+</pre></div>
+
+<p>The spirit behind the <samp>--compare</samp> (<samp>--diff</samp>,
+<samp>-d</samp>) option is to check whether the archive represents the
+current state of files on disk, more than validating the integrity of
+the archive media.  For this latter goal, see <a href="verify.html">Verifying Data as It is Stored</a>.
+</p>
+</div>
+
+
+
+</body>
+</html>

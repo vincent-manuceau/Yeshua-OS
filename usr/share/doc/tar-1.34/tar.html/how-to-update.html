@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>how to update (GNU tar 1.34)</title>
+
+<meta name="description" content="how to update (GNU tar 1.34)">
+<meta name="keywords" content="how to update (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="update.html" rel="up" title="update">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsubsection" id="how-to-update">
+<div class="header">
+<p>
+Up: <a href="update.html" accesskey="u" rel="up">Updating an Archive</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="How-to-Update-an-Archive-Using-_002d_002dupdate"></span><h4 class="subsubsection">4.2.3.1 How to Update an Archive Using <samp>--update</samp></h4>
+<span id="index-update-1"></span>
+
+<p>You must use file name arguments with the <samp>--update</samp>
+(<samp>-u</samp>) operation.  If you don&rsquo;t specify any files,
+<code>tar</code> won&rsquo;t act on any files and won&rsquo;t tell you that it didn&rsquo;t
+do anything (which may end up confusing you).
+</p>
+
+<p>To see the <samp>--update</samp> option at work, create a new file,
+<samp>classical</samp>, in your practice directory, and some extra text to the
+file <samp>blues</samp>, using any text editor.  Then invoke <code>tar</code> with
+the &lsquo;<samp>update</samp>&rsquo; operation and the <samp>--verbose</samp> (<samp>-v</samp>)
+option specified, using the names of all the files in the <samp>practice</samp>
+directory as file name arguments:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar --update -v -f collection.tar blues folk rock classical</kbd>
+blues
+classical
+$
+</pre></div>
+
+<p>Because we have specified verbose mode, <code>tar</code> prints out the names
+of the files it is working on, which in this case are the names of the
+files that needed to be updated.  If you run &lsquo;<samp>tar --list</samp>&rsquo; and look
+at the archive, you will see <samp>blues</samp> and <samp>classical</samp> at its
+end.  There will be a total of two versions of the member &lsquo;<samp>blues</samp>&rsquo;;
+the one at the end will be newer and larger, since you added text before
+updating it.
+</p>
+<p>The reason <code>tar</code> does not overwrite the older file when updating
+it is that writing to the middle of a section of tape is a difficult
+process.  Tapes are not designed to go backward.  See <a href="Media.html">Tapes and Other Archive Media</a>, for more
+information about tapes.
+</p>
+<p><samp>--update</samp> (<samp>-u</samp>) is not suitable for performing backups for two
+reasons: it does not change directory content entries, and it
+lengthens the archive every time it is used.  The <acronym>GNU</acronym> <code>tar</code>
+options intended specifically for backups are more
+efficient.  If you need to run backups, please consult <a href="Backups.html">Performing Backups and Restoring Files</a>.
+</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Up: <a href="update.html">Updating an Archive</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

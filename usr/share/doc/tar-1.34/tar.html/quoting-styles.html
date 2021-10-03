@@ -1,0 +1,327 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>quoting styles (GNU tar 1.34)</title>
+
+<meta name="description" content="quoting styles (GNU tar 1.34)">
+<meta name="keywords" content="quoting styles (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Choosing.html" rel="up" title="Choosing">
+<link href="transform.html" rel="next" title="transform">
+<link href="wildcards.html" rel="prev" title="wildcards">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section" id="quoting-styles">
+<div class="header">
+<p>
+Next: <a href="transform.html" accesskey="n" rel="next">Modifying File and Member Names</a>, Previous: <a href="wildcards.html" accesskey="p" rel="prev">Wildcards Patterns and Matching</a>, Up: <a href="Choosing.html" accesskey="u" rel="up">Choosing Files and Names for <code>tar</code></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Quoting-Member-Names"></span><h3 class="section">6.6 Quoting Member Names</h3>
+
+<p>When displaying member names, <code>tar</code> takes care to avoid
+ambiguities caused by certain characters.  This is called <em>name
+quoting</em>.  The characters in question are:
+</p>
+<ul>
+<li> Non-printable control characters:
+<span id="escape-sequences"></span><table>
+<thead><tr><th width="20%">Character</th><th width="10%"><acronym>ASCII</acronym></th><th width="60%">Character name</th></tr></thead>
+<tr><td width="20%">\a</td><td width="10%">7</td><td width="60%">Audible bell</td></tr>
+<tr><td width="20%">\b</td><td width="10%">8</td><td width="60%">Backspace</td></tr>
+<tr><td width="20%">\f</td><td width="10%">12</td><td width="60%">Form feed</td></tr>
+<tr><td width="20%">\n</td><td width="10%">10</td><td width="60%">New line</td></tr>
+<tr><td width="20%">\r</td><td width="10%">13</td><td width="60%">Carriage return</td></tr>
+<tr><td width="20%">\t</td><td width="10%">9</td><td width="60%">Horizontal tabulation</td></tr>
+<tr><td width="20%">\v</td><td width="10%">11</td><td width="60%">Vertical tabulation</td></tr>
+</table>
+
+</li><li> Space (<acronym>ASCII</acronym> 32)
+
+</li><li> Single and double quotes (&lsquo;<samp>'</samp>&rsquo; and &lsquo;<samp>&quot;</samp>&rsquo;)
+
+</li><li> Backslash (&lsquo;<samp>\</samp>&rsquo;)
+</li></ul>
+
+<p>The exact way <code>tar</code> uses to quote these characters depends on
+the <em>quoting style</em>.  The default quoting style, called
+<em>escape</em> (see below), uses backslash notation to represent control
+characters and backslash.
+</p>
+<p><acronym>GNU</acronym> <code>tar</code> offers seven distinct quoting styles, which can be selected
+using <samp>--quoting-style</samp> option:
+</p>
+<dl compact="compact">
+<dt id='index-quoting_002dstyle'><span><samp>--quoting-style=<var>style</var></samp><a href='#index-quoting_002dstyle' class='copiable-anchor'> &para;</a></span></dt>
+<dd>
+<p>Sets quoting style.  Valid values for <var>style</var> argument are:
+literal, shell, shell-always, c, escape, locale, clocale.
+</p></dd>
+</dl>
+
+<p>These styles are described in detail below.  To illustrate their
+effect, we will use an imaginary tar archive <samp>arch.tar</samp>
+containing the following members:
+</p>
+<div class="example">
+<pre class="example"># 1. Contains horizontal tabulation character.
+a       tab
+# 2. Contains newline character
+a
+newline
+# 3. Contains a space
+a space
+# 4. Contains double quotes
+a&quot;double&quot;quote
+# 5. Contains single quotes
+a'single'quote
+# 6. Contains a backslash character:
+a\backslash
+</pre></div>
+
+<p>Here is how usual <code>ls</code> command would have listed them, if they
+had existed in the current working directory:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>ls</kbd>
+a\ttab
+a\nnewline
+a\ space
+a&quot;double&quot;quote
+a'single'quote
+a\\backslash
+</pre></div>
+
+<p>Quoting styles:
+</p>
+<dl compact="compact">
+<dt><span>&lsquo;<samp>literal</samp>&rsquo;</span></dt>
+<dd><p>No quoting, display each character as is:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar tf arch.tar --quoting-style=literal</kbd>
+./
+./a space
+./a'single'quote
+./a&quot;double&quot;quote
+./a\backslash
+./a     tab
+./a
+newline
+</pre></div>
+
+</dd>
+<dt><span>&lsquo;<samp>shell</samp>&rsquo;</span></dt>
+<dd><p>Display characters the same way Bourne shell does:
+control characters, except &lsquo;<samp>\t</samp>&rsquo; and &lsquo;<samp>\n</samp>&rsquo;, are printed using
+backslash escapes, &lsquo;<samp>\t</samp>&rsquo; and &lsquo;<samp>\n</samp>&rsquo; are printed as is, and a
+single quote is printed as &lsquo;<samp>\'</samp>&rsquo;.  If a name contains any quoted
+characters, it is enclosed in single quotes.  In particular, if a name
+contains single quotes, it is printed as several single-quoted strings:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar tf arch.tar --quoting-style=shell</kbd>
+./
+'./a space'
+'./a'\''single'\''quote'
+'./a&quot;double&quot;quote'
+'./a\backslash'
+'./a    tab'
+'./a
+newline'
+</pre></div>
+
+</dd>
+<dt><span>&lsquo;<samp>shell-always</samp>&rsquo;</span></dt>
+<dd><p>Same as &lsquo;<samp>shell</samp>&rsquo;, but the names are always enclosed in single
+quotes:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar tf arch.tar --quoting-style=shell-always</kbd>
+'./'
+'./a space'
+'./a'\''single'\''quote'
+'./a&quot;double&quot;quote'
+'./a\backslash'
+'./a    tab'
+'./a
+newline'
+</pre></div>
+
+</dd>
+<dt><span>&lsquo;<samp>c</samp>&rsquo;</span></dt>
+<dd><p>Use the notation of the C programming language.  All names are
+enclosed in double quotes.  Control characters are quoted using
+backslash notations, double quotes are represented as &lsquo;<samp>\&quot;</samp>&rsquo;,
+backslash characters are represented as &lsquo;<samp>\\</samp>&rsquo;.  Single quotes and
+spaces are not quoted:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar tf arch.tar --quoting-style=c</kbd>
+&quot;./&quot;
+&quot;./a space&quot;
+&quot;./a'single'quote&quot;
+&quot;./a\&quot;double\&quot;quote&quot;
+&quot;./a\\backslash&quot;
+&quot;./a\ttab&quot;
+&quot;./a\nnewline&quot;
+</pre></div>
+
+</dd>
+<dt><span>&lsquo;<samp>escape</samp>&rsquo;</span></dt>
+<dd><p>Control characters are printed using backslash notation, and a
+backslash as &lsquo;<samp>\\</samp>&rsquo;.  This is the default quoting style, unless it
+was changed when configured the package.
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar tf arch.tar --quoting-style=escape</kbd>
+./
+./a space
+./a'single'quote
+./a&quot;double&quot;quote
+./a\\backslash
+./a\ttab
+./a\nnewline
+</pre></div>
+
+</dd>
+<dt><span>&lsquo;<samp>locale</samp>&rsquo;</span></dt>
+<dd><p>Control characters, single quote and backslash are printed using
+backslash notation.  All names are quoted using left and right
+quotation marks, appropriate to the current locale.  If it does not
+define quotation marks, use &lsquo;<samp>'</samp>&rsquo; as left and as right
+quotation marks.  Any occurrences of the right quotation mark in a
+name are escaped with &lsquo;<samp>\</samp>&rsquo;, for example:
+</p>
+<p>For example:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar tf arch.tar --quoting-style=locale</kbd>
+'./'
+'./a space'
+'./a\'single\'quote'
+'./a&quot;double&quot;quote'
+'./a\\backslash'
+'./a\ttab'
+'./a\nnewline'
+</pre></div>
+
+</dd>
+<dt><span>&lsquo;<samp>clocale</samp>&rsquo;</span></dt>
+<dd><p>Same as &lsquo;<samp>locale</samp>&rsquo;, but &lsquo;<samp>&quot;</samp>&rsquo; is used for both left and right
+quotation marks, if not provided by the currently selected locale:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar tf arch.tar --quoting-style=clocale</kbd>
+&quot;./&quot;
+&quot;./a space&quot;
+&quot;./a'single'quote&quot;
+&quot;./a\&quot;double\&quot;quote&quot;
+&quot;./a\\backslash&quot;
+&quot;./a\ttab&quot;
+&quot;./a\nnewline&quot;
+</pre></div>
+</dd>
+</dl>
+
+<p>You can specify which characters should be quoted in addition to those
+implied by the current quoting style:
+</p>
+<dl compact="compact">
+<dt><span><samp>--quote-chars=<var>string</var></samp></span></dt>
+<dd><p>Always quote characters from <var>string</var>, even if the selected
+quoting style would not quote them.
+</p></dd>
+</dl>
+
+<p>For example, using &lsquo;<samp>escape</samp>&rsquo; quoting (compare with the usual
+escape listing above):
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar tf arch.tar --quoting-style=escape --quote-chars=' &quot;'</kbd>
+./
+./a\ space
+./a'single'quote
+./a\&quot;double\&quot;quote
+./a\\backslash
+./a\ttab
+./a\nnewline
+</pre></div>
+
+<p>To disable quoting of such additional characters, use the following
+option:
+</p>
+<dl compact="compact">
+<dt><span><samp>--no-quote-chars=<var>string</var></samp></span></dt>
+<dd><p>Remove characters listed in <var>string</var> from the list of quoted
+characters set by the previous <samp>--quote-chars</samp> option.
+</p></dd>
+</dl>
+
+<p>This option is particularly useful if you have added
+<samp>--quote-chars</samp> to your <code>TAR_OPTIONS</code> (see <a href="using-tar-options.html#TAR_005fOPTIONS">TAR_OPTIONS</a>)
+and wish to disable it for the current invocation.
+</p>
+<p>Note, that <samp>--no-quote-chars</samp> does <em>not</em> disable those
+characters that are quoted by default in the selected quoting style.
+</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="transform.html">Modifying File and Member Names</a>, Previous: <a href="wildcards.html">Wildcards Patterns and Matching</a>, Up: <a href="Choosing.html">Choosing Files and Names for <code>tar</code></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

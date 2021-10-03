@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Authors of parse_datetime (GNU tar 1.34)</title>
+
+<meta name="description" content="Authors of parse_datetime (GNU tar 1.34)">
+<meta name="keywords" content="Authors of parse_datetime (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Date-input-formats.html" rel="up" title="Date input formats">
+<link href="Specifying-time-zone-rules.html" rel="prev" title="Specifying time zone rules">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section" id="Authors-of-parse_005fdatetime">
+<div class="header">
+<p>
+Previous: <a href="Specifying-time-zone-rules.html" accesskey="p" rel="prev">Specifying time zone rules</a>, Up: <a href="Date-input-formats.html" accesskey="u" rel="up">Date input formats</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Authors-of-parse_005fdatetime-1"></span><h3 class="section">7.11 Authors of <code>parse_datetime</code></h3>
+<span id="Authors-of-get_005fdate"></span>
+<span id="index-authors-of-parse_005fdatetime"></span>
+
+<span id="index-Bellovin_002c-Steven-M_002e"></span>
+<span id="index-Salz_002c-Rich"></span>
+<span id="index-Berets_002c-Jim"></span>
+<span id="index-MacKenzie_002c-David"></span>
+<span id="index-Meyering_002c-Jim"></span>
+<span id="index-Eggert_002c-Paul"></span>
+<p><code>parse_datetime</code> started life as <code>getdate</code>, as originally
+implemented by Steven M. Bellovin
+(<a href="mailto:smb@research.att.com">smb@research.att.com</a>) while at the University of North Carolina
+at Chapel Hill.  The code was later tweaked by a couple of people on
+Usenet, then completely overhauled by Rich $alz (<a href="mailto:rsalz@bbn.com">rsalz@bbn.com</a>)
+and Jim Berets (<a href="mailto:jberets@bbn.com">jberets@bbn.com</a>) in August, 1990.  Various
+revisions for the GNU system were made by David MacKenzie, Jim Meyering,
+Paul Eggert and others, including renaming it to <code>get_date</code> to
+avoid a conflict with the alternative Posix function <code>getdate</code>,
+and a later rename to <code>parse_datetime</code>.  The Posix function
+<code>getdate</code> can parse more locale-specific dates using
+<code>strptime</code>, but relies on an environment variable and external
+file, and lacks the thread-safety of <code>parse_datetime</code>.
+</p>
+<span id="index-Pinard_002c-F_002e"></span>
+<span id="index-Berry_002c-K_002e"></span>
+<p>This chapter was originally produced by Fran&ccedil;ois Pinard
+(<a href="mailto:pinard@iro.umontreal.ca">pinard@iro.umontreal.ca</a>) from the <samp>parse_datetime.y</samp> source code,
+and then edited by K. Berry (<a href="mailto:kb@cs.umb.edu">kb@cs.umb.edu</a>).
+</p>
+</div>
+
+
+
+</body>
+</html>

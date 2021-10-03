@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>prepare for examples (GNU tar 1.34)</title>
+
+<meta name="description" content="prepare for examples (GNU tar 1.34)">
+<meta name="keywords" content="prepare for examples (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="create.html" rel="up" title="create">
+<link href="Creating-the-archive.html" rel="next" title="Creating the archive">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection" id="prepare-for-examples">
+<div class="header">
+<p>
+Next: <a href="Creating-the-archive.html" accesskey="n" rel="next">Creating the Archive</a>, Up: <a href="create.html" accesskey="u" rel="up">How to Create Archives</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Preparing-a-Practice-Directory-for-Examples"></span><h4 class="subsection">2.6.1 Preparing a Practice Directory for Examples</h4>
+
+<p>To follow along with this and future examples, create a new directory
+called <samp>practice</samp> containing files called <samp>blues</samp>, <samp>folk</samp>
+and <samp>jazz</samp>.  The files can contain any information you like:
+ideally, they should contain information which relates to their names,
+and be of different lengths.  Our examples assume that <samp>practice</samp>
+is a subdirectory of your home directory.
+</p>
+<p>Now <code>cd</code> to the directory named <samp>practice</samp>; <samp>practice</samp>
+is now your <em>working directory</em>.  (<em>Please note</em>: Although
+the full file name of this directory is
+<samp>/<var>homedir</var>/practice</samp>, in our examples we will refer to
+this directory as <samp>practice</samp>; the <var>homedir</var> is presumed.)
+</p>
+<p>In general, you should check that the files to be archived exist where
+you think they do (in the working directory) by running <code>ls</code>.
+Because you just created the directory and the files and have changed to
+that directory, you probably don&rsquo;t need to do that this time.
+</p>
+<p>It is very important to make sure there isn&rsquo;t already a file in the
+working directory with the archive name you intend to use (in this case,
+&lsquo;<samp>collection.tar</samp>&rsquo;), or that you don&rsquo;t care about its contents.
+Whenever you use &lsquo;<samp>create</samp>&rsquo;, <code>tar</code> will erase the current
+contents of the file named by <samp>--file=<var>archive-name</var></samp> (<samp>-f <var>archive-name</var></samp>) if it exists.  <code>tar</code>
+will not tell you if you are about to overwrite an archive unless you
+specify an option which does this (see <a href="backup.html">Backup options</a>, for the
+information on how to do so).  To add files to an existing archive,
+you need to use a different option, such as <samp>--append</samp> (<samp>-r</samp>); see
+<a href="append.html">How to Add Files to Existing Archives: <samp>--append</samp></a> for information on how to do this.
+</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Creating-the-archive.html">Creating the Archive</a>, Up: <a href="create.html">How to Create Archives</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

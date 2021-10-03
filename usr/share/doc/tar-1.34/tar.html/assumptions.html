@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>assumptions (GNU tar 1.34)</title>
+
+<meta name="description" content="assumptions (GNU tar 1.34)">
+<meta name="keywords" content="assumptions (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Tutorial.html" rel="up" title="Tutorial">
+<link href="stylistic-conventions.html" rel="next" title="stylistic conventions">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section" id="assumptions">
+<div class="header">
+<p>
+Next: <a href="stylistic-conventions.html" accesskey="n" rel="next">Stylistic Conventions</a>, Up: <a href="Tutorial.html" accesskey="u" rel="up">Tutorial Introduction to <code>tar</code></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Assumptions-this-Tutorial-Makes"></span><h3 class="section">2.1 Assumptions this Tutorial Makes</h3>
+
+<p>This chapter is paced to allow beginners to learn about <code>tar</code>
+slowly.  At the same time, we will try to cover all the basic aspects of
+these three operations.  In order to accomplish both of these tasks, we
+have made certain assumptions about your knowledge before reading this
+manual, and the hardware you will be using:
+</p>
+<ul>
+<li> Before you start to work through this tutorial, you should understand
+what the terms &ldquo;archive&rdquo; and &ldquo;archive member&rdquo; mean
+(see <a href="Definitions.html">Some Definitions</a>).  In addition, you should understand something
+about how Unix-type operating systems work, and you should know how to
+use some basic utilities.  For example, you should know how to create,
+list, copy, rename, edit, and delete files and directories; how to
+change between directories; and how to figure out where you are in the
+file system.  You should have some basic understanding of directory
+structure and how files are named according to which directory they are
+in.  You should understand concepts such as standard output and standard
+input, what various definitions of the term &lsquo;<samp>argument</samp>&rsquo; mean, and the
+differences between relative and absolute file names.
+
+
+</li><li> This manual assumes that you are working from your own home directory
+(unless we state otherwise).  In this tutorial, you will create a
+directory to practice <code>tar</code> commands in.  When we show file names,
+we will assume that those names are relative to your home directory.
+For example, my home directory is <samp>/home/fsf/melissa</samp>.  All of
+my examples are in a subdirectory of the directory named by that file
+name; the subdirectory is called <samp>practice</samp>.
+
+</li><li> In general, we show examples of archives which exist on (or can be
+written to, or worked with from) a directory on a hard disk.  In most
+cases, you could write those archives to, or work with them on any other
+device, such as a tape drive.  However, some of the later examples in
+the tutorial and next chapter will not work on tape drives.
+Additionally, working with tapes is much more complicated than working
+with hard disks.  For these reasons, the tutorial does not cover working
+with tape drives.  See <a href="Media.html">Tapes and Other Archive Media</a>, for complete information on using
+<code>tar</code> archives with tape drives.
+
+
+</li></ul>
+
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="stylistic-conventions.html">Stylistic Conventions</a>, Up: <a href="Tutorial.html">Tutorial Introduction to <code>tar</code></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

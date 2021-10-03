@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>files (GNU tar 1.34)</title>
+
+<meta name="description" content="files (GNU tar 1.34)">
+<meta name="keywords" content="files (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Choosing.html" rel="up" title="Choosing">
+<link href="exclude.html" rel="next" title="exclude">
+<link href="Selecting-Archive-Members.html" rel="prev" title="Selecting Archive Members">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section" id="files">
+<div class="header">
+<p>
+Next: <a href="exclude.html" accesskey="n" rel="next">Excluding Some Files</a>, Previous: <a href="Selecting-Archive-Members.html" accesskey="p" rel="prev">Selecting Archive Members</a>, Up: <a href="Choosing.html" accesskey="u" rel="up">Choosing Files and Names for <code>tar</code></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Reading-Names-from-a-File"></span><h3 class="section">6.3 Reading Names from a File</h3>
+
+<span id="index-Reading-file-names-from-a-file"></span>
+<span id="index-Lists-of-file-names"></span>
+<span id="index-File-Name-arguments_002c-alternatives"></span>
+<span id="index-find_002c-using-with-tar"></span>
+<p>Instead of giving the names of files or archive members on the command
+line, you can put the names into a file, and then use the
+<samp>--files-from=<var>file-of-names</var></samp> (<samp>-T
+<var>file-of-names</var></samp>) option to <code>tar</code>.  Give the name of the
+file which contains the list of files to include as the argument to
+<samp>--files-from</samp>.  In the list, the file names should be separated by
+newlines.  You will frequently use this option when you have generated
+the list of files to archive with the <code>find</code> utility.
+</p>
+<dl compact="compact">
+<dd><span id="index-files_002dfrom"></span>
+</dd>
+<dt><span><samp>--files-from=<var>file-name</var></samp></span></dt>
+<dt><span><samp>-T <var>file-name</var></samp></span></dt>
+<dd><p>Get names to extract or create from file <var>file-name</var>.
+</p></dd>
+</dl>
+
+<p>If you give a single dash as a file name for <samp>--files-from</samp>, (i.e.,
+you specify either <code>--files-from=-</code> or <code>-T -</code>), then the file
+names are read from standard input.
+</p>
+<p>Unless you are running <code>tar</code> with <samp>--create</samp>, you cannot use
+both <code>--files-from=-</code> and <code>--file=-</code> (<code>-f -</code>) in the same
+command.
+</p>
+<p>Any number of <samp>-T</samp> options can be given in the command line.
+</p>
+<p>The following example shows how to use <code>find</code> to generate a list of
+files smaller than 400K in length and put that list into a file
+called <samp>small-files</samp>.  You can then use the <samp>-T</samp> option to
+<code>tar</code> to specify the files from that file, <samp>small-files</samp>, to
+create the archive <samp>little.tgz</samp>.  (The <samp>-z</samp> option to
+<code>tar</code> compresses the archive with <code>gzip</code>; see <a href="gzip.html">Creating and Reading Compressed Archives</a> for
+more information.)
+</p>
+<div class="example">
+<pre class="example">$ <kbd>find . -size -400 -print &gt; small-files</kbd>
+$ <kbd>tar -c -v -z -T small-files -f little.tgz</kbd>
+</pre></div>
+
+<p>By default, each line read from the file list is first stripped off
+any leading and trailing whitespace.  If the resulting string begins
+with &lsquo;<samp>-</samp>&rsquo; character, it is considered a <code>tar</code> option and is
+processed accordingly<a id="DOCF15" href="#FOOT15"><sup>15</sup></a>.  Only a
+subset of <acronym>GNU</acronym> <code>tar</code> options is allowed for use in file lists.  For
+a list of such options, <a href="Position_002dSensitive-Options.html">Position-Sensitive Options</a>.
+</p>
+<p>For example, the common use of this feature is to change to another
+directory by specifying <samp>-C</samp> option:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>cat list</kbd>
+-C/etc
+passwd
+hosts
+-C/lib
+libc.a
+$ <kbd>tar -c -f foo.tar --files-from list</kbd>
+</pre></div>
+
+<p>In this example, <code>tar</code> will first switch to <samp>/etc</samp>
+directory and add files <samp>passwd</samp> and <samp>hosts</samp> to the
+archive.  Then it will change to <samp>/lib</samp> directory and will archive
+the file <samp>libc.a</samp>.  Thus, the resulting archive <samp>foo.tar</samp> will
+contain:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar tf foo.tar</kbd>
+passwd
+hosts
+libc.a
+</pre></div>
+
+<p>Note, that any options used in the file list remain in effect for the
+rest of the command line.  For example, using the same <samp>list</samp>
+file as above, the following command
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -c -f foo.tar --files-from list libcurses.a</kbd>
+</pre></div>
+
+<p>will look for file <samp>libcurses.a</samp> in the directory <samp>/lib</samp>,
+because it was used with the last <samp>-C</samp> option
+(see <a href="Position_002dSensitive-Options.html">Position-Sensitive Options</a>).
+</p>
+<span id="verbatim_002dfiles_002dfrom"></span><span id="index-verbatim_002dfiles_002dfrom"></span>
+<p>If such option handling is undesirable, use the
+<samp>--verbatim-files-from</samp> option.  When this option is in effect,
+each line read from the file list is treated as a file name.  Notice,
+that this means, in particular, that no whitespace trimming is
+performed.
+</p>
+<span id="no_002dverbatim_002dfiles_002dfrom"></span><span id="index-no_002dverbatim_002dfiles_002dfrom"></span>
+<p>The <samp>--verbatim-files-from</samp> affects all <samp>-T</samp> options
+that follow it in the command line.  The default behavior can be
+restored using <samp>--no-verbatim-files-from</samp> option.
+</p>
+<span id="index-add_002dfile"></span>
+<p>To disable option handling for a single file name, use the
+<samp>--add-file</samp> option, e.g.: <code>--add-file=--my-file</code>.
+</p>
+<p>You can use any <acronym>GNU</acronym> <code>tar</code> command line options in the file list file,
+including <samp>--files-from</samp> option itself.  This allows for
+including contents of a file list into another file list file.
+Note however, that options that control file list processing, such as
+<samp>--verbatim-files-from</samp> or <samp>--null</samp> won&rsquo;t affect the
+file they appear in.  They will affect next <samp>--files-from</samp>
+option, if there is any.
+</p>
+
+<ul class="section-toc">
+<li><a href="nul.html" accesskey="1"><code>NUL</code>-Terminated File Names</a></li>
+</ul>
+</div>
+<div class="footnote">
+<hr>
+<h4 class="footnotes-heading">Footnotes</h4>
+
+<h5><a id="FOOT15" href="#DOCF15">(15)</a></h5>
+<p>Versions of <acronym>GNU</acronym> <code>tar</code> up to 1.15.1
+recognized only <samp>-C</samp> option in file lists, and only if the
+option and its argument occupied two consecutive lines.</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="exclude.html">Excluding Some Files</a>, Previous: <a href="Selecting-Archive-Members.html">Selecting Archive Members</a>, Up: <a href="Choosing.html">Choosing Files and Names for <code>tar</code></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

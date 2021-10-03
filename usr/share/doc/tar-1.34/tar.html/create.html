@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>create (GNU tar 1.34)</title>
+
+<meta name="description" content="create (GNU tar 1.34)">
+<meta name="keywords" content="create (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Tutorial.html" rel="up" title="Tutorial">
+<link href="list.html" rel="next" title="list">
+<link href="Two-Frequent-Options.html" rel="prev" title="Two Frequent Options">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section" id="create">
+<div class="header">
+<p>
+Next: <a href="list.html" accesskey="n" rel="next">How to List Archives</a>, Previous: <a href="Two-Frequent-Options.html" accesskey="p" rel="prev">Two Frequently Used Options</a>, Up: <a href="Tutorial.html" accesskey="u" rel="up">Tutorial Introduction to <code>tar</code></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="How-to-Create-Archives"></span><h3 class="section">2.6 How to Create Archives</h3>
+
+<span id="index-Creation-of-the-archive"></span>
+<span id="index-Archive_002c-creation-of"></span>
+<p>One of the basic operations of <code>tar</code> is <samp>--create</samp> (<samp>-c</samp>), which
+you use to create a <code>tar</code> archive.  We will explain
+<samp>--create</samp> first because, in order to learn about the other
+operations, you will find it useful to have an archive available to
+practice on.
+</p>
+<p>To make this easier, in this section you will first create a directory
+containing three files.  Then, we will show you how to create an
+<em>archive</em> (inside the new directory).  Both the directory, and
+the archive are specifically for you to practice on.  The rest of this
+chapter and the next chapter will show many examples using this
+directory and the files you will create: some of those files may be
+other directories and other archives.
+</p>
+<p>The three files you will archive in this example are called
+<samp>blues</samp>, <samp>folk</samp>, and <samp>jazz</samp>.  The archive is called
+<samp>collection.tar</samp>.
+</p>
+<p>This section will proceed slowly, detailing how to use <samp>--create</samp>
+in <code>verbose</code> mode, and showing examples using both short and long
+forms.  In the rest of the tutorial, and in the examples in the next
+chapter, we will proceed at a slightly quicker pace.  This section
+moves more slowly to allow beginning users to understand how
+<code>tar</code> works.
+</p>
+
+<ul class="section-toc">
+<li><a href="prepare-for-examples.html" accesskey="1">Preparing a Practice Directory for Examples</a></li>
+<li><a href="Creating-the-archive.html" accesskey="2">Creating the Archive</a></li>
+<li><a href="create-verbose.html" accesskey="3">Running <samp>--create</samp> with <samp>--verbose</samp></a></li>
+<li><a href="short-create.html" accesskey="4">Short Forms with &lsquo;<samp>create</samp>&rsquo;</a></li>
+<li><a href="create-dir.html" accesskey="5">Archiving Directories</a></li>
+</ul>
+</div>
+
+
+
+</body>
+</html>

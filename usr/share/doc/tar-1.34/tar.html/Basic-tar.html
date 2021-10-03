@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Basic tar (GNU tar 1.34)</title>
+
+<meta name="description" content="Basic tar (GNU tar 1.34)">
+<meta name="keywords" content="Basic tar (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="operations.html" rel="up" title="operations">
+<link href="Advanced-tar.html" rel="next" title="Advanced tar">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section" id="Basic-tar">
+<div class="header">
+<p>
+Next: <a href="Advanced-tar.html" accesskey="n" rel="next">Advanced <acronym>GNU</acronym> <code>tar</code> Operations</a>, Up: <a href="operations.html" accesskey="u" rel="up"><acronym>GNU</acronym> <code>tar</code> Operations</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Basic-GNU-tar-Operations"></span><h3 class="section">4.1 Basic <acronym>GNU</acronym> <code>tar</code> Operations</h3>
+
+<p>The basic <code>tar</code> operations, <samp>--create</samp> (<samp>-c</samp>),
+<samp>--list</samp> (<samp>-t</samp>) and <samp>--extract</samp> (<samp>--get</samp>,
+<samp>-x</samp>), are currently presented and described in the tutorial
+chapter of this manual.  This section provides some complementary notes
+for these operations.
+</p>
+<dl compact="compact">
+<dd><span id="index-create_002c-complementary-notes"></span>
+</dd>
+<dt><span><samp>--create</samp></span></dt>
+<dt><span><samp>-c</samp></span></dt>
+<dd>
+<p>Creating an empty archive would have some kind of elegance.  One can
+initialize an empty archive and later use <samp>--append</samp>
+(<samp>-r</samp>) for adding all members.  Some applications would not
+welcome making an exception in the way of adding the first archive
+member.  On the other hand, many people reported that it is
+dangerously too easy for <code>tar</code> to destroy a magnetic tape with
+an empty archive<a id="DOCF9" href="#FOOT9"><sup>9</sup></a>.  The two most common errors are:
+</p>
+<ol>
+<li> Mistakingly using <code>create</code> instead of <code>extract</code>, when the
+intent was to extract the full contents of an archive.  This error
+is likely: keys <kbd>c</kbd> and <kbd>x</kbd> are right next to each other on
+the QWERTY keyboard.  Instead of being unpacked, the archive then
+gets wholly destroyed.  When users speak about <em>exploding</em> an
+archive, they usually mean something else :-).
+
+</li><li> Forgetting the argument to <code>file</code>, when the intent was to create
+an archive with a single file in it.  This error is likely because a
+tired user can easily add the <kbd>f</kbd> key to the cluster of option
+letters, by the mere force of habit, without realizing the full
+consequence of doing so.  The usual consequence is that the single
+file, which was meant to be saved, is rather destroyed.
+</li></ol>
+
+<p>So, recognizing the likelihood and the catastrophic nature of these
+errors, <acronym>GNU</acronym> <code>tar</code> now takes some distance from elegance, and
+cowardly refuses to create an archive when <samp>--create</samp> option is
+given, there are no arguments besides options, and
+<samp>--files-from</samp> (<samp>-T</samp>) option is <em>not</em> used.  To get
+around the cautiousness of <acronym>GNU</acronym> <code>tar</code> and nevertheless create an
+archive with nothing in it, one may still use, as the value for the
+<samp>--files-from</samp> option, a file with no names in it, as shown in
+the following commands:
+</p>
+<div class="example">
+<pre class="example"><kbd>tar --create --file=empty-archive.tar --files-from=/dev/null</kbd>
+<kbd>tar -cf empty-archive.tar -T /dev/null</kbd>
+</pre></div>
+
+<span id="index-extract_002c-complementary-notes"></span>
+</dd>
+<dt><span><samp>--extract</samp></span></dt>
+<dt><span><samp>--get</samp></span></dt>
+<dt><span><samp>-x</samp></span></dt>
+<dd>
+<p>A socket is stored, within a <acronym>GNU</acronym> <code>tar</code> archive, as a pipe.
+</p>
+</dd>
+<dt><span><samp><samp>--list</samp> (<samp>-t</samp>)</samp></span></dt>
+<dd>
+<p><acronym>GNU</acronym> <code>tar</code> now shows dates as &lsquo;<samp>1996-08-30</samp>&rsquo;,
+while it used to show them as &lsquo;<samp>Aug 30 1996</samp>&rsquo;. Preferably,
+people should get used to ISO 8601 dates.  Local American dates should
+be made available again with full date localization support, once
+ready.  In the meantime, programs not being localizable for dates
+should prefer international dates, that&rsquo;s really the way to go.
+</p>
+<p>Look up <a href="http://www.cl.cam.ac.uk/~mgk25/iso-time.html">http://www.cl.cam.ac.uk/~mgk25/iso-time.html</a> if you
+are curious, it contains a detailed explanation of the ISO 8601 standard.
+</p>
+</dd>
+</dl>
+
+</div>
+<div class="footnote">
+<hr>
+<h4 class="footnotes-heading">Footnotes</h4>
+
+<h5><a id="FOOT9" href="#DOCF9">(9)</a></h5>
+<p>This is well described in <cite>Unix-haters
+Handbook</cite>, by Simson Garfinkel, Daniel Weise &amp; Steven Strassmann, IDG
+Books, ISBN 1-56884-203-1.</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Advanced-tar.html">Advanced <acronym>GNU</acronym> <code>tar</code> Operations</a>, Up: <a href="operations.html"><acronym>GNU</acronym> <code>tar</code> Operations</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

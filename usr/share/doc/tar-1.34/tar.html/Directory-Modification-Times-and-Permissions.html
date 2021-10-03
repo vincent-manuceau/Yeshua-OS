@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Directory Modification Times and Permissions (GNU tar 1.34)</title>
+
+<meta name="description" content="Directory Modification Times and Permissions (GNU tar 1.34)">
+<meta name="keywords" content="Directory Modification Times and Permissions (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Writing.html" rel="up" title="Writing">
+<link href="Writing-to-Standard-Output.html" rel="next" title="Writing to Standard Output">
+<link href="Setting-Access-Permissions.html" rel="prev" title="Setting Access Permissions">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="unnumberedsubsubsec" id="Directory-Modification-Times-and-Permissions">
+<div class="header">
+<p>
+Next: <a href="Writing-to-Standard-Output.html" accesskey="n" rel="next">Writing to Standard Output</a>, Previous: <a href="Setting-Access-Permissions.html" accesskey="p" rel="prev">Setting Access Permissions</a>, Up: <a href="Writing.html" accesskey="u" rel="up">Changing How <code>tar</code> Writes Files</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Directory-Modification-Times-and-Permissions-1"></span><h4 class="unnumberedsubsubsec">Directory Modification Times and Permissions</h4>
+
+<p>After successfully extracting a file member, <acronym>GNU</acronym> <code>tar</code> normally
+restores its permissions and modification times, as described in the
+previous sections.  This cannot be done for directories, because
+after extracting a directory <code>tar</code> will almost certainly
+extract files into that directory and this will cause the directory
+modification time to be updated.  Moreover, restoring that directory
+permissions may not permit file creation within it.  Thus, restoring
+directory permissions and modification times must be delayed at least
+until all files have been extracted into that directory.  <acronym>GNU</acronym> <code>tar</code>
+restores directories using the following approach.
+</p>
+<p>The extracted directories are created with the mode specified in the
+archive, as modified by the umask of the user, which gives sufficient
+permissions to allow file creation.  The meta-information about the
+directory is recorded in the temporary list of directories.  When
+preparing to extract next archive member, <acronym>GNU</acronym> <code>tar</code> checks if the
+directory prefix of this file contains the remembered directory.  If
+it does not, the program assumes that all files have been extracted
+into that directory, restores its modification time and permissions
+and removes its entry from the internal list.  This approach allows
+to correctly restore directory meta-information in the majority of
+cases, while keeping memory requirements sufficiently small.  It is
+based on the fact, that most <code>tar</code> archives use the predefined
+order of members: first the directory, then all the files and
+subdirectories in that directory.
+</p>
+<p>However, this is not always true.  The most important exception are
+incremental archives (see <a href="Incremental-Dumps.html">Using <code>tar</code> to Perform Incremental Dumps</a>).  The member order in
+an incremental archive is reversed: first all directory members are
+stored, followed by other (non-directory) members.  So, when extracting
+from incremental archives, <acronym>GNU</acronym> <code>tar</code> alters the above procedure.  It
+remembers all restored directories, and restores their meta-data
+only after the entire archive has been processed.  Notice, that you do
+not need to specify any special options for that, as <acronym>GNU</acronym> <code>tar</code>
+automatically detects archives in incremental format.
+</p>
+<p>There may be cases, when such processing is required for normal archives
+too.  Consider the following example:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar --no-recursion -cvf archive \
+    foo foo/file1 bar bar/file foo/file2</kbd>
+foo/
+foo/file1
+bar/
+bar/file
+foo/file2
+</pre></div>
+
+<p>During the normal operation, after encountering <samp>bar</samp>
+<acronym>GNU</acronym> <code>tar</code> will assume that all files from the directory <samp>foo</samp>
+were already extracted and will therefore restore its timestamp and
+permission bits.  However, after extracting <samp>foo/file2</samp> the
+directory timestamp will be offset again.
+</p>
+<p>To correctly restore directory meta-information in such cases, use
+the <samp>--delay-directory-restore</samp> command line option:
+</p>
+<dl compact="compact">
+<dd><span id="index-delay_002ddirectory_002drestore"></span>
+</dd>
+<dt><span><samp>--delay-directory-restore</samp></span></dt>
+<dd><p>Delays restoring of the modification times and permissions of extracted
+directories until the end of extraction.  This way, correct
+meta-information is restored even if the archive has unusual member
+ordering.
+</p>
+<span id="index-no_002ddelay_002ddirectory_002drestore"></span>
+</dd>
+<dt><span><samp>--no-delay-directory-restore</samp></span></dt>
+<dd><p>Cancel the effect of the previous <samp>--delay-directory-restore</samp>.
+Use this option if you have used <samp>--delay-directory-restore</samp> in
+<code>TAR_OPTIONS</code> variable (see <a href="using-tar-options.html#TAR_005fOPTIONS">TAR_OPTIONS</a>) and wish to
+temporarily disable it.
+</p></dd>
+</dl>
+
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Writing-to-Standard-Output.html">Writing to Standard Output</a>, Previous: <a href="Setting-Access-Permissions.html">Setting Access Permissions</a>, Up: <a href="Writing.html">Changing How <code>tar</code> Writes Files</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

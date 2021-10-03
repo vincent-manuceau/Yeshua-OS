@@ -1,0 +1,459 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Top (GNU tar 1.34)</title>
+
+<meta name="description" content="Top (GNU tar 1.34)">
+<meta name="keywords" content="Top (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="#Top" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Introduction.html" rel="next" title="Introduction">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<h1 class="settitle" align="center">GNU tar 1.34</h1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="top" id="Top">
+<div class="header">
+<p>
+Next: <a href="Introduction.html" accesskey="n" rel="next">Introduction</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="GNU-tar_003a-an-archiver-tool"></span><h1 class="top"><acronym>GNU</acronym> tar: an archiver tool</h1>
+
+
+<p>This manual is for <acronym>GNU</acronym> <code>tar</code> (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+</p>
+<p>Copyright &copy; 1992, 1994&ndash;1997, 1999&ndash;2001, 2003&ndash;2017, 2021
+Free Software Foundation, Inc.
+</p>
+<blockquote>
+<p>Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being &ldquo;GNU General Public License&rdquo;, with the
+Front-Cover Texts being &ldquo;A GNU Manual&rdquo;, and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled &ldquo;GNU Free Documentation License&rdquo;.
+</p>
+<p>(a) The FSF&rsquo;s Back-Cover Text is: &ldquo;You have the freedom to
+copy and modify this GNU manual.&rdquo;
+</p></blockquote>
+
+<span id="index-file-archival"></span>
+<span id="index-archiving-files"></span>
+
+<p>The first part of this master menu lists the major nodes in this Info
+document.  The rest of the menu lists all the lower level nodes.
+</p>
+
+
+<div class="Contents_element" id="SEC_Contents">
+<h2 class="contents-heading">Table of Contents</h2>
+
+<div class="contents">
+
+<ul class="no-bullet">
+  <li><a id="toc-Introduction-1" href="Introduction.html">1 Introduction</a>
+  <ul class="no-bullet">
+    <li><a id="toc-What-this-Book-Contains" href="Book-Contents.html">1.1 What this Book Contains</a></li>
+    <li><a id="toc-Some-Definitions" href="Definitions.html">1.2 Some Definitions</a></li>
+    <li><a id="toc-What-tar-Does-1" href="What-tar-Does.html">1.3 What <code>tar</code> Does</a></li>
+    <li><a id="toc-How-tar-Archives-are-Named" href="Naming-tar-Archives.html">1.4 How <code>tar</code> Archives are Named</a></li>
+    <li><a id="toc-GNU-tar-Authors" href="Authors.html">1.5 <acronym>GNU</acronym> <code>tar</code> Authors</a></li>
+    <li><a id="toc-Reporting-bugs-or-suggestions" href="Reports.html">1.6 Reporting bugs or suggestions</a></li>
+  </ul></li>
+  <li><a id="toc-Tutorial-Introduction-to-tar" href="Tutorial.html">2 Tutorial Introduction to <code>tar</code></a>
+  <ul class="no-bullet">
+    <li><a id="toc-Assumptions-this-Tutorial-Makes" href="assumptions.html">2.1 Assumptions this Tutorial Makes</a></li>
+    <li><a id="toc-Stylistic-Conventions" href="stylistic-conventions.html">2.2 Stylistic Conventions</a></li>
+    <li><a id="toc-Basic-tar-Operations-and-Options" href="basic-tar-options.html">2.3 Basic <code>tar</code> Operations and Options</a></li>
+    <li><a id="toc-The-Three-Most-Frequently-Used-Operations" href="frequent-operations.html">2.4 The Three Most Frequently Used Operations</a></li>
+    <li><a id="toc-Two-Frequently-Used-Options" href="Two-Frequent-Options.html">2.5 Two Frequently Used Options</a>
+    <ul class="no-bullet">
+      <li><a id="toc-The-_002d_002dfile-Option" href="file-tutorial.html">The <samp>--file</samp> Option</a></li>
+      <li><a id="toc-The-_002d_002dverbose-Option" href="verbose-tutorial.html">The <samp>--verbose</samp> Option</a></li>
+      <li><a id="toc-Getting-Help_003a-Using-the-_002d_002dhelp-Option" href="help-tutorial.html">Getting Help: Using the <samp>--help</samp> Option</a></li>
+    </ul></li>
+    <li><a id="toc-How-to-Create-Archives" href="create.html">2.6 How to Create Archives</a>
+    <ul class="no-bullet">
+      <li><a id="toc-Preparing-a-Practice-Directory-for-Examples" href="prepare-for-examples.html">2.6.1 Preparing a Practice Directory for Examples</a></li>
+      <li><a id="toc-Creating-the-Archive" href="Creating-the-archive.html">2.6.2 Creating the Archive</a></li>
+      <li><a id="toc-Running-_002d_002dcreate-with-_002d_002dverbose" href="create-verbose.html">2.6.3 Running <samp>--create</samp> with <samp>--verbose</samp></a></li>
+      <li><a id="toc-Short-Forms-with-create" href="short-create.html">2.6.4 Short Forms with &lsquo;<samp>create</samp>&rsquo;</a></li>
+      <li><a id="toc-Archiving-Directories" href="create-dir.html">2.6.5 Archiving Directories</a></li>
+    </ul></li>
+    <li><a id="toc-How-to-List-Archives" href="list.html">2.7 How to List Archives</a>
+    <ul class="no-bullet">
+      <li><a id="toc-Listing-the-Contents-of-a-Stored-Directory" href="list-dir.html">Listing the Contents of a Stored Directory</a></li>
+    </ul></li>
+    <li><a id="toc-How-to-Extract-Members-from-an-Archive" href="extract.html">2.8 How to Extract Members from an Archive</a>
+    <ul class="no-bullet">
+      <li><a id="toc-Extracting-an-Entire-Archive" href="extracting-archives.html">2.8.1 Extracting an Entire Archive</a></li>
+      <li><a id="toc-Extracting-Specific-Files" href="extracting-files.html">2.8.2 Extracting Specific Files</a></li>
+      <li><a id="toc-Extracting-Files-that-are-Directories" href="extract-dir.html">2.8.3 Extracting Files that are Directories</a></li>
+      <li><a id="toc-Extracting-Archives-from-Untrusted-Sources" href="extracting-untrusted-archives.html">2.8.4 Extracting Archives from Untrusted Sources</a></li>
+      <li><a id="toc-Commands-That-Will-Fail" href="failing-commands.html">2.8.5 Commands That Will Fail</a></li>
+    </ul></li>
+    <li><a id="toc-Going-Further-Ahead-in-this-Manual" href="going-further.html">2.9 Going Further Ahead in this Manual</a></li>
+  </ul></li>
+  <li><a id="toc-Invoking-GNU-tar" href="tar-invocation.html">3 Invoking <acronym>GNU</acronym> <code>tar</code></a>
+  <ul class="no-bullet">
+    <li><a id="toc-General-Synopsis-of-tar" href="Synopsis.html">3.1 General Synopsis of <code>tar</code></a></li>
+    <li><a id="toc-Using-tar-Options" href="using-tar-options.html">3.2 Using <code>tar</code> Options</a></li>
+    <li><a id="toc-The-Three-Option-Styles" href="Styles.html">3.3 The Three Option Styles</a>
+    <ul class="no-bullet">
+      <li><a id="toc-Long-Option-Style" href="Long-Options.html">3.3.1 Long Option Style</a></li>
+      <li><a id="toc-Short-Option-Style" href="Short-Options.html">3.3.2 Short Option Style</a></li>
+      <li><a id="toc-Old-Option-Style" href="Old-Options.html">3.3.3 Old Option Style</a></li>
+      <li><a id="toc-Mixing-Option-Styles" href="Mixing.html">3.3.4 Mixing Option Styles</a></li>
+    </ul></li>
+    <li><a id="toc-All-tar-Options" href="All-Options.html">3.4 All <code>tar</code> Options</a>
+    <ul class="no-bullet">
+      <li><a id="toc-Operations-1" href="Operation-Summary.html">3.4.1 Operations</a></li>
+      <li><a id="toc-tar-Options" href="Option-Summary.html">3.4.2 <code>tar</code> Options</a></li>
+      <li><a id="toc-Short-Options-Cross-Reference" href="Short-Option-Summary.html">3.4.3 Short Options Cross Reference</a></li>
+      <li><a id="toc-Position_002dSensitive-Options-1" href="Position_002dSensitive-Options.html">3.4.4 Position-Sensitive Options</a></li>
+    </ul></li>
+    <li><a id="toc-GNU-tar-documentation" href="help.html">3.5 <acronym>GNU</acronym> <code>tar</code> documentation</a></li>
+    <li><a id="toc-Obtaining-GNU-tar-default-values" href="defaults.html">3.6 Obtaining <acronym>GNU</acronym> <code>tar</code> default values</a></li>
+    <li><a id="toc-Checking-tar-progress" href="verbose.html">3.7 Checking <code>tar</code> progress</a></li>
+    <li><a id="toc-Checkpoints" href="checkpoints.html">3.8 Checkpoints</a></li>
+    <li><a id="toc-Controlling-Warning-Messages" href="warnings.html">3.9 Controlling Warning Messages</a></li>
+    <li><a id="toc-Asking-for-Confirmation-During-Operations" href="interactive.html">3.10 Asking for Confirmation During Operations</a></li>
+    <li><a id="toc-Running-External-Commands" href="external.html">3.11 Running External Commands</a></li>
+  </ul></li>
+  <li><a id="toc-GNU-tar-Operations" href="operations.html">4 <acronym>GNU</acronym> <code>tar</code> Operations</a>
+  <ul class="no-bullet">
+    <li><a id="toc-Basic-GNU-tar-Operations" href="Basic-tar.html">4.1 Basic <acronym>GNU</acronym> <code>tar</code> Operations</a></li>
+    <li><a id="toc-Advanced-GNU-tar-Operations" href="Advanced-tar.html">4.2 Advanced <acronym>GNU</acronym> <code>tar</code> Operations</a>
+    <ul class="no-bullet">
+      <li><a id="toc-The-Five-Advanced-tar-Operations" href="Operations.html">4.2.1 The Five Advanced <code>tar</code> Operations</a></li>
+      <li><a id="toc-How-to-Add-Files-to-Existing-Archives_003a-_002d_002dappend" href="append.html">4.2.2 How to Add Files to Existing Archives: <samp>--append</samp></a>
+      <ul class="no-bullet">
+        <li><a id="toc-Appending-Files-to-an-Archive" href="appending-files.html">4.2.2.1 Appending Files to an Archive</a></li>
+        <li><a id="toc-Multiple-Members-with-the-Same-Name" href="multiple.html">4.2.2.2 Multiple Members with the Same Name</a></li>
+      </ul></li>
+      <li><a id="toc-Updating-an-Archive" href="update.html">4.2.3 Updating an Archive</a>
+      <ul class="no-bullet">
+        <li><a id="toc-How-to-Update-an-Archive-Using-_002d_002dupdate" href="how-to-update.html">4.2.3.1 How to Update an Archive Using <samp>--update</samp></a></li>
+      </ul></li>
+      <li><a id="toc-Combining-Archives-with-_002d_002dconcatenate" href="concatenate.html">4.2.4 Combining Archives with <samp>--concatenate</samp></a></li>
+      <li><a id="toc-Removing-Archive-Members-Using-_002d_002ddelete" href="delete.html">4.2.5 Removing Archive Members Using <samp>--delete</samp></a></li>
+      <li><a id="toc-Comparing-Archive-Members-with-the-File-System" href="compare.html">4.2.6 Comparing Archive Members with the File System</a></li>
+    </ul></li>
+    <li><a id="toc-Options-Used-by-_002d_002dcreate" href="create-options.html">4.3 Options Used by <samp>--create</samp></a>
+    <ul class="no-bullet">
+      <li><a id="toc-Overriding-File-Metadata" href="override.html">4.3.1 Overriding File Metadata</a></li>
+      <li><a id="toc-Extended-File-Attributes-1" href="Extended-File-Attributes.html">4.3.2 Extended File Attributes</a></li>
+      <li><a id="toc-Ignore-Failed-Read-1" href="Ignore-Failed-Read.html">4.3.3 Ignore Failed Read</a></li>
+    </ul></li>
+    <li><a id="toc-Options-Used-by-_002d_002dextract" href="extract-options.html">4.4 Options Used by <samp>--extract</samp></a>
+    <ul class="no-bullet">
+      <li><a id="toc-Options-to-Help-Read-Archives" href="Reading.html">4.4.1 Options to Help Read Archives</a>
+      <ul class="no-bullet">
+        <li><a id="toc-Reading-Full-Records" href="read-full-records.html">Reading Full Records</a></li>
+        <li><a id="toc-Ignoring-Blocks-of-Zeros" href="Ignore-Zeros.html">Ignoring Blocks of Zeros</a></li>
+      </ul></li>
+      <li><a id="toc-Changing-How-tar-Writes-Files" href="Writing.html">4.4.2 Changing How <code>tar</code> Writes Files</a>
+      <ul class="no-bullet">
+        <li><a id="toc-Options-Controlling-the-Overwriting-of-Existing-Files" href="Dealing-with-Old-Files.html">Options Controlling the Overwriting of Existing Files</a></li>
+        <li><a id="toc-Overwrite-Old-Files-1" href="Overwrite-Old-Files.html">Overwrite Old Files</a></li>
+        <li><a id="toc-Keep-Old-Files-1" href="Keep-Old-Files.html">Keep Old Files</a></li>
+        <li><a id="toc-Keep-Newer-Files-1" href="Keep-Newer-Files.html">Keep Newer Files</a></li>
+        <li><a id="toc-Unlink-First-1" href="Unlink-First.html">Unlink First</a></li>
+        <li><a id="toc-Recursive-Unlink-1" href="Recursive-Unlink.html">Recursive Unlink</a></li>
+        <li><a id="toc-Setting-Data-Modification-Times" href="Data-Modification-Times.html">Setting Data Modification Times</a></li>
+        <li><a id="toc-Setting-Access-Permissions-1" href="Setting-Access-Permissions.html">Setting Access Permissions</a></li>
+        <li><a id="toc-Directory-Modification-Times-and-Permissions-1" href="Directory-Modification-Times-and-Permissions.html">Directory Modification Times and Permissions</a></li>
+        <li><a id="toc-Writing-to-Standard-Output-1" href="Writing-to-Standard-Output.html">Writing to Standard Output</a></li>
+        <li><a id="toc-Writing-to-an-External-Program-1" href="Writing-to-an-External-Program.html">Writing to an External Program</a></li>
+        <li><a id="toc-Removing-Files" href="remove-files.html">Removing Files</a></li>
+      </ul></li>
+      <li><a id="toc-Coping-with-Scarce-Resources" href="Scarce.html">4.4.3 Coping with Scarce Resources</a>
+      <ul class="no-bullet">
+        <li><a id="toc-Starting-File-1" href="Starting-File.html">Starting File</a></li>
+        <li><a id="toc-Same-Order-1" href="Same-Order.html">Same Order</a></li>
+      </ul></li>
+    </ul></li>
+    <li><a id="toc-Backup-options" href="backup.html">4.5 Backup options</a></li>
+    <li><a id="toc-Looking-Ahead_003a-The-Rest-of-this-Manual" href="looking-ahead.html">4.6 Looking Ahead: The Rest of this Manual</a></li>
+  </ul></li>
+  <li><a id="toc-Performing-Backups-and-Restoring-Files" href="Backups.html">5 Performing Backups and Restoring Files</a>
+  <ul class="no-bullet">
+    <li><a id="toc-Using-tar-to-Perform-Full-Dumps" href="Full-Dumps.html">5.1 Using <code>tar</code> to Perform Full Dumps</a></li>
+    <li><a id="toc-Using-tar-to-Perform-Incremental-Dumps" href="Incremental-Dumps.html">5.2 Using <code>tar</code> to Perform Incremental Dumps</a></li>
+    <li><a id="toc-Levels-of-Backups" href="Backup-Levels.html">5.3 Levels of Backups</a></li>
+    <li><a id="toc-Setting-Parameters-for-Backups-and-Restoration" href="Backup-Parameters.html">5.4 Setting Parameters for Backups and Restoration</a>
+    <ul class="no-bullet">
+      <li><a id="toc-General_002dPurpose-Variables-1" href="General_002dPurpose-Variables.html">5.4.1 General-Purpose Variables</a></li>
+      <li><a id="toc-Magnetic-Tape-Control-1" href="Magnetic-Tape-Control.html">5.4.2 Magnetic Tape Control</a></li>
+      <li><a id="toc-User-Hooks-1" href="User-Hooks.html">5.4.3 User Hooks</a></li>
+      <li><a id="toc-An-Example-Text-of-Backup_002dspecs" href="backup_002dspecs-example.html">5.4.4 An Example Text of <samp>Backup-specs</samp></a></li>
+    </ul></li>
+    <li><a id="toc-Using-the-Backup-Scripts" href="Scripted-Backups.html">5.5 Using the Backup Scripts</a></li>
+    <li><a id="toc-Using-the-Restore-Script" href="Scripted-Restoration.html">5.6 Using the Restore Script</a></li>
+  </ul></li>
+  <li><a id="toc-Choosing-Files-and-Names-for-tar" href="Choosing.html">6 Choosing Files and Names for <code>tar</code></a>
+  <ul class="no-bullet">
+    <li><a id="toc-Choosing-and-Naming-Archive-Files" href="file.html">6.1 Choosing and Naming Archive Files</a></li>
+    <li><a id="toc-Selecting-Archive-Members-1" href="Selecting-Archive-Members.html">6.2 Selecting Archive Members</a></li>
+    <li><a id="toc-Reading-Names-from-a-File" href="files.html">6.3 Reading Names from a File</a>
+    <ul class="no-bullet">
+      <li><a id="toc-NUL_002dTerminated-File-Names" href="nul.html">6.3.1 <code>NUL</code>-Terminated File Names</a></li>
+    </ul></li>
+    <li><a id="toc-Excluding-Some-Files" href="exclude.html">6.4 Excluding Some Files</a>
+    <ul class="no-bullet">
+      <li><a id="toc-Problems-with-Using-the-exclude-Options" href="problems-with-exclude.html">Problems with Using the <code>exclude</code> Options</a></li>
+    </ul></li>
+    <li><a id="toc-Wildcards-Patterns-and-Matching" href="wildcards.html">6.5 Wildcards Patterns and Matching</a>
+    <ul class="no-bullet">
+      <li><a id="toc-Controlling-Pattern_002dMatching" href="controlling-pattern_002dmatching.html">Controlling Pattern-Matching</a></li>
+    </ul></li>
+    <li><a id="toc-Quoting-Member-Names" href="quoting-styles.html">6.6 Quoting Member Names</a></li>
+    <li><a id="toc-Modifying-File-and-Member-Names" href="transform.html">6.7 Modifying File and Member Names</a></li>
+    <li><a id="toc-Operating-Only-on-New-Files" href="after.html">6.8 Operating Only on New Files</a></li>
+    <li><a id="toc-Descending-into-Directories" href="recurse.html">6.9 Descending into Directories</a></li>
+    <li><a id="toc-Crossing-File-System-Boundaries" href="one.html">6.10 Crossing File System Boundaries</a>
+    <ul class="no-bullet">
+      <li><a id="toc-Changing-the-Working-Directory" href="directory.html">6.10.1 Changing the Working Directory</a></li>
+      <li><a id="toc-Absolute-File-Names" href="absolute.html">6.10.2 Absolute File Names</a></li>
+    </ul></li>
+  </ul></li>
+  <li><a id="toc-Date-input-formats-1" href="Date-input-formats.html">7 Date input formats</a>
+  <ul class="no-bullet">
+    <li><a id="toc-General-date-syntax-1" href="General-date-syntax.html">7.1 General date syntax</a></li>
+    <li><a id="toc-Calendar-date-items-1" href="Calendar-date-items.html">7.2 Calendar date items</a></li>
+    <li><a id="toc-Time-of-day-items-1" href="Time-of-day-items.html">7.3 Time of day items</a></li>
+    <li><a id="toc-Time-zone-items-1" href="Time-zone-items.html">7.4 Time zone items</a></li>
+    <li><a id="toc-Combined-date-and-time-of-day-items-1" href="Combined-date-and-time-of-day-items.html">7.5 Combined date and time of day items</a></li>
+    <li><a id="toc-Day-of-week-items-1" href="Day-of-week-items.html">7.6 Day of week items</a></li>
+    <li><a id="toc-Relative-items-in-date-strings-1" href="Relative-items-in-date-strings.html">7.7 Relative items in date strings</a></li>
+    <li><a id="toc-Pure-numbers-in-date-strings-1" href="Pure-numbers-in-date-strings.html">7.8 Pure numbers in date strings</a></li>
+    <li><a id="toc-Seconds-since-the-Epoch-1" href="Seconds-since-the-Epoch.html">7.9 Seconds since the Epoch</a></li>
+    <li><a id="toc-Specifying-time-zone-rules-1" href="Specifying-time-zone-rules.html">7.10 Specifying time zone rules</a></li>
+    <li><a id="toc-Authors-of-parse_005fdatetime-1" href="Authors-of-parse_005fdatetime.html">7.11 Authors of <code>parse_datetime</code></a></li>
+  </ul></li>
+  <li><a id="toc-Controlling-the-Archive-Format" href="Formats.html">8 Controlling the Archive Format</a>
+  <ul class="no-bullet">
+    <li><a id="toc-Using-Less-Space-through-Compression" href="Compression.html">8.1 Using Less Space through Compression</a>
+    <ul class="no-bullet">
+      <li><a id="toc-Creating-and-Reading-Compressed-Archives" href="gzip.html">8.1.1 Creating and Reading Compressed Archives</a>
+      <ul class="no-bullet">
+        <li><a id="toc-Using-lbzip2-with-GNU-tar_002e" href="lbzip2.html">8.1.1.1 Using lbzip2 with <acronym>GNU</acronym> <code>tar</code>.</a></li>
+      </ul></li>
+      <li><a id="toc-Archiving-Sparse-Files" href="sparse.html">8.1.2 Archiving Sparse Files</a></li>
+    </ul></li>
+    <li><a id="toc-Handling-File-Attributes" href="Attributes.html">8.2 Handling File Attributes</a></li>
+    <li><a id="toc-Making-tar-Archives-More-Portable" href="Portability.html">8.3 Making <code>tar</code> Archives More Portable</a>
+    <ul class="no-bullet">
+      <li><a id="toc-Portable-Names-1" href="Portable-Names.html">8.3.1 Portable Names</a></li>
+      <li><a id="toc-Symbolic-Links" href="dereference.html">8.3.2 Symbolic Links</a></li>
+      <li><a id="toc-Hard-Links" href="hard-links.html">8.3.3 Hard Links</a></li>
+      <li><a id="toc-Old-V7-Archives" href="old.html">8.3.4 Old V7 Archives</a></li>
+      <li><a id="toc-Ustar-Archive-Format" href="ustar.html">8.3.5 Ustar Archive Format</a></li>
+      <li><a id="toc-GNU-and-old-GNU-tar-format" href="gnu.html">8.3.6 <acronym>GNU</acronym> and old <acronym>GNU</acronym> <code>tar</code> format</a></li>
+      <li><a id="toc-GNU-tar-and-POSIX-tar" href="posix.html">8.3.7 <acronym>GNU</acronym> <code>tar</code> and <acronym>POSIX</acronym> <code>tar</code></a>
+      <ul class="no-bullet">
+        <li><a id="toc-Controlling-Extended-Header-Keywords" href="PAX-keywords.html">8.3.7.1 Controlling Extended Header Keywords</a></li>
+      </ul></li>
+      <li><a id="toc-Checksumming-Problems" href="Checksumming.html">8.3.8 Checksumming Problems</a></li>
+      <li><a id="toc-Large-or-Negative-Values-1" href="Large-or-Negative-Values.html">8.3.9 Large or Negative Values</a></li>
+      <li><a id="toc-How-to-Extract-GNU_002dSpecific-Data-Using-Other-tar-Implementations" href="Other-Tars.html">8.3.10 How to Extract GNU-Specific Data Using Other <code>tar</code> Implementations</a>
+      <ul class="no-bullet">
+        <li><a id="toc-Extracting-Members-Split-Between-Volumes" href="Split-Recovery.html">8.3.10.1 Extracting Members Split Between Volumes</a></li>
+        <li><a id="toc-Extracting-Sparse-Members" href="Sparse-Recovery.html">8.3.10.2 Extracting Sparse Members</a></li>
+      </ul></li>
+    </ul></li>
+    <li><a id="toc-Comparison-of-tar-and-cpio" href="cpio.html">8.4 Comparison of <code>tar</code> and <code>cpio</code></a></li>
+  </ul></li>
+  <li><a id="toc-Tapes-and-Other-Archive-Media" href="Media.html">9 Tapes and Other Archive Media</a>
+  <ul class="no-bullet">
+    <li><a id="toc-Device-Selection-and-Switching" href="Device.html">9.1 Device Selection and Switching</a></li>
+    <li><a id="toc-Remote-Tape-Server-1" href="Remote-Tape-Server.html">9.2 Remote Tape Server</a></li>
+    <li><a id="toc-Some-Common-Problems-and-their-Solutions" href="Common-Problems-and-Solutions.html">9.3 Some Common Problems and their Solutions</a></li>
+    <li><a id="toc-Blocking-1" href="Blocking.html">9.4 Blocking</a>
+    <ul class="no-bullet">
+      <li><a id="toc-Format-Variations-1" href="Format-Variations.html">9.4.1 Format Variations</a></li>
+      <li><a id="toc-The-Blocking-Factor-of-an-Archive" href="Blocking-Factor.html">9.4.2 The Blocking Factor of an Archive</a></li>
+    </ul></li>
+    <li><a id="toc-Many-Archives-on-One-Tape" href="Many.html">9.5 Many Archives on One Tape</a>
+    <ul class="no-bullet">
+      <li><a id="toc-Tape-Positions-and-Tape-Marks" href="Tape-Positioning.html">9.5.1 Tape Positions and Tape Marks</a></li>
+      <li><a id="toc-The-mt-Utility" href="mt.html">9.5.2 The <code>mt</code> Utility</a></li>
+    </ul></li>
+    <li><a id="toc-Using-Multiple-Tapes-1" href="Using-Multiple-Tapes.html">9.6 Using Multiple Tapes</a>
+    <ul class="no-bullet">
+      <li><a id="toc-Archives-Longer-than-One-Tape-or-Disk" href="Multi_002dVolume-Archives.html">9.6.1 Archives Longer than One Tape or Disk</a></li>
+      <li><a id="toc-Tape-Files-1" href="Tape-Files.html">9.6.2 Tape Files</a></li>
+      <li><a id="toc-Concatenate-Volumes-into-a-Single-Archive" href="Tarcat.html">9.6.3 Concatenate Volumes into a Single Archive</a></li>
+    </ul></li>
+    <li><a id="toc-Including-a-Label-in-the-Archive" href="label.html">9.7 Including a Label in the Archive</a></li>
+    <li><a id="toc-Verifying-Data-as-It-is-Stored" href="verify.html">9.8 Verifying Data as It is Stored</a></li>
+    <li><a id="toc-Write-Protection-1" href="Write-Protection.html">9.9 Write Protection</a></li>
+  </ul></li>
+  <li><a id="toc-Reliability-and-Security" href="Reliability-and-security.html">10 Reliability and Security</a>
+  <ul class="no-bullet">
+    <li><a id="toc-Reliability-1" href="Reliability.html">10.1 Reliability</a>
+    <ul class="no-bullet">
+      <li><a id="toc-Permissions-Problems" href="Permissions-problems.html">10.1.1 Permissions Problems</a></li>
+      <li><a id="toc-Data-Corruption-and-Repair" href="Data-corruption-and-repair.html">10.1.2 Data Corruption and Repair</a></li>
+      <li><a id="toc-Race-conditions-1" href="Race-conditions.html">10.1.3 Race conditions</a></li>
+    </ul></li>
+    <li><a id="toc-Security-1" href="Security.html">10.2 Security</a>
+    <ul class="no-bullet">
+      <li><a id="toc-Privacy-1" href="Privacy.html">10.2.1 Privacy</a></li>
+      <li><a id="toc-Integrity-1" href="Integrity.html">10.2.2 Integrity</a></li>
+      <li><a id="toc-Dealing-with-Live-Untrusted-Data" href="Live-untrusted-data.html">10.2.3 Dealing with Live Untrusted Data</a></li>
+      <li><a id="toc-Security-Rules-of-Thumb" href="Security-rules-of-thumb.html">10.2.4 Security Rules of Thumb</a></li>
+    </ul></li>
+  </ul></li>
+  <li><a id="toc-Changes-1" href="Changes.html">Appendix A Changes</a></li>
+  <li><a id="toc-Recipes-1" href="Recipes.html">Appendix B Recipes</a>
+  <ul class="no-bullet">
+    <li><a id="toc-Copying-directory-hierarchies" href="copy-directory-hierarchy.html">B.1 Copying directory hierarchies</a></li>
+    <li><a id="toc-Restoring-Intermediate-Directories" href="intermediate-directories.html">B.2 Restoring Intermediate Directories</a></li>
+  </ul></li>
+  <li><a id="toc-Configuring-Help-Summary-1" href="Configuring-Help-Summary.html">Appendix C Configuring Help Summary</a></li>
+  <li><a id="toc-Fixing-Snapshot-Files-1" href="Fixing-Snapshot-Files.html">Appendix D Fixing Snapshot Files</a></li>
+  <li><a id="toc-Tar-Internals-1" href="Tar-Internals.html">Appendix E Tar Internals</a>
+  <ul class="no-bullet">
+    <li><a id="toc-Basic-Tar-Format" href="Standard.html">Basic Tar Format</a></li>
+    <li><a id="toc-GNU-Extensions-to-the-Archive-Format" href="Extensions.html"><acronym>GNU</acronym> Extensions to the Archive Format</a></li>
+    <li><a id="toc-Storing-Sparse-Files" href="Sparse-Formats.html">Storing Sparse Files</a>
+    <ul class="no-bullet">
+      <li><a id="toc-Old-GNU-Format-1" href="Old-GNU-Format.html">Old GNU Format</a></li>
+      <li><a id="toc-PAX-Format_002c-Versions-0_002e0-and-0_002e1" href="PAX-0.html">PAX Format, Versions 0.0 and 0.1</a></li>
+      <li><a id="toc-PAX-Format_002c-Version-1_002e0" href="PAX-1.html">PAX Format, Version 1.0</a></li>
+    </ul></li>
+    <li><a id="toc-Format-of-the-Incremental-Snapshot-Files" href="Snapshot-Files.html">Format of the Incremental Snapshot Files</a></li>
+    <li><a id="toc-Dumpdir-1" href="Dumpdir.html">Dumpdir</a></li>
+  </ul></li>
+  <li><a id="toc-Genfile-1" href="Genfile.html">Appendix F Genfile</a>
+  <ul class="no-bullet">
+    <li><a id="toc-Generate-Mode-1" href="Generate-Mode.html">F.1 Generate Mode</a></li>
+    <li><a id="toc-Status-Mode-1" href="Status-Mode.html">F.2 Status Mode</a></li>
+    <li><a id="toc-Exec-Mode-1" href="Exec-Mode.html">F.3 Exec Mode</a></li>
+  </ul></li>
+  <li><a id="toc-GNU-Free-Documentation-License-1" href="GNU-Free-Documentation-License.html">Appendix G GNU Free Documentation License</a></li>
+  <li><a id="toc-Index-of-Command-Line-Options-1" href="Index-of-Command-Line-Options.html" rel="index">Appendix H Index of Command Line Options</a></li>
+  <li><a id="toc-Index-1" href="Index.html" rel="index">Appendix I Index</a></li>
+</ul>
+</div>
+</div>
+<div class="Overview_element" id="SEC_Overview">
+<h2 class="shortcontents-heading">Short Table of Contents</h2>
+
+<div class="shortcontents">
+<ul class="no-bullet">
+<li><a id="stoc-Introduction-1" href="#toc-Introduction-1">1 Introduction</a></li>
+<li><a id="stoc-Tutorial-Introduction-to-tar" href="#toc-Tutorial-Introduction-to-tar">2 Tutorial Introduction to <code>tar</code></a></li>
+<li><a id="stoc-Invoking-GNU-tar" href="#toc-Invoking-GNU-tar">3 Invoking <acronym>GNU</acronym> <code>tar</code></a></li>
+<li><a id="stoc-GNU-tar-Operations" href="#toc-GNU-tar-Operations">4 <acronym>GNU</acronym> <code>tar</code> Operations</a></li>
+<li><a id="stoc-Performing-Backups-and-Restoring-Files" href="#toc-Performing-Backups-and-Restoring-Files">5 Performing Backups and Restoring Files</a></li>
+<li><a id="stoc-Choosing-Files-and-Names-for-tar" href="#toc-Choosing-Files-and-Names-for-tar">6 Choosing Files and Names for <code>tar</code></a></li>
+<li><a id="stoc-Date-input-formats-1" href="#toc-Date-input-formats-1">7 Date input formats</a></li>
+<li><a id="stoc-Controlling-the-Archive-Format" href="#toc-Controlling-the-Archive-Format">8 Controlling the Archive Format</a></li>
+<li><a id="stoc-Tapes-and-Other-Archive-Media" href="#toc-Tapes-and-Other-Archive-Media">9 Tapes and Other Archive Media</a></li>
+<li><a id="stoc-Reliability-and-Security" href="#toc-Reliability-and-Security">10 Reliability and Security</a></li>
+<li><a id="stoc-Changes-1" href="#toc-Changes-1">Appendix A Changes</a></li>
+<li><a id="stoc-Recipes-1" href="#toc-Recipes-1">Appendix B Recipes</a></li>
+<li><a id="stoc-Configuring-Help-Summary-1" href="#toc-Configuring-Help-Summary-1">Appendix C Configuring Help Summary</a></li>
+<li><a id="stoc-Fixing-Snapshot-Files-1" href="#toc-Fixing-Snapshot-Files-1">Appendix D Fixing Snapshot Files</a></li>
+<li><a id="stoc-Tar-Internals-1" href="#toc-Tar-Internals-1">Appendix E Tar Internals</a></li>
+<li><a id="stoc-Genfile-1" href="#toc-Genfile-1">Appendix F Genfile</a></li>
+<li><a id="stoc-GNU-Free-Documentation-License-1" href="#toc-GNU-Free-Documentation-License-1">Appendix G GNU Free Documentation License</a></li>
+<li><a id="stoc-Index-of-Command-Line-Options-1" href="#toc-Index-of-Command-Line-Options-1" rel="index">Appendix H Index of Command Line Options</a></li>
+<li><a id="stoc-Index-1" href="#toc-Index-1" rel="index">Appendix I Index</a></li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Introduction.html" accesskey="n" rel="next">Introduction</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

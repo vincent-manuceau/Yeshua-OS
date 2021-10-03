@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Old Options (GNU tar 1.34)</title>
+
+<meta name="description" content="Old Options (GNU tar 1.34)">
+<meta name="keywords" content="Old Options (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Styles.html" rel="up" title="Styles">
+<link href="Mixing.html" rel="next" title="Mixing">
+<link href="Short-Options.html" rel="prev" title="Short Options">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection" id="Old-Options">
+<div class="header">
+<p>
+Next: <a href="Mixing.html" accesskey="n" rel="next">Mixing Option Styles</a>, Previous: <a href="Short-Options.html" accesskey="p" rel="prev">Short Option Style</a>, Up: <a href="Styles.html" accesskey="u" rel="up">The Three Option Styles</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Old-Option-Style"></span><h4 class="subsection">3.3.3 Old Option Style</h4>
+<span id="index-options_002c-old-style"></span>
+<span id="index-old-option-style"></span>
+<span id="index-option-syntax_002c-traditional"></span>
+
+<p>As far as we know, all <code>tar</code> programs, <acronym>GNU</acronym> and
+non-<acronym>GNU</acronym>, support <em>old options</em>: that is, if the first
+argument does not start with &lsquo;<samp>-</samp>&rsquo;, it is assumed to specify option
+letters.  <acronym>GNU</acronym> <code>tar</code> supports old options not only for historical
+reasons, but also because many people are used to them.  If the first
+argument does not start with a dash, you are announcing the old option
+style instead of the short option style; old options are decoded
+differently.
+</p>
+<p>Like short options, old options are single letters.  However, old options
+must be written together as a single clumped set, without spaces separating
+them or dashes preceding them.  This set
+of letters must be the first to appear on the command line, after the
+<code>tar</code> program name and some white space; old options cannot appear
+anywhere else.  The letter of an old option is exactly the same letter as
+the corresponding short option.  For example, the old option &lsquo;<samp>t</samp>&rsquo; is
+the same as the short option <samp>-t</samp>, and consequently, the same as the
+long option <samp>--list</samp>.  So for example, the command &lsquo;<samp>tar&nbsp;cv</samp>&rsquo;<!-- /@w --> specifies the option <samp>-v</samp> in addition to the operation <samp>-c</samp>.
+</p>
+<span id="index-arguments-to-old-options"></span>
+<span id="index-old-options-with-mandatory-arguments"></span>
+<p>When options that need arguments are given together with the command,
+all the associated arguments follow, in the same order as the options.
+Thus, the example given previously could also be written in the old
+style as follows:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar cvbf 20 /dev/rmt0</kbd>
+</pre></div>
+
+<p>Here, &lsquo;<samp>20</samp>&rsquo; is the argument of <samp>-b</samp> and &lsquo;<samp>/dev/rmt0</samp>&rsquo; is
+the argument of <samp>-f</samp>.
+</p>
+<p>The old style syntax can make it difficult to match
+option letters with their corresponding arguments, and is often
+confusing.  In the command &lsquo;<samp>tar&nbsp;cvbf&nbsp;20&nbsp;/dev/rmt0</samp>&rsquo;<!-- /@w -->, for example,
+&lsquo;<samp>20</samp>&rsquo; is the argument for <samp>-b</samp>, &lsquo;<samp>/dev/rmt0</samp>&rsquo; is the
+argument for <samp>-f</samp>, and <samp>-v</samp> does not have a corresponding
+argument.  Even using short options like in &lsquo;<samp>tar&nbsp;<span class="nolinebreak">-c</span>&nbsp;<span class="nolinebreak">-v</span>&nbsp;<span class="nolinebreak">-b</span>&nbsp;20&nbsp;<span class="nolinebreak">-f</span>&nbsp;/dev/rmt0</samp>&rsquo;<!-- /@w --> is clearer, putting all arguments next to the option they
+pertain to.
+</p>
+<p>If you want to reorder the letters in the old option argument, be
+sure to reorder any corresponding argument appropriately.
+</p>
+<p>This old way of writing <code>tar</code> options can surprise even experienced
+users.  For example, the two commands:
+</p>
+<div class="example">
+<pre class="example"><kbd>tar cfz archive.tar.gz file</kbd>
+<kbd>tar -cfz archive.tar.gz file</kbd>
+</pre></div>
+
+<p>are quite different.  The first example uses <samp>archive.tar.gz</samp> as
+the value for option &lsquo;<samp>f</samp>&rsquo; and recognizes the option &lsquo;<samp>z</samp>&rsquo;.  The
+second example, however, uses <samp>z</samp> as the value for option
+&lsquo;<samp>f</samp>&rsquo; &mdash; probably not what was intended.
+</p>
+<p>This second example could be corrected in many ways, among which the
+following are equivalent:
+</p>
+<div class="example">
+<pre class="example"><kbd>tar -czf archive.tar.gz file</kbd>
+<kbd>tar -cf archive.tar.gz -z file</kbd>
+<kbd>tar cf archive.tar.gz -z file</kbd>
+</pre></div>
+
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Mixing.html">Mixing Option Styles</a>, Previous: <a href="Short-Options.html">Short Option Style</a>, Up: <a href="Styles.html">The Three Option Styles</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

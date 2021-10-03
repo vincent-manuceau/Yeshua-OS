@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Full Dumps (GNU tar 1.34)</title>
+
+<meta name="description" content="Full Dumps (GNU tar 1.34)">
+<meta name="keywords" content="Full Dumps (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Backups.html" rel="up" title="Backups">
+<link href="Incremental-Dumps.html" rel="next" title="Incremental Dumps">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section" id="Full-Dumps">
+<div class="header">
+<p>
+Next: <a href="Incremental-Dumps.html" accesskey="n" rel="next">Using <code>tar</code> to Perform Incremental Dumps</a>, Up: <a href="Backups.html" accesskey="u" rel="up">Performing Backups and Restoring Files</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Using-tar-to-Perform-Full-Dumps"></span><h3 class="section">5.1 Using <code>tar</code> to Perform Full Dumps</h3>
+<blockquote>
+<p><em>(This message will disappear, once this node revised.)</em>
+</p></blockquote>
+
+<span id="index-full-dumps"></span>
+<span id="index-dumps_002c-full"></span>
+
+<span id="index-corrupted-archives"></span>
+<p>Full dumps should only be made when no other people or programs
+are modifying files in the file system.  If files are modified while
+<code>tar</code> is making the backup, they may not be stored properly in
+the archive, in which case you won&rsquo;t be able to restore them if you
+have to.  (Files not being modified are written with no trouble, and do
+not corrupt the entire archive.)
+</p>
+<p>You will want to use the <samp>--label=<var>archive-label</var></samp>
+(<samp>-V <var>archive-label</var></samp>) option to give the archive a
+volume label, so you can tell what this archive is even if the label
+falls off the tape, or anything like that.
+</p>
+<p>Unless the file system you are dumping is guaranteed to fit on
+one volume, you will need to use the <samp>--multi-volume</samp> (<samp>-M</samp>) option.
+Make sure you have enough tapes on hand to complete the backup.
+</p>
+<p>If you want to dump each file system separately you will need to use
+the <samp>--one-file-system</samp> option to prevent
+<code>tar</code> from crossing file system boundaries when storing
+(sub)directories.
+</p>
+<p>The <samp>--incremental</samp> (<samp>-G</samp>) (see <a href="Incremental-Dumps.html">Using <code>tar</code> to Perform Incremental Dumps</a>)
+option is not needed, since this is a complete copy of everything in
+the file system, and a full restore from this backup would only be
+done onto a completely
+empty disk.
+</p>
+<p>Unless you are in a hurry, and trust the <code>tar</code> program (and your
+tapes), it is a good idea to use the <samp>--verify</samp> (<samp>-W</samp>)
+option, to make sure your files really made it onto the dump properly.
+This will also detect cases where the file was modified while (or just
+after) it was being archived.  Not all media (notably cartridge tapes)
+are capable of being verified, unfortunately.
+</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Incremental-Dumps.html">Using <code>tar</code> to Perform Incremental Dumps</a>, Up: <a href="Backups.html">Performing Backups and Restoring Files</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

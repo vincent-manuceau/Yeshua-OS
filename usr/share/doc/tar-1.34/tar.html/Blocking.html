@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Blocking (GNU tar 1.34)</title>
+
+<meta name="description" content="Blocking (GNU tar 1.34)">
+<meta name="keywords" content="Blocking (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Media.html" rel="up" title="Media">
+<link href="Many.html" rel="next" title="Many">
+<link href="Common-Problems-and-Solutions.html" rel="prev" title="Common Problems and Solutions">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section" id="Blocking">
+<div class="header">
+<p>
+Next: <a href="Many.html" accesskey="n" rel="next">Many Archives on One Tape</a>, Previous: <a href="Common-Problems-and-Solutions.html" accesskey="p" rel="prev">Some Common Problems and their Solutions</a>, Up: <a href="Media.html" accesskey="u" rel="up">Tapes and Other Archive Media</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Blocking-1"></span><h3 class="section">9.4 Blocking</h3>
+<span id="index-block"></span>
+<span id="index-record"></span>
+
+<p><em>Block</em> and <em>record</em> terminology is rather confused, and it
+is also confusing to the expert reader.  On the other hand, readers
+who are new to the field have a fresh mind, and they may safely skip
+the next two paragraphs, as the remainder of this manual uses those
+two terms in a quite consistent way.
+</p>
+<p>John Gilmore, the writer of the public domain <code>tar</code> from which
+<acronym>GNU</acronym> <code>tar</code> was originally derived, wrote (June 1995):
+</p>
+<blockquote>
+<p>The nomenclature of tape drives comes from IBM, where I believe
+they were invented for the IBM 650 or so.  On IBM mainframes, what
+is recorded on tape are tape blocks.  The logical organization of
+data is into records.  There are various ways of putting records into
+blocks, including <code>F</code> (fixed sized records), <code>V</code> (variable
+sized records), <code>FB</code> (fixed blocked: fixed size records, <var>n</var>
+to a block), <code>VB</code> (variable size records, <var>n</var> to a block),
+<code>VSB</code> (variable spanned blocked: variable sized records that can
+occupy more than one block), etc.  The <code>JCL</code> &lsquo;<samp>DD RECFORM=</samp>&rsquo;
+parameter specified this to the operating system.
+</p>
+<p>The Unix man page on <code>tar</code> was totally confused about this.
+When I wrote <code>PD TAR</code>, I used the historically correct terminology
+(<code>tar</code> writes data records, which are grouped into blocks).
+It appears that the bogus terminology made it into <acronym>POSIX</acronym> (no surprise
+here), and now Fran&ccedil;ois has migrated that terminology back
+into the source code too.
+</p></blockquote>
+
+<p>The term <em>physical block</em> means the basic transfer chunk from or
+to a device, after which reading or writing may stop without anything
+being lost.  In this manual, the term <em>block</em> usually refers to
+a disk physical block, <em>assuming</em> that each disk block is 512
+bytes in length.  It is true that some disk devices have different
+physical blocks, but <code>tar</code> ignore these differences in its own
+format, which is meant to be portable, so a <code>tar</code> block is always
+512 bytes in length, and <em>block</em> always mean a <code>tar</code> block.
+The term <em>logical block</em> often represents the basic chunk of
+allocation of many disk blocks as a single entity, which the operating
+system treats somewhat atomically; this concept is only barely used
+in <acronym>GNU</acronym> <code>tar</code>.
+</p>
+<p>The term <em>physical record</em> is another way to speak of a physical
+block, those two terms are somewhat interchangeable.  In this manual,
+the term <em>record</em> usually refers to a tape physical block,
+<em>assuming</em> that the <code>tar</code> archive is kept on magnetic tape.
+It is true that archives may be put on disk or used with pipes,
+but nevertheless, <code>tar</code> tries to read and write the archive one
+<em>record</em> at a time, whatever the medium in use.  One record is made
+up of an integral number of blocks, and this operation of putting many
+disk blocks into a single tape block is called <em>reblocking</em>, or
+more simply, <em>blocking</em>.  The term <em>logical record</em> refers to
+the logical organization of many characters into something meaningful
+to the application.  The term <em>unit record</em> describes a small set
+of characters which are transmitted whole to or by the application,
+and often refers to a line of text.  Those two last terms are unrelated
+to what we call a <em>record</em> in <acronym>GNU</acronym> <code>tar</code>.
+</p>
+<p>When writing to tapes, <code>tar</code> writes the contents of the archive
+in chunks known as <em>records</em>.  To change the default blocking
+factor, use the <samp>--blocking-factor=<var>512-size</var></samp> (<samp>-b
+<var>512-size</var></samp>) option.  Each record will then be composed of
+<var>512-size</var> blocks.  (Each <code>tar</code> block is 512 bytes.
+See <a href="Standard.html">Basic Tar Format</a>.)  Each file written to the archive uses at least one
+full record.  As a result, using a larger record size can result in
+more wasted space for small files.  On the other hand, a larger record
+size can often be read and written much more efficiently.
+</p>
+<p>Further complicating the problem is that some tape drives ignore the
+blocking entirely.  For these, a larger record size can still improve
+performance (because the software layers above the tape drive still
+honor the blocking), but not as dramatically as on tape drives that
+honor blocking.
+</p>
+<p>When reading an archive, <code>tar</code> can usually figure out the
+record size on itself.  When this is the case, and a non-standard
+record size was used when the archive was created, <code>tar</code> will
+print a message about a non-standard blocking factor, and then operate
+normally<a id="DOCF25" href="#FOOT25"><sup>25</sup></a>.  On some tape
+devices, however, <code>tar</code> cannot figure out the record size
+itself.  On most of those, you can specify a blocking factor (with
+<samp>--blocking-factor</samp>) larger than the actual blocking factor,
+and then use the <samp>--read-full-records</samp> (<samp>-B</samp>) option.
+(If you specify a blocking factor with <samp>--blocking-factor</samp> and
+don&rsquo;t use the <samp>--read-full-records</samp> option, then <code>tar</code>
+will not attempt to figure out the recording size itself.)  On some
+devices, you must always specify the record size exactly with
+<samp>--blocking-factor</samp> when reading, because <code>tar</code> cannot
+figure it out.  In any case, use <samp>--list</samp> (<samp>-t</samp>) before
+doing any extractions to see whether <code>tar</code> is reading the archive
+correctly.
+</p>
+<p><code>tar</code> blocks are all fixed size (512 bytes), and its scheme for
+putting them into records is to put a whole number of them (one or
+more) into each record.  <code>tar</code> records are all the same size;
+at the end of the file there&rsquo;s a block containing all zeros, which
+is how you tell that the remainder of the last record(s) are garbage.
+</p>
+<p>In a standard <code>tar</code> file (no options), the block size is 512
+and the record size is 10240, for a blocking factor of 20.  What the
+<samp>--blocking-factor</samp> option does is sets the blocking factor,
+changing the record size while leaving the block size at 512 bytes.
+20 was fine for ancient 800 or 1600 bpi reel-to-reel tape drives;
+most tape drives these days prefer much bigger records in order to
+stream and not waste tape.  When writing tapes for myself, some tend
+to use a factor of the order of 2048, say, giving a record size of
+around one megabyte.
+</p>
+<p>If you use a blocking factor larger than 20, older <code>tar</code>
+programs might not be able to read the archive, so we recommend this
+as a limit to use in practice.  <acronym>GNU</acronym> <code>tar</code>, however,
+will support arbitrarily large record sizes, limited only by the
+amount of virtual memory or the physical characteristics of the tape
+device.
+</p>
+
+<ul class="section-toc">
+<li><a href="Format-Variations.html" accesskey="1">Format Variations</a></li>
+<li><a href="Blocking-Factor.html" accesskey="2">The Blocking Factor of an Archive</a></li>
+</ul>
+</div>
+<div class="footnote">
+<hr>
+<h4 class="footnotes-heading">Footnotes</h4>
+
+<h5><a id="FOOT25" href="#DOCF25">(25)</a></h5>
+<p>If this message is not needed, you can turn it off
+using the <samp>--warning=no-record-size</samp> option.</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Many.html">Many Archives on One Tape</a>, Previous: <a href="Common-Problems-and-Solutions.html">Some Common Problems and their Solutions</a>, Up: <a href="Media.html">Tapes and Other Archive Media</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

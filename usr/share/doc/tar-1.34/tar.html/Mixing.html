@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Mixing (GNU tar 1.34)</title>
+
+<meta name="description" content="Mixing (GNU tar 1.34)">
+<meta name="keywords" content="Mixing (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Styles.html" rel="up" title="Styles">
+<link href="Old-Options.html" rel="prev" title="Old Options">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection" id="Mixing">
+<div class="header">
+<p>
+Previous: <a href="Old-Options.html" accesskey="p" rel="prev">Old Option Style</a>, Up: <a href="Styles.html" accesskey="u" rel="up">The Three Option Styles</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Mixing-Option-Styles"></span><h4 class="subsection">3.3.4 Mixing Option Styles</h4>
+
+<span id="index-options_002c-mixing-different-styles"></span>
+<p>All three styles may be intermixed in a single <code>tar</code> command,
+so long as the rules for each style are fully
+respected<a id="DOCF4" href="#FOOT4"><sup>4</sup></a>.  Old style options and either of the modern styles of
+options may be mixed within a single <code>tar</code> command.  However,
+old style options must be introduced as the first arguments only,
+following the rule for old options (old options must appear directly
+after the <code>tar</code> command and some white space).  Modern options
+may be given only after all arguments to the old options have been
+collected.  If this rule is not respected, a modern option might be
+falsely interpreted as the value of the argument to one of the old
+style options.
+</p>
+<p>For example, all the following commands are wholly equivalent, and
+illustrate the many combinations and orderings of option styles.
+</p>
+<div class="example">
+<pre class="example"><kbd>tar --create --file=archive.tar</kbd>
+<kbd>tar --create -f archive.tar</kbd>
+<kbd>tar --create -farchive.tar</kbd>
+<kbd>tar --file=archive.tar --create</kbd>
+<kbd>tar --file=archive.tar -c</kbd>
+<kbd>tar -c --file=archive.tar</kbd>
+<kbd>tar -c -f archive.tar</kbd>
+<kbd>tar -c -farchive.tar</kbd>
+<kbd>tar -cf archive.tar</kbd>
+<kbd>tar -cfarchive.tar</kbd>
+<kbd>tar -f archive.tar --create</kbd>
+<kbd>tar -f archive.tar -c</kbd>
+<kbd>tar -farchive.tar --create</kbd>
+<kbd>tar -farchive.tar -c</kbd>
+<kbd>tar c --file=archive.tar</kbd>
+<kbd>tar c -f archive.tar</kbd>
+<kbd>tar c -farchive.tar</kbd>
+<kbd>tar cf archive.tar</kbd>
+<kbd>tar f archive.tar --create</kbd>
+<kbd>tar f archive.tar -c</kbd>
+<kbd>tar fc archive.tar</kbd>
+</pre></div>
+
+<p>On the other hand, the following commands are <em>not</em> equivalent to
+the previous set:
+</p>
+<div class="example">
+<pre class="example"><kbd>tar -f -c archive.tar</kbd>
+<kbd>tar -fc archive.tar</kbd>
+<kbd>tar -fcarchive.tar</kbd>
+<kbd>tar -farchive.tarc</kbd>
+<kbd>tar cfarchive.tar</kbd>
+</pre></div>
+
+<p>These last examples mean something completely different from what the
+user intended (judging based on the example in the previous set which
+uses long options, whose intent is therefore very clear).  The first
+four specify that the <code>tar</code> archive would be a file named
+<samp>-c</samp>, &lsquo;<samp>c</samp>&rsquo;, &lsquo;<samp>carchive.tar</samp>&rsquo; or &lsquo;<samp>archive.tarc</samp>&rsquo;,
+respectively.  The first two examples also specify a single non-option,
+<var>name</var> argument having the value &lsquo;<samp>archive.tar</samp>&rsquo;.  The last
+example contains only old style option letters (repeating option
+&lsquo;<samp>c</samp>&rsquo; twice), not all of which are meaningful (eg., &lsquo;<samp>.</samp>&rsquo;,
+&lsquo;<samp>h</samp>&rsquo;, or &lsquo;<samp>i</samp>&rsquo;), with no argument value.
+</p>
+
+</div>
+<div class="footnote">
+<hr>
+<h4 class="footnotes-heading">Footnotes</h4>
+
+<h5><a id="FOOT4" href="#DOCF4">(4)</a></h5>
+<p>Before <acronym>GNU</acronym> <code>tar</code> version 1.11.6,
+a bug prevented intermixing old style options with long options in
+some cases.</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Previous: <a href="Old-Options.html">Old Option Style</a>, Up: <a href="Styles.html">The Three Option Styles</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

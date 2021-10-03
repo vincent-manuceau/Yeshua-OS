@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>help (GNU tar 1.34)</title>
+
+<meta name="description" content="help (GNU tar 1.34)">
+<meta name="keywords" content="help (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="tar-invocation.html" rel="up" title="tar invocation">
+<link href="defaults.html" rel="next" title="defaults">
+<link href="All-Options.html" rel="prev" title="All Options">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section" id="help">
+<div class="header">
+<p>
+Next: <a href="defaults.html" accesskey="n" rel="next">Obtaining <acronym>GNU</acronym> <code>tar</code> default values</a>, Previous: <a href="All-Options.html" accesskey="p" rel="prev">All <code>tar</code> Options</a>, Up: <a href="tar-invocation.html" accesskey="u" rel="up">Invoking <acronym>GNU</acronym> <code>tar</code></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="GNU-tar-documentation"></span><h3 class="section">3.5 <acronym>GNU</acronym> <code>tar</code> documentation</h3>
+
+<span id="index-Getting-program-version-number"></span>
+<span id="index-version"></span>
+<span id="index-Version-of-the-tar-program"></span>
+<p>Being careful, the first thing is really checking that you are using
+<acronym>GNU</acronym> <code>tar</code>, indeed.  The <samp>--version</samp> option
+causes <code>tar</code> to print information about its name, version,
+origin and legal status, all on standard output, and then exit
+successfully.  For example, &lsquo;<samp>tar&nbsp;<span class="nolinebreak">--version</span></samp>&rsquo;<!-- /@w --> might print:
+</p>
+<div class="example">
+<pre class="example">tar (GNU tar) 1.34
+Copyright (C) 2013-2020 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt;.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+Written by John Gilmore and Jay Fenlason.
+</pre></div>
+
+<p>The first occurrence of &lsquo;<samp>tar</samp>&rsquo; in the result above is the program
+name in the package (for example, <code>rmt</code> is another program),
+while the second occurrence of &lsquo;<samp>tar</samp>&rsquo; is the name of the package
+itself, containing possibly many programs.  The package is currently
+named &lsquo;<samp>tar</samp>&rsquo;, after the name of the main program it
+contains<a id="DOCF7" href="#FOOT7"><sup>7</sup></a>.
+</p>
+<span id="index-Obtaining-help"></span>
+<span id="index-Listing-all-tar-options"></span>
+<span id="index-help_002c-introduction"></span>
+<p>Another thing you might want to do is checking the spelling or meaning
+of some particular <code>tar</code> option, without resorting to this
+manual, for once you have carefully read it.  <acronym>GNU</acronym> <code>tar</code>
+has a short help feature, triggerable through the
+<samp>--help</samp> option.  By using this option, <code>tar</code> will
+print a usage message listing all available options on standard
+output, then exit successfully, without doing anything else and
+ignoring all other options.  Even if this is only a brief summary, it
+may be several screens long.  So, if you are not using some kind of
+scrollable window, you might prefer to use something like:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar --help | less</kbd>
+</pre></div>
+
+<p>presuming, here, that you like using <code>less</code> for a pager.  Other
+popular pagers are <code>more</code> and <code>pg</code>.  If you know about some
+<var>keyword</var> which interests you and do not want to read all the
+<samp>--help</samp> output, another common idiom is doing:
+</p>
+<div class="example">
+<pre class="example">tar --help | grep <var>keyword</var>
+</pre></div>
+
+<p>for getting only the pertinent lines.  Notice, however, that some
+<code>tar</code> options have long description lines and the above
+command will list only the first of them.
+</p>
+<p>The exact look of the option summary displayed by <kbd>tar --help</kbd> is
+configurable. See <a href="Configuring-Help-Summary.html">Configuring Help Summary</a>, for a detailed description.
+</p>
+<span id="index-usage"></span>
+<p>If you only wish to check the spelling of an option, running <kbd>tar
+--usage</kbd> may be a better choice.  This will display a terse list of
+<code>tar</code> options without accompanying explanations.
+</p>
+<p>The short help output is quite succinct, and you might have to get
+back to the full documentation for precise points.  If you are reading
+this paragraph, you already have the <code>tar</code> manual in some
+form.  This manual is available in a variety of forms from
+<a href="http://www.gnu.org/software/tar/manual">http://www.gnu.org/software/tar/manual</a>.  It may be printed out of the <acronym>GNU</acronym> <code>tar</code>
+distribution, provided you have TeX already installed somewhere,
+and a laser printer around.  Just configure the distribution, execute
+the command &lsquo;<samp>make&nbsp;dvi</samp>&rsquo;<!-- /@w -->, then print <samp>doc/tar.dvi</samp> the
+usual way (contact your local guru to know how).  If <acronym>GNU</acronym> <code>tar</code>
+has been conveniently installed at your place, this
+manual is also available in interactive, hypertextual form as an Info
+file.  Just call &lsquo;<samp>info&nbsp;tar</samp>&rsquo;<!-- /@w --> or, if you do not have the
+<code>info</code> program handy, use the Info reader provided within
+<acronym>GNU</acronym> Emacs, calling &lsquo;<samp>tar</samp>&rsquo; from the main Info menu.
+</p>
+<p>There is currently no <code>man</code> page for <acronym>GNU</acronym> <code>tar</code>.
+If you observe such a <code>man</code> page on the system you are running,
+either it does not belong to <acronym>GNU</acronym> <code>tar</code>, or it has not
+been produced by <acronym>GNU</acronym>.  Some package maintainers convert
+<kbd>tar --help</kbd> output to a man page, using <code>help2man</code>.  In
+any case, please bear in mind that the authoritative source of
+information about <acronym>GNU</acronym> <code>tar</code> is this Texinfo documentation.
+</p>
+</div>
+<div class="footnote">
+<hr>
+<h4 class="footnotes-heading">Footnotes</h4>
+
+<h5><a id="FOOT7" href="#DOCF7">(7)</a></h5>
+<p>There are plans to merge the <code>cpio</code> and
+<code>tar</code> packages into a single one which would be called
+<code>paxutils</code>.  So, who knows if, one of this days, the
+<samp>--version</samp> would not output &lsquo;<samp>tar&nbsp;(<acronym>GNU</acronym>&nbsp;paxutils)&nbsp;3.2</samp>&rsquo;<!-- /@w -->.</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="defaults.html">Obtaining <acronym>GNU</acronym> <code>tar</code> default values</a>, Previous: <a href="All-Options.html">All <code>tar</code> Options</a>, Up: <a href="tar-invocation.html">Invoking <acronym>GNU</acronym> <code>tar</code></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

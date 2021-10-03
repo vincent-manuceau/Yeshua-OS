@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Split Recovery (GNU tar 1.34)</title>
+
+<meta name="description" content="Split Recovery (GNU tar 1.34)">
+<meta name="keywords" content="Split Recovery (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Other-Tars.html" rel="up" title="Other Tars">
+<link href="Sparse-Recovery.html" rel="next" title="Sparse Recovery">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsubsection" id="Split-Recovery">
+<div class="header">
+<p>
+Next: <a href="Sparse-Recovery.html" accesskey="n" rel="next">Extracting Sparse Members</a>, Up: <a href="Other-Tars.html" accesskey="u" rel="up">How to Extract GNU-Specific Data Using Other <code>tar</code> Implementations</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Extracting-Members-Split-Between-Volumes"></span><h4 class="subsubsection">8.3.10.1 Extracting Members Split Between Volumes</h4>
+
+<span id="index-Multi_002dvolume-archives_002c-extracting-using-non_002dGNU-tars"></span>
+<p>If a member is split between several volumes of an old GNU format archive
+most third party <code>tar</code> implementation will fail to extract
+it.  To extract it, use <code>tarcat</code> program (see <a href="Tarcat.html">Concatenate Volumes into a Single Archive</a>).
+This program is available from
+<a href="http://www.gnu.org/software/tar/utils/tarcat.html"><acronym>GNU</acronym> <code>tar</code>
+home page</a>.  It concatenates several archive volumes into a single
+valid archive.  For example, if you have three volumes named from
+<samp>vol-1.tar</samp> to <samp>vol-3.tar</samp>, you can do the following to
+extract them using a third-party <code>tar</code>:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tarcat vol-1.tar vol-2.tar vol-3.tar | tar xf -</kbd>
+</pre></div>
+
+<span id="index-Multi_002dvolume-archives-in-PAX-format_002c-extracting-using-non_002dGNU-tars"></span>
+<p>You could use this approach for most (although not all) PAX
+format archives as well.  However, extracting split members from a PAX
+archive is a much easier task, because PAX volumes are constructed in
+such a way that each part of a split member is extracted to a
+different file by <code>tar</code> implementations that are not aware of
+GNU extensions.  More specifically, the very first part retains its
+original name, and all subsequent parts are named using the pattern:
+</p>
+<div class="example">
+<pre class="example">%d/GNUFileParts/%f.%n
+</pre></div>
+
+<p>where symbols preceded by &lsquo;<samp>%</samp>&rsquo; are <em>macro characters</em> that
+have the following meaning:
+</p>
+<table>
+<thead><tr><th width="25%">Meta-character</th><th width="55%">Replaced By</th></tr></thead>
+<tr><td width="25%">%d</td><td width="55%">The directory name of the file, equivalent to the
+result of the <code>dirname</code> utility on its full name.</td></tr>
+<tr><td width="25%">%f</td><td width="55%">The file name of the file, equivalent to the result
+of the <code>basename</code> utility on its full name.</td></tr>
+<tr><td width="25%">%p</td><td width="55%">The process <acronym>ID</acronym> of the <code>tar</code> process that
+created the archive.</td></tr>
+<tr><td width="25%">%n</td><td width="55%">Ordinal number of this particular part.</td></tr>
+</table>
+
+<p>For example, if the file <samp>var/longfile</samp> was split during archive
+creation between three volumes, then the member names will be:
+</p>
+<div class="example">
+<pre class="example">var/longfile
+var/GNUFileParts/longfile.1
+var/GNUFileParts/longfile.2
+</pre></div>
+
+<p>When you extract your archive using a third-party <code>tar</code>, these
+files will be created on your disk, and the only thing you will need
+to do to restore your file in its original form is concatenate them in
+the proper order, for example:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>cd var</kbd>
+$ <kbd>cat GNUFileParts/longfile.1 \
+  GNUFileParts/longfile.2 &gt;&gt; longfile</kbd>
+$ rm -f GNUFileParts
+</pre></div>
+
+<p>Notice, that if the <code>tar</code> implementation you use supports PAX
+format archives, it will probably emit warnings about unknown keywords
+during extraction.  They will look like this:
+</p>
+<div class="example">
+<pre class="example">Tar file too small
+Unknown extended header keyword 'GNU.volume.filename' ignored.
+Unknown extended header keyword 'GNU.volume.size' ignored.
+Unknown extended header keyword 'GNU.volume.offset' ignored.
+</pre></div>
+
+<p>You can safely ignore these warnings.
+</p>
+<p>If your <code>tar</code> implementation is not PAX-aware, you will get
+more warnings and more files generated on your disk, e.g.:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar xf vol-1.tar</kbd>
+var/PaxHeaders/longfile: Unknown file type 'x', extracted as
+normal file
+Unexpected EOF in archive
+$ <kbd>tar xf vol-2.tar</kbd>
+tmp/GlobalHead.1: Unknown file type 'g', extracted as normal file
+GNUFileParts/PaxHeaders/sparsefile.1: Unknown file type
+'x', extracted as normal file
+</pre></div>
+
+<p>Ignore these warnings.  The <samp>PaxHeaders.*</samp> directories created
+will contain files with <em>extended header keywords</em> describing the
+extracted files.  You can delete them, unless they describe sparse
+members.  Read further to learn more about them.
+</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Sparse-Recovery.html">Extracting Sparse Members</a>, Up: <a href="Other-Tars.html">How to Extract GNU-Specific Data Using Other <code>tar</code> Implementations</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

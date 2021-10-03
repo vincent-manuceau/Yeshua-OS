@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Tape Positioning (GNU tar 1.34)</title>
+
+<meta name="description" content="Tape Positioning (GNU tar 1.34)">
+<meta name="keywords" content="Tape Positioning (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Many.html" rel="up" title="Many">
+<link href="mt.html" rel="next" title="mt">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection" id="Tape-Positioning">
+<div class="header">
+<p>
+Next: <a href="mt.html" accesskey="n" rel="next">The <code>mt</code> Utility</a>, Up: <a href="Many.html" accesskey="u" rel="up">Many Archives on One Tape</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Tape-Positions-and-Tape-Marks"></span><h4 class="subsection">9.5.1 Tape Positions and Tape Marks</h4>
+<blockquote>
+<p><em>(This message will disappear, once this node revised.)</em>
+</p></blockquote>
+
+<p>Just as archives can store more than one file from the file system,
+tapes can store more than one archive file.  To keep track of where
+archive files (or any other type of file stored on tape) begin and
+end, tape archive devices write magnetic <em>tape marks</em> on the
+archive media.  Tape drives write one tape mark between files,
+two at the end of all the file entries.
+</p>
+<p>If you think of data as a series of records &quot;rrrr&quot;&rsquo;s, and tape marks as
+&quot;*&quot;&rsquo;s, a tape might look like the following:
+</p>
+<div class="example">
+<pre class="example">rrrr*rrrrrr*rrrrr*rr*rrrrr**-------------------------
+</pre></div>
+
+<p>Tape devices read and write tapes using a read/write <em>tape
+head</em>&mdash;a physical part of the device which can only access one
+point on the tape at a time.  When you use <code>tar</code> to read or
+write archive data from a tape device, the device will begin reading
+or writing from wherever on the tape the tape head happens to be,
+regardless of which archive or what part of the archive the tape
+head is on.  Before writing an archive, you should make sure that no
+data on the tape will be overwritten (unless it is no longer needed).
+Before reading an archive, you should make sure the tape head is at
+the beginning of the archive you want to read.  You can do it manually
+via <code>mt</code> utility (see <a href="mt.html">The <code>mt</code> Utility</a>).  The <code>restore</code> script does
+that automatically (see <a href="Scripted-Restoration.html">Using the Restore Script</a>).
+</p>
+<p>If you want to add new archive file entries to a tape, you should
+advance the tape to the end of the existing file entries, backspace
+over the last tape mark, and write the new archive file.  If you were
+to add two archives to the example above, the tape might look like the
+following:
+</p>
+<div class="example">
+<pre class="example">rrrr*rrrrrr*rrrrr*rr*rrrrr*rrr*rrrr**----------------
+</pre></div>
+
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="mt.html">The <code>mt</code> Utility</a>, Up: <a href="Many.html">Many Archives on One Tape</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

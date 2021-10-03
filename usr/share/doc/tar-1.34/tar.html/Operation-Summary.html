@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Operation Summary (GNU tar 1.34)</title>
+
+<meta name="description" content="Operation Summary (GNU tar 1.34)">
+<meta name="keywords" content="Operation Summary (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="All-Options.html" rel="up" title="All Options">
+<link href="Option-Summary.html" rel="next" title="Option Summary">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection" id="Operation-Summary">
+<div class="header">
+<p>
+Next: <a href="Option-Summary.html" accesskey="n" rel="next"><code>tar</code> Options</a>, Up: <a href="All-Options.html" accesskey="u" rel="up">All <code>tar</code> Options</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Operations-1"></span><h4 class="subsection">3.4.1 Operations</h4>
+
+<dl compact="compact">
+<dd>
+<span id="g_t_002d_002dappend"></span><span id="index-append_002c-summary"></span>
+</dd>
+<dt><span><samp>--append</samp></span></dt>
+<dt><span><samp>-r</samp></span></dt>
+<dd>
+<p>Appends files to the end of the archive.  See <a href="append.html">How to Add Files to Existing Archives: <samp>--append</samp></a>.
+</p>
+<span id="g_t_002d_002dcatenate"></span><span id="index-catenate_002c-summary"></span>
+</dd>
+<dt><span><samp>--catenate</samp></span></dt>
+<dt><span><samp>-A</samp></span></dt>
+<dd>
+<p>Same as <samp>--concatenate</samp>.  See <a href="concatenate.html">Combining Archives with <samp>--concatenate</samp></a>.
+</p>
+<span id="g_t_002d_002dcompare"></span><span id="index-compare_002c-summary"></span>
+</dd>
+<dt><span><samp>--compare</samp></span></dt>
+<dt><span><samp>-d</samp></span></dt>
+<dd>
+<p>Compares archive members with their counterparts in the file
+system, and reports differences in file size, mode, owner,
+modification date and contents.  See <a href="compare.html">Comparing Archive Members with the File System</a>.
+</p>
+<span id="g_t_002d_002dconcatenate"></span><span id="index-concatenate_002c-summary"></span>
+</dd>
+<dt><span><samp>--concatenate</samp></span></dt>
+<dt><span><samp>-A</samp></span></dt>
+<dd>
+<p>Appends other <code>tar</code> archives to the end of the archive.
+See <a href="concatenate.html">Combining Archives with <samp>--concatenate</samp></a>.
+</p>
+<span id="g_t_002d_002dcreate"></span><span id="index-create_002c-summary"></span>
+</dd>
+<dt><span><samp>--create</samp></span></dt>
+<dt><span><samp>-c</samp></span></dt>
+<dd>
+<p>Creates a new <code>tar</code> archive.  See <a href="create.html">How to Create Archives</a>.
+</p>
+<span id="g_t_002d_002ddelete"></span><span id="index-delete_002c-summary"></span>
+</dd>
+<dt><span><samp>--delete</samp></span></dt>
+<dd>
+<p>Deletes members from the archive.  Don&rsquo;t try this on an archive on a
+tape!  See <a href="delete.html">Removing Archive Members Using <samp>--delete</samp></a>.
+</p>
+<span id="g_t_002d_002ddiff"></span><span id="index-diff_002c-summary"></span>
+</dd>
+<dt><span><samp>--diff</samp></span></dt>
+<dt><span><samp>-d</samp></span></dt>
+<dd>
+<p>Same <samp>--compare</samp>.  See <a href="compare.html">Comparing Archive Members with the File System</a>.
+</p>
+<span id="g_t_002d_002dextract"></span><span id="index-extract_002c-summary"></span>
+</dd>
+<dt><span><samp>--extract</samp></span></dt>
+<dt><span><samp>-x</samp></span></dt>
+<dd>
+<p>Extracts members from the archive into the file system.  See <a href="extract.html">How to Extract Members from an Archive</a>.
+</p>
+<span id="g_t_002d_002dget"></span><span id="index-get_002c-summary"></span>
+</dd>
+<dt><span><samp>--get</samp></span></dt>
+<dt><span><samp>-x</samp></span></dt>
+<dd>
+<p>Same as <samp>--extract</samp>.  See <a href="extract.html">How to Extract Members from an Archive</a>.
+</p>
+<span id="g_t_002d_002dlist"></span><span id="index-list_002c-summary"></span>
+</dd>
+<dt><span><samp>--list</samp></span></dt>
+<dt><span><samp>-t</samp></span></dt>
+<dd>
+<p>Lists the members in an archive.  See <a href="list.html">How to List Archives</a>.
+</p>
+<span id="g_t_002d_002dupdate"></span><span id="index-update_002c-summary"></span>
+</dd>
+<dt><span><samp>--update</samp></span></dt>
+<dt><span><samp>-u</samp></span></dt>
+<dd>
+<p>Adds files to the end of the archive, but only if they are newer than
+their counterparts already in the archive, or if they do not already
+exist in the archive. See <a href="update.html">Updating an Archive</a>.
+</p>
+</dd>
+</dl>
+
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Option-Summary.html"><code>tar</code> Options</a>, Up: <a href="All-Options.html">All <code>tar</code> Options</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

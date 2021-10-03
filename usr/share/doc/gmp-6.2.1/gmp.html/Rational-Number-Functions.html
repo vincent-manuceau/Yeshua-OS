@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- This manual describes how to install and use the GNU multiple precision
+arithmetic library, version 6.2.1.
+
+Copyright 1991, 1993-2016, 2018-2020 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document under
+the terms of the GNU Free Documentation License, Version 1.3 or any later
+version published by the Free Software Foundation; with no Invariant Sections,
+with the Front-Cover Texts being "A GNU Manual", and with the Back-Cover
+Texts being "You have freedom to copy and modify this GNU Manual, like GNU
+software".  A copy of the license is included in
+GNU Free Documentation License. -->
+<title>Rational Number Functions (GNU MP 6.2.1)</title>
+
+<meta name="description" content="How to install and use the GNU multiple precision arithmetic library, version 6.2.1.">
+<meta name="keywords" content="Rational Number Functions (GNU MP 6.2.1)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Concept-Index.html" rel="index" title="Concept Index">
+<link href="index.html" rel="up" title="Top">
+<link href="Floating_002dpoint-Functions.html" rel="next" title="Floating-point Functions">
+<link href="Integer-Functions.html" rel="prev" title="Integer Functions">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="chapter" id="Rational-Number-Functions">
+<div class="header">
+<p>
+Next: <a href="Floating_002dpoint-Functions.html" accesskey="n" rel="next">Floating-point Functions</a>, Previous: <a href="Integer-Functions.html" accesskey="p" rel="prev">Integer Functions</a>, Up: <a href="index.html" accesskey="u" rel="up">GNU MP</a> &nbsp; [<a href="Concept-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Rational-Number-Functions-1"></span><h2 class="chapter">6 Rational Number Functions</h2>
+<span id="index-Rational-number-functions"></span>
+
+<p>This chapter describes the GMP functions for performing arithmetic on rational
+numbers.  These functions start with the prefix <code>mpq_</code>.
+</p>
+<p>Rational numbers are stored in objects of type <code>mpq_t</code>.
+</p>
+<p>All rational arithmetic functions assume operands have a canonical form, and
+canonicalize their result.  The canonical form means that the denominator and
+the numerator have no common factors, and that the denominator is positive.
+Zero has the unique representation 0/1.
+</p>
+<p>Pure assignment functions do not canonicalize the assigned variable.  It is
+the responsibility of the user to canonicalize the assigned variable before
+any arithmetic operations are performed on that variable.
+</p>
+<dl class="def">
+<dt id="index-mpq_005fcanonicalize"><span class="category">Function: </span><span><em>void</em> <strong>mpq_canonicalize</strong> <em>(mpq_t <var>op</var>)</em><a href='#index-mpq_005fcanonicalize' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>Remove any factors that are common to the numerator and denominator of
+<var>op</var>, and make the denominator positive.
+</p></dd></dl>
+
+
+<ul class="section-toc">
+<li><a href="Initializing-Rationals.html" accesskey="1">Initialization and Assignment Functions</a></li>
+<li><a href="Rational-Conversions.html" accesskey="2">Conversion Functions</a></li>
+<li><a href="Rational-Arithmetic.html" accesskey="3">Arithmetic Functions</a></li>
+<li><a href="Comparing-Rationals.html" accesskey="4">Comparison Functions</a></li>
+<li><a href="Applying-Integer-Functions.html" accesskey="5">Applying Integer Functions to Rationals</a></li>
+<li><a href="I_002fO-of-Rationals.html" accesskey="6">Input and Output Functions</a></li>
+</ul>
+</div>
+
+
+
+</body>
+</html>

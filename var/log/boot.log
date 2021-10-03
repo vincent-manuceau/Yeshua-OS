@@ -1,0 +1,100 @@
+Oct 02 23:40:27 +02:00 (none)  Mounting virtual file systems: /run /proc /sys OK
+Oct 02 23:40:28 +02:00 (none)  Bringing up the loopback interface... OK
+Oct 02 23:40:28 +02:00 (none)  Setting hostname to yeshua-os... OK
+Oct 02 23:40:28 +02:00 yeshua-os  Populating /dev with device nodes...  OK
+Oct 02 23:40:29 +02:00 yeshua-os  Activating all swap files/partitions... OK
+Oct 02 23:40:29 +02:00 yeshua-os  Mounting root file system in read-only mode...  OK
+Oct 02 23:40:29 +02:00 yeshua-os  Checking file systems... OK
+Oct 02 23:40:29 +02:00 yeshua-os  Remounting root file system in read-write mode... OK
+Oct 02 23:40:29 +02:00 yeshua-os  Mounting remaining file systems... OK
+Oct 02 23:40:29 +02:00 yeshua-os  Cleaning file systems: /tmp OK
+Oct 02 23:40:29 +02:00 yeshua-os  Retrying failed uevents, if any... OK
+Oct 02 23:40:30 +02:00 yeshua-os  Starting system log christ... OK
+Oct 02 23:40:30 +02:00 yeshua-os  Starting kernel log christ... OK
+Oct 02 23:40:30 +02:00 yeshua-os  Bringing up the ens3 interface...Oct 02 23:40:30 +02:00 yeshua-os  Interface ens3 doesn't exist. FAIL
+Oct 02 23:40:30 +02:00 yeshua-os  Starting SSH Server... OK
+--------
+Oct 02 23:42:54 +02:00 (none)  Mounting virtual file systems: /run /proc /sys OK
+Oct 02 23:42:55 +02:00 (none)  Bringing up the loopback interface... OK
+Oct 02 23:42:55 +02:00 (none)  Setting hostname to yeshua-os... OK
+Oct 02 23:42:55 +02:00 yeshua-os  Populating /dev with device nodes...  OK
+Oct 02 23:42:56 +02:00 yeshua-os  Activating all swap files/partitions... OK
+Oct 02 23:42:56 +02:00 yeshua-os  Mounting root file system in read-only mode...  OK
+Oct 02 23:42:56 +02:00 yeshua-os  Checking file systems... OK
+Oct 02 23:42:56 +02:00 yeshua-os  Remounting root file system in read-write mode... OK
+Oct 02 23:42:56 +02:00 yeshua-os  Mounting remaining file systems... OK
+Oct 02 23:42:56 +02:00 yeshua-os  Cleaning file systems: /tmp OK
+Oct 02 23:42:56 +02:00 yeshua-os  Retrying failed uevents, if any... OK
+Oct 02 23:42:57 +02:00 yeshua-os  Starting system log christ... OK
+Oct 02 23:42:57 +02:00 yeshua-os  Starting kernel log christ... OK
+Oct 02 23:42:57 +02:00 yeshua-os  Bringing up the ens3 interface...Oct 02 23:42:57 +02:00 yeshua-os  Interface ens3 doesn't exist. FAIL
+Oct 02 23:42:57 +02:00 yeshua-os  Starting SSH Server... OK
+--------
+Oct 02 23:45:09 +02:00 (none)  Mounting virtual file systems: /run /proc /sys OK
+Oct 02 23:45:10 +02:00 (none)  Bringing up the loopback interface... OK
+Oct 02 23:45:10 +02:00 (none)  Setting hostname to yeshua-os... OK
+Oct 02 23:45:10 +02:00 yeshua-os  Populating /dev with device nodes...  OK
+Oct 02 23:45:11 +02:00 yeshua-os  Activating all swap files/partitions... OK
+Oct 02 23:45:11 +02:00 yeshua-os  Mounting root file system in read-only mode...  OK
+Oct 02 23:45:11 +02:00 yeshua-os  Checking file systems... OK
+Oct 02 23:45:11 +02:00 yeshua-os  Remounting root file system in read-write mode... OK
+Oct 02 23:45:11 +02:00 yeshua-os  Mounting remaining file systems... OK
+Oct 02 23:45:11 +02:00 yeshua-os  Cleaning file systems: /tmp OK
+Oct 02 23:45:11 +02:00 yeshua-os  Retrying failed uevents, if any... OK
+Oct 02 23:45:12 +02:00 yeshua-os  Starting system log christ... OK
+Oct 02 23:45:12 +02:00 yeshua-os  Starting kernel log christ... OK
+Oct 02 23:45:12 +02:00 yeshua-os  Bringing up the ens3 interface...Oct 02 23:45:12 +02:00 yeshua-os  Interface ens3 doesn't exist. FAIL
+Oct 02 23:45:12 +02:00 yeshua-os  Starting SSH Server... OK
+--------
+Oct 02 23:48:15 +02:00 (none)  Mounting virtual file systems: /run /proc /sys OK
+Oct 02 23:48:16 +02:00 (none)  Bringing up the loopback interface... OK
+Oct 02 23:48:16 +02:00 (none)  Setting hostname to yeshua-os... OK
+Oct 02 23:48:16 +02:00 yeshua-os  Populating /dev with device nodes...  OK
+Oct 02 23:48:18 +02:00 yeshua-os  Activating all swap files/partitions... OK
+Oct 02 23:48:18 +02:00 yeshua-os  Mounting root file system in read-only mode...  OK
+Oct 02 23:48:18 +02:00 yeshua-os  Checking file systems... OK
+Oct 02 23:48:18 +02:00 yeshua-os  Remounting root file system in read-write mode... OK
+Oct 02 23:48:18 +02:00 yeshua-os  Mounting remaining file systems... OK
+Oct 02 23:48:18 +02:00 yeshua-os  Cleaning file systems: /tmp OK
+Oct 02 23:48:18 +02:00 yeshua-os  Retrying failed uevents, if any... OK
+Oct 02 23:48:19 +02:00 yeshua-os  Starting system log christ... OK
+Oct 02 23:48:19 +02:00 yeshua-os  Starting kernel log christ... OK
+Oct 02 23:48:19 +02:00 yeshua-os  Bringing up the ens3 interface...Oct 02 23:48:19 +02:00 yeshua-os  Interface ens3 doesn't exist. FAIL
+Oct 02 23:48:19 +02:00 yeshua-os  Starting SSH Server... OK
+--------
+Oct 02 23:54:20 +02:00 (none)  Mounting virtual file systems: /run /proc /sys OK
+Oct 02 23:54:20 +02:00 (none)  Bringing up the loopback interface... OK
+Oct 02 23:54:20 +02:00 (none)  Setting hostname to yeshua-os... OK
+Oct 02 23:54:20 +02:00 yeshua-os  Populating /dev with device nodes...  OK
+Oct 02 23:54:22 +02:00 yeshua-os  Activating all swap files/partitions... OK
+Oct 02 23:54:22 +02:00 yeshua-os  Mounting root file system in read-only mode...  OK
+Oct 02 23:54:22 +02:00 yeshua-os  Checking file systems... OK
+Oct 02 23:54:22 +02:00 yeshua-os  Remounting root file system in read-write mode... OK
+Oct 02 23:54:22 +02:00 yeshua-os  Mounting remaining file systems... OK
+Oct 02 23:54:22 +02:00 yeshua-os  Cleaning file systems: /tmp OK
+Oct 02 23:54:22 +02:00 yeshua-os  Retrying failed uevents, if any... OK
+Oct 02 23:54:23 +02:00 yeshua-os  Starting system log christ... OK
+Oct 02 23:54:23 +02:00 yeshua-os  Starting kernel log christ... OK
+Oct 02 23:54:23 +02:00 yeshua-os  Bringing up the ens3 interface... OK
+Oct 02 23:54:23 +02:00 yeshua-os  Adding IPv4 address 10.0.2.15 to the ens3 interface... OK
+Oct 02 23:54:23 +02:00 yeshua-os  Adding default gateway 10.0.2.0 to the ens3 interface... OK
+Oct 02 23:54:23 +02:00 yeshua-os  Starting SSH Server... OK
+--------
+Oct 03 00:00:04 +02:00 (none)  Mounting virtual file systems: /run /proc /sys OK
+Oct 03 00:00:04 +02:00 (none)  Bringing up the loopback interface... OK
+Oct 03 00:00:04 +02:00 (none)  Setting hostname to yeshua-os... OK
+Oct 03 00:00:04 +02:00 yeshua-os  Populating /dev with device nodes...  OK
+Oct 03 00:00:05 +02:00 yeshua-os  Activating all swap files/partitions... OK
+Oct 03 00:00:05 +02:00 yeshua-os  Mounting root file system in read-only mode...  OK
+Oct 03 00:00:05 +02:00 yeshua-os  Checking file systems... OK
+Oct 03 00:00:05 +02:00 yeshua-os  Remounting root file system in read-write mode... OK
+Oct 03 00:00:05 +02:00 yeshua-os  Mounting remaining file systems... OK
+Oct 03 00:00:05 +02:00 yeshua-os  Cleaning file systems: /tmp OK
+Oct 03 00:00:05 +02:00 yeshua-os  Retrying failed uevents, if any... OK
+Oct 03 00:00:06 +02:00 yeshua-os  Starting system log christ... OK
+Oct 03 00:00:06 +02:00 yeshua-os  Starting kernel log christ... OK
+Oct 03 00:00:06 +02:00 yeshua-os  Bringing up the ens3 interface... OK
+Oct 03 00:00:06 +02:00 yeshua-os  Adding IPv4 address 10.0.2.15 to the ens3 interface... OK
+Oct 03 00:00:06 +02:00 yeshua-os  Adding default gateway 10.0.2.0 to the ens3 interface... OK
+Oct 03 00:00:06 +02:00 yeshua-os  Starting SSH Server... OK
+--------

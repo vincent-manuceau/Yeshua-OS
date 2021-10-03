@@ -1,0 +1,379 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>checkpoints (GNU tar 1.34)</title>
+
+<meta name="description" content="checkpoints (GNU tar 1.34)">
+<meta name="keywords" content="checkpoints (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="tar-invocation.html" rel="up" title="tar invocation">
+<link href="warnings.html" rel="next" title="warnings">
+<link href="verbose.html" rel="prev" title="verbose">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section" id="checkpoints">
+<div class="header">
+<p>
+Next: <a href="warnings.html" accesskey="n" rel="next">Controlling Warning Messages</a>, Previous: <a href="verbose.html" accesskey="p" rel="prev">Checking <code>tar</code> progress</a>, Up: <a href="tar-invocation.html" accesskey="u" rel="up">Invoking <acronym>GNU</acronym> <code>tar</code></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Checkpoints"></span><h3 class="section">3.8 Checkpoints</h3>
+<span id="index-checkpoints_002c-defined"></span>
+<span id="index-checkpoint"></span>
+<span id="index-checkpoint_002daction"></span>
+
+<p>A <em>checkpoint</em> is a moment of time before writing <var>n</var>th record to
+the archive (a <em>write checkpoint</em>), or before reading <var>n</var>th record
+from the archive (a <em>read checkpoint</em>).  Checkpoints allow to
+periodically execute arbitrary actions.
+</p>
+<p>The checkpoint facility is enabled using the following option:
+</p>
+<dl compact="compact">
+<dd><span id="index-checkpoint_002c-defined"></span>
+</dd>
+<dt><span><samp>--checkpoint[=<var>n</var>]</samp></span></dt>
+<dd><p>Schedule checkpoints before writing or reading each <var>n</var>th record.
+The default value for <var>n</var> is 10.
+</p></dd>
+</dl>
+
+<p>A list of arbitrary <em>actions</em> can be executed at each checkpoint.
+These actions include: pausing, displaying textual messages, and
+executing arbitrary external programs.  Actions are defined using
+the <samp>--checkpoint-action</samp> option.
+</p>
+<dl compact="compact">
+<dd><span id="index-checkpoint_002daction_002c-defined"></span>
+</dd>
+<dt><span><samp>--checkpoint-action=<var>action</var></samp></span></dt>
+<dd><p>Execute an <var>action</var> at each checkpoint.
+</p></dd>
+</dl>
+
+<span id="index-echo_002c-checkpoint-action"></span>
+<p>The simplest value of <var>action</var> is &lsquo;<samp>echo</samp>&rsquo;.  It instructs
+<code>tar</code> to display the default message on the standard error
+stream upon arriving at each checkpoint.  The default message is (in
+<acronym>POSIX</acronym> locale) &lsquo;<samp>Write checkpoint <var>n</var></samp>&rsquo;, for write
+checkpoints, and &lsquo;<samp>Read checkpoint <var>n</var></samp>&rsquo;, for read checkpoints.
+Here, <var>n</var> represents ordinal number of the checkpoint.
+</p>
+<p>In another locales, translated versions of this message are used.
+</p>
+<p>This is the default action, so running:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -c --checkpoint=1000 --checkpoint-action=echo</kbd> /var
+</pre></div>
+
+<p>is equivalent to:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -c --checkpoint=1000</kbd> /var
+</pre></div>
+
+<p>The &lsquo;<samp>echo</samp>&rsquo; action also allows to supply a customized message.
+You do so by placing an equals sign and the message right after it,
+e.g.:
+</p>
+<div class="example">
+<pre class="example">--checkpoint-action=&quot;echo=Hit %s checkpoint #%u&quot;
+</pre></div>
+
+<p>The &lsquo;<samp>%s</samp>&rsquo; and &lsquo;<samp>%u</samp>&rsquo; in the above example are
+<em>format specifiers</em>.  The &lsquo;<samp>%s</samp>&rsquo; specifier is replaced with
+the <em>type</em> of the checkpoint: &lsquo;<samp>write</samp>&rsquo; or
+&lsquo;<samp>read</samp>&rsquo; (or a corresponding translated version in locales other
+than <acronym>POSIX</acronym>).  The &lsquo;<samp>%u</samp>&rsquo; specifier is replaced with
+the ordinal number of the checkpoint.  Thus, the above example could
+produce the following output when used with the <samp>--create</samp>
+option:
+</p>
+<div class="example">
+<pre class="example">tar: Hit write checkpoint #10
+tar: Hit write checkpoint #20
+tar: Hit write checkpoint #30
+</pre></div>
+
+<p>The complete list of available format specifiers follows.  Some of
+them can take optional arguments.  These arguments, if given, are
+supplied in curly braces between the percent sign and the specifier
+letter.
+</p>
+<dl compact="compact">
+<dt><span>&lsquo;<samp>%s</samp>&rsquo;</span></dt>
+<dd><p>Print type of the checkpoint (&lsquo;<samp>write</samp>&rsquo; or &lsquo;<samp>read</samp>&rsquo;).
+</p>
+</dd>
+<dt><span>&lsquo;<samp>%u</samp>&rsquo;</span></dt>
+<dd><p>Print number of the checkpoint.
+</p>
+</dd>
+<dt><span>&lsquo;<samp>%{r,w,d}T</samp>&rsquo;</span></dt>
+<dd><p>Print number of bytes transferred so far and approximate transfer
+speed.  Optional arguments supply prefixes to be used before number
+of bytes read, written and deleted, correspondingly.  If absent,
+they default to &lsquo;<samp>R</samp>&rsquo;. &lsquo;<samp>W</samp>&rsquo;, &lsquo;<samp>D</samp>&rsquo;.  Any or all of them can
+be omitted, so, that e.g. &lsquo;<samp>%{}T</samp>&rsquo; means to print corresponding
+statistics without any prefixes.  Any surplus arguments, if present,
+are silently ignored.
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar --delete -f f.tar --checkpoint-action=echo=&quot;#%u: %T&quot; main.c</kbd>
+tar: #1: R: 0 (0B, 0B/s),W: 0 (0B, 0B/s),D: 0
+tar: #2: R: 10240 (10KiB, 19MiB/s),W: 0 (0B, 0B/s),D: 10240
+</pre></div>
+
+<p>See also the &lsquo;<samp>totals</samp>&rsquo; action, described below.
+</p>
+</dd>
+<dt><span>&lsquo;<samp>%{<var>fmt</var>}t</samp>&rsquo;</span></dt>
+<dd><p>Output current local time using <var>fmt</var> as format for <code>strftime</code>
+(see <a data-manual="strftime(3)" href="../strftime(3)/strftime.html#strftime">strftime</a> in <cite>strftime(3) man page</cite>).  The
+&lsquo;<samp>{<var>fmt</var>}</samp>&rsquo; part is optional.  If not present, the default
+format is &lsquo;<samp>%c</samp>&rsquo;, i.e. the preferred date and time representation
+for the current locale.
+</p>
+</dd>
+<dt><span>&lsquo;<samp>%{<var>n</var>}*</samp>&rsquo;</span></dt>
+<dd><p>Pad output with spaces to the <var>n</var>th column.  If the
+&lsquo;<samp>{<var>n</var>}</samp>&rsquo; part is omitted, the current screen width
+is assumed.
+</p>
+</dd>
+<dt><span>&lsquo;<samp>%c</samp>&rsquo;</span></dt>
+<dd><p>This is a shortcut for &lsquo;<samp>%{%Y-%m-%d %H:%M:%S}t: %ds, %{read,wrote}T%*\r</samp>&rsquo;,
+intended mainly for use with &lsquo;<samp>ttyout</samp>&rsquo; action (see below).
+</p></dd>
+</dl>
+
+<p>Aside from format expansion, the message string is subject to
+<em>unquoting</em>, during which the backslash <em>escape sequences</em> are
+replaced with their corresponding <acronym>ASCII</acronym> characters
+(see <a href="quoting-styles.html#escape-sequences">escape sequences</a>).  E.g. the following action will produce an
+audible bell and the message described above at each checkpoint:
+</p>
+<div class="example">
+<pre class="example">--checkpoint-action='echo=\aHit %s checkpoint #%u'
+</pre></div>
+
+<span id="index-bell_002c-checkpoint-action"></span>
+<p>There is also a special action which produces an audible signal:
+&lsquo;<samp>bell</samp>&rsquo;.  It is not equivalent to &lsquo;<samp>echo='\a'</samp>&rsquo;, because
+&lsquo;<samp>bell</samp>&rsquo; sends the bell directly to the console (<samp>/dev/tty</samp>),
+whereas &lsquo;<samp>echo='\a'</samp>&rsquo; sends it to the standard error.
+</p>
+<span id="index-ttyout_002c-checkpoint-action"></span>
+<p>The &lsquo;<samp>ttyout=<var>string</var></samp>&rsquo; action outputs <var>string</var> to
+<samp>/dev/tty</samp>, so it can be used even if the standard output is
+redirected elsewhere.  The <var>string</var> is subject to the same
+modifications as with &lsquo;<samp>echo</samp>&rsquo; action.  In contrast to the latter,
+&lsquo;<samp>ttyout</samp>&rsquo; does not prepend <code>tar</code> executable name to the
+string, nor does it output a newline after it.  For example, the
+following action will print the checkpoint message at the same screen
+line, overwriting any previous message:
+</p>
+<div class="example">
+<pre class="example">--checkpoint-action=&quot;ttyout=Hit %s checkpoint #%u%*\r&quot;
+</pre></div>
+
+<p>Notice the use of &lsquo;<samp>%*</samp>&rsquo; specifier to clear out any eventual
+remains of the prior output line.  As as more complex example,
+consider this:
+</p>
+<div class="example">
+<pre class="example">--checkpoint-action=ttyout='%{%Y-%m-%d %H:%M:%S}t (%d sec): #%u, %T%*\r'
+</pre></div>
+
+<p>This prints the current local time, number of seconds expired since
+tar was started, the checkpoint ordinal number, transferred bytes and
+average computed I/O speed.
+</p>
+<span id="index-dot_002c-checkpoint-action"></span>
+<p>Another available checkpoint action is &lsquo;<samp>dot</samp>&rsquo; (or &lsquo;<samp>.</samp>&rsquo;).  It
+instructs <code>tar</code> to print a single dot on the standard listing
+stream, e.g.:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -c --checkpoint=1000 --checkpoint-action=dot</kbd> /var
+...
+</pre></div>
+
+<p>For compatibility with previous <acronym>GNU</acronym> <code>tar</code> versions, this action can
+be abbreviated by placing a dot in front of the checkpoint frequency,
+as shown in the previous section.
+</p>
+<span id="index-totals_002c-checkpoint-action"></span>
+<p>The &lsquo;<samp>totals</samp>&rsquo; action prints the total number of bytes transferred
+so far.  The format of the data is the same as for the
+<samp>--totals</samp> option (see <a href="verbose.html#totals">totals</a>).  See also &lsquo;<samp>%T</samp>&rsquo; format
+specifier of the &lsquo;<samp>echo</samp>&rsquo; or &lsquo;<samp>ttyout</samp>&rsquo; action.
+</p>
+<span id="index-sleep_002c-checkpoint-action"></span>
+<p>Yet another action, &lsquo;<samp>sleep</samp>&rsquo;, pauses <code>tar</code> for a specified
+amount of seconds.  The following example will stop for 30 seconds at each
+checkpoint:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -c --checkpoint=1000 --checkpoint-action=sleep=30</kbd>
+</pre></div>
+
+<span id="checkpoint-wait"></span><span id="index-wait_002c-checkpoint-action"></span>
+<p>The <code>wait=<var>signo</var></code> action stops further execution until the
+signal <var>signo</var> is delivered.  Valid values for <var>signo</var> are:
+<code>SIGHUP</code>, <code>SIGQUIT</code>, <code>SIGINT</code>, <code>SIGUSR1</code> and
+<code>SIGUSR2</code>.  The &lsquo;<samp>SIG</samp>&rsquo; prefix is optional.  For example:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -c -f arc --checkpoint=1000 --checkpoint-action wait=USR1 .</kbd>
+</pre></div>
+
+<p>In this example, <acronym>GNU</acronym> <code>tar</code> will stop archivation at each 1000th
+checkpoint. wait until the &lsquo;<samp>SIGUSR1</samp>&rsquo; signal is delivered,
+and resume processing.
+</p>
+<p>This action is used by the <code>genfile</code> utility to perform
+modifications on the input files upon hitting certain checkpoints
+(see <a href="Exec-Mode.html">genfile</a>).
+</p>
+<span id="checkpoint-exec"></span><span id="index-exec_002c-checkpoint-action"></span>
+<p>Finally, the <code>exec</code> action executes a given external command.
+For example:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -c --checkpoint=1000 --checkpoint-action=exec=/sbin/cpoint</kbd>
+</pre></div>
+
+<p>The supplied command can be any valid command invocation, with or
+without additional command line arguments.  If it does contain
+arguments, don&rsquo;t forget to quote it to prevent it from being split by
+the shell.  See <a href="external.html">Running External Commands</a>, for more detail.
+</p>
+<p>The command gets a copy of <code>tar</code>&rsquo;s environment plus the
+following variables:
+</p>
+<dl compact="compact">
+<dd><span id="index-TAR_005fVERSION_002c-checkpoint-script-environment"></span>
+</dd>
+<dt><span><code>TAR_VERSION</code></span></dt>
+<dd><p><acronym>GNU</acronym> <code>tar</code> version number.
+</p>
+<span id="index-TAR_005fARCHIVE_002c-checkpoint-script-environment"></span>
+</dd>
+<dt><span><code>TAR_ARCHIVE</code></span></dt>
+<dd><p>The name of the archive <code>tar</code> is processing.
+</p>
+<span id="index-TAR_005fBLOCKING_005fFACTOR_002c-checkpoint-script-environment"></span>
+</dd>
+<dt><span><code>TAR_BLOCKING_FACTOR</code></span></dt>
+<dd><p>Current blocking factor (see <a href="Blocking.html">Blocking</a>).
+</p>
+<span id="index-TAR_005fCHECKPOINT_002c-checkpoint-script-environment"></span>
+</dd>
+<dt><span><code>TAR_CHECKPOINT</code></span></dt>
+<dd><p>Number of the checkpoint.
+</p>
+<span id="index-TAR_005fSUBCOMMAND_002c-checkpoint-script-environment"></span>
+</dd>
+<dt><span><code>TAR_SUBCOMMAND</code></span></dt>
+<dd><p>A short option describing the operation <code>tar</code> is executing.
+See <a href="Operations.html">The Five Advanced <code>tar</code> Operations</a>, for a complete list of subcommand options.
+</p>
+<span id="index-TAR_005fFORMAT_002c-checkpoint-script-environment"></span>
+</dd>
+<dt><span><code>TAR_FORMAT</code></span></dt>
+<dd><p>Format of the archive being processed. See <a href="Formats.html">Controlling the Archive Format</a>, for a complete
+list of archive format names.
+</p></dd>
+</dl>
+
+<p>These environment variables can also be passed as arguments to the
+command, provided that they are properly escaped, for example:
+</p>
+<div class="example">
+<pre class="example"><kbd>tar -c -f arc.tar \
+     --checkpoint-action='exec=/sbin/cpoint $TAR_CHECKPOINT'</kbd>
+</pre></div>
+
+<p>Notice single quotes to prevent variable names from being expanded by
+the shell when invoking <code>tar</code>.
+</p>
+<p>Any number of actions can be defined, by supplying several
+<samp>--checkpoint-action</samp> options in the command line.  For
+example, the command below displays two messages, pauses
+execution for 30 seconds and executes the <samp>/sbin/cpoint</samp> script:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -c -f arc.tar \
+       --checkpoint-action='\aecho=Hit %s checkpoint #%u' \
+       --checkpoint-action='echo=Sleeping for 30 seconds' \
+       --checkpoint-action='sleep=30' \
+       --checkpoint-action='exec=/sbin/cpoint'</kbd>
+</pre></div>
+
+<p>This example also illustrates the fact that
+<samp>--checkpoint-action</samp> can be used without
+<samp>--checkpoint</samp>.  In this case, the default checkpoint frequency
+(at each 10th record) is assumed.
+</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="warnings.html">Controlling Warning Messages</a>, Previous: <a href="verbose.html">Checking <code>tar</code> progress</a>, Up: <a href="tar-invocation.html">Invoking <acronym>GNU</acronym> <code>tar</code></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Backup Levels (GNU tar 1.34)</title>
+
+<meta name="description" content="Backup Levels (GNU tar 1.34)">
+<meta name="keywords" content="Backup Levels (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Backups.html" rel="up" title="Backups">
+<link href="Backup-Parameters.html" rel="next" title="Backup Parameters">
+<link href="Incremental-Dumps.html" rel="prev" title="Incremental Dumps">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section" id="Backup-Levels">
+<div class="header">
+<p>
+Next: <a href="Backup-Parameters.html" accesskey="n" rel="next">Setting Parameters for Backups and Restoration</a>, Previous: <a href="Incremental-Dumps.html" accesskey="p" rel="prev">Using <code>tar</code> to Perform Incremental Dumps</a>, Up: <a href="Backups.html" accesskey="u" rel="up">Performing Backups and Restoring Files</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Levels-of-Backups"></span><h3 class="section">5.3 Levels of Backups</h3>
+
+<p>An archive containing all the files in the file system is called a
+<em>full backup</em> or <em>full dump</em>.  You could insure your data by
+creating a full dump every day.  This strategy, however, would waste a
+substantial amount of archive media and user time, as unchanged files
+are daily re-archived.
+</p>
+<p>It is more efficient to do a full dump only occasionally.  To back up
+files between full dumps, you can use <em>incremental dumps</em>.  A <em>level
+one</em> dump archives all the files that have changed since the last full
+dump.
+</p>
+<p>A typical dump strategy would be to perform a full dump once a week,
+and a level one dump once a day.  This means some versions of files
+will in fact be archived more than once, but this dump strategy makes
+it possible to restore a file system to within one day of accuracy by
+only extracting two archives&mdash;the last weekly (full) dump and the
+last daily (level one) dump.  The only information lost would be in
+files changed or created since the last daily backup.  (Doing dumps
+more than once a day is usually not worth the trouble.)
+</p>
+<p><acronym>GNU</acronym> <code>tar</code> comes with scripts you can use to do full
+and level-one (actually, even level-two and so on) dumps.  Using
+scripts (shell programs) to perform backups and restoration is a
+convenient and reliable alternative to typing out file name lists
+and <code>tar</code> commands by hand.
+</p>
+<p>Before you use these scripts, you need to edit the file
+<samp>backup-specs</samp>, which specifies parameters used by the backup
+scripts and by the restore script.  This file is usually located
+in <samp>/etc/backup</samp> directory.  See <a href="Backup-Parameters.html">Setting Parameters for Backups and Restoration</a>, for its
+detailed description.  Once the backup parameters are set, you can
+perform backups or restoration by running the appropriate script.
+</p>
+<p>The name of the backup script is <code>backup</code>.  The name of the
+restore script is <code>restore</code>.  The following sections describe
+their use in detail.
+</p>
+<p><em>Please Note:</em> The backup and restoration scripts are
+designed to be used together.  While it is possible to restore files by
+hand from an archive which was created using a backup script, and to create
+an archive by hand which could then be extracted using the restore script,
+it is easier to use the scripts.  See <a href="Incremental-Dumps.html">Using <code>tar</code> to Perform Incremental Dumps</a>, before
+making such an attempt.
+</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Backup-Parameters.html">Setting Parameters for Backups and Restoration</a>, Previous: <a href="Incremental-Dumps.html">Using <code>tar</code> to Perform Incremental Dumps</a>, Up: <a href="Backups.html">Performing Backups and Restoring Files</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>using tar options (GNU tar 1.34)</title>
+
+<meta name="description" content="using tar options (GNU tar 1.34)">
+<meta name="keywords" content="using tar options (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="tar-invocation.html" rel="up" title="tar invocation">
+<link href="Styles.html" rel="next" title="Styles">
+<link href="Synopsis.html" rel="prev" title="Synopsis">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section" id="using-tar-options">
+<div class="header">
+<p>
+Next: <a href="Styles.html" accesskey="n" rel="next">The Three Option Styles</a>, Previous: <a href="Synopsis.html" accesskey="p" rel="prev">General Synopsis of <code>tar</code></a>, Up: <a href="tar-invocation.html" accesskey="u" rel="up">Invoking <acronym>GNU</acronym> <code>tar</code></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Using-tar-Options"></span><h3 class="section">3.2 Using <code>tar</code> Options</h3>
+
+<p><acronym>GNU</acronym> <code>tar</code> has a total of eight operating modes which
+allow you to perform a variety of tasks.  You are required to choose
+one operating mode each time you employ the <code>tar</code> program by
+specifying one, and only one operation as an argument to the
+<code>tar</code> command (the corresponding options may be found
+at <a href="frequent-operations.html">The Three Most Frequently Used Operations</a> and <a href="Operations.html">The Five Advanced <code>tar</code> Operations</a>).  Depending on
+circumstances, you may also wish to customize how the chosen operating
+mode behaves.  For example, you may wish to change the way the output
+looks, or the format of the files that you wish to archive may require
+you to do something special in order to make the archive look right.
+</p>
+<p>You can customize and control <code>tar</code>&rsquo;s performance by running
+<code>tar</code> with one or more options (such as <samp>--verbose</samp>
+(<samp>-v</samp>), which we used in the tutorial).  As we said in the
+tutorial, <em>options</em> are arguments to <code>tar</code> which are (as
+their name suggests) optional. Depending on the operating mode, you
+may specify one or more options. Different options will have different
+effects, but in general they all change details of the operation, such
+as archive format, archive name, or level of user interaction.  Some
+options make sense with all operating modes, while others are
+meaningful only with particular modes. You will likely use some
+options frequently, while you will only use others infrequently, or
+not at all.  (A full list of options is available in see <a href="All-Options.html">All <code>tar</code> Options</a>.)
+</p>
+<span id="index-TAR_005fOPTIONS_002c-environment-variable"></span>
+<span id="TAR_005fOPTIONS"></span><p>The <code>TAR_OPTIONS</code> environment variable specifies default options to
+be placed in front of any explicit options.  For example, if
+<code>TAR_OPTIONS</code> is &lsquo;<samp>-v --unlink-first</samp>&rsquo;, <code>tar</code> behaves as
+if the two options <samp>-v</samp> and <samp>--unlink-first</samp> had been
+specified before any explicit options.  Option specifications are
+separated by whitespace.  A backslash escapes the next character, so it
+can be used to specify an option containing whitespace or a backslash.
+</p>
+<p>Note that <code>tar</code> options are case sensitive.  For example, the
+options <samp>-T</samp> and <samp>-t</samp> are different; the first requires an
+argument for stating the name of a file providing a list of <var>name</var>s,
+while the second does not require an argument and is another way to
+write <samp>--list</samp> (<samp>-t</samp>).
+</p>
+<p>In addition to the eight operations, there are many options to
+<code>tar</code>, and three different styles for writing both: long (mnemonic)
+form, short form, and old style.  These styles are discussed below.
+Both the options and the operations can be written in any of these three
+styles.
+</p>
+
+
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Styles.html">The Three Option Styles</a>, Previous: <a href="Synopsis.html">General Synopsis of <code>tar</code></a>, Up: <a href="tar-invocation.html">Invoking <acronym>GNU</acronym> <code>tar</code></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

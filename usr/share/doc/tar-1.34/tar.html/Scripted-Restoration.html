@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Scripted Restoration (GNU tar 1.34)</title>
+
+<meta name="description" content="Scripted Restoration (GNU tar 1.34)">
+<meta name="keywords" content="Scripted Restoration (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Backups.html" rel="up" title="Backups">
+<link href="Scripted-Backups.html" rel="prev" title="Scripted Backups">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section" id="Scripted-Restoration">
+<div class="header">
+<p>
+Previous: <a href="Scripted-Backups.html" accesskey="p" rel="prev">Using the Backup Scripts</a>, Up: <a href="Backups.html" accesskey="u" rel="up">Performing Backups and Restoring Files</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Using-the-Restore-Script"></span><h3 class="section">5.6 Using the Restore Script</h3>
+
+<p>To restore files that were archived using a scripted backup, use the
+<code>restore</code> script.  Its usage is quite straightforward.  In the
+simplest form, invoke <code>restore --all</code>, it will
+then restore all the file systems and files specified in
+<samp>backup-specs</samp> (see <a href="General_002dPurpose-Variables.html">BACKUP_DIRS</a>).
+</p>
+<p>You may select the file systems (and/or files) to restore by
+giving <code>restore</code> a list of <em>patterns</em> in its command
+line.  For example, running
+</p>
+<div class="example">
+<pre class="example">restore 'albert:*'
+</pre></div>
+
+<p>will restore all file systems on the machine &lsquo;<samp>albert</samp>&rsquo;.  A more
+complicated example:
+</p>
+<div class="example">
+<pre class="example">restore 'albert:*' '*:/var'
+</pre></div>
+
+<p>This command will restore all file systems on the machine &lsquo;<samp>albert</samp>&rsquo;
+as well as <samp>/var</samp> file system on all machines.
+</p>
+<p>By default <code>restore</code> will start restoring files from the lowest
+available dump level (usually zero) and will continue through
+all available dump levels.  There may be situations where such a
+thorough restore is not necessary.  For example, you may wish to
+restore only files from the recent level one backup.  To do so,
+use <samp>--level</samp> option, as shown in the example below:
+</p>
+<div class="example">
+<pre class="example">restore --level=1
+</pre></div>
+
+<p>The full list of options accepted by <code>restore</code> follows:
+</p>
+<dl compact="compact">
+<dt><span><samp>-a</samp></span></dt>
+<dt><span><samp>--all</samp></span></dt>
+<dd><p>Restore all file systems and files specified in <samp>backup-specs</samp>.
+</p>
+</dd>
+<dt><span><samp>-l <var>level</var></samp></span></dt>
+<dt><span><samp>--level=<var>level</var></samp></span></dt>
+<dd><p>Start restoring from the given backup level, instead of the default 0.
+</p>
+</dd>
+<dt><span><samp>-v[<var>level</var>]</samp></span></dt>
+<dt><span><samp>--verbose[=<var>level</var>]</samp></span></dt>
+<dd><p>Set verbosity level.  The higher the level is, the more debugging
+information will be output during execution.  Default <var>level</var>
+is 100, which means the highest debugging level.
+</p>
+</dd>
+<dt><span><samp>-h</samp></span></dt>
+<dt><span><samp>--help</samp></span></dt>
+<dd><p>Display short help message and exit.
+</p>
+</dd>
+<dt><span><samp>-V</samp></span></dt>
+<dt><span><samp>--version</samp></span></dt>
+<dd><p>Display information about the program&rsquo;s name, version, origin and legal
+status, all on standard output, and then exit successfully.
+</p></dd>
+</dl>
+
+<p>You should start the restore script with the media containing the
+first volume of the archive mounted.  The script will prompt for other
+volumes as they are needed.  If the archive is on tape, you don&rsquo;t need
+to rewind the tape to to its beginning&mdash;if the tape head is
+positioned past the beginning of the archive, the script will rewind
+the tape as needed.  See <a href="Tape-Positioning.html">Tape Positions and Tape Marks</a>, for a discussion of tape
+positioning.
+</p>
+<blockquote>
+<p><strong>Warning:</strong> The script will delete files from the active file
+system if they were not in the file system when the archive was made.
+</p></blockquote>
+
+<p>See <a href="Incremental-Dumps.html">Using <code>tar</code> to Perform Incremental Dumps</a>, for an explanation of how the script makes
+that determination.
+</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Previous: <a href="Scripted-Backups.html">Using the Backup Scripts</a>, Up: <a href="Backups.html">Performing Backups and Restoring Files</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

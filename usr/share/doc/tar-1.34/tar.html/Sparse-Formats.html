@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Sparse Formats (GNU tar 1.34)</title>
+
+<meta name="description" content="Sparse Formats (GNU tar 1.34)">
+<meta name="keywords" content="Sparse Formats (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Tar-Internals.html" rel="up" title="Tar Internals">
+<link href="Snapshot-Files.html" rel="next" title="Snapshot Files">
+<link href="Extensions.html" rel="prev" title="Extensions">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="unnumberedsec" id="Sparse-Formats">
+<div class="header">
+<p>
+Next: <a href="Snapshot-Files.html" accesskey="n" rel="next">Format of the Incremental Snapshot Files</a>, Previous: <a href="Extensions.html" accesskey="p" rel="prev"><acronym>GNU</acronym> Extensions to the Archive Format</a>, Up: <a href="Tar-Internals.html" accesskey="u" rel="up">Tar Internals</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Storing-Sparse-Files"></span><h3 class="unnumberedsec">Storing Sparse Files</h3>
+
+<span id="index-sparse-formats"></span>
+<span id="index-sparse-versions"></span>
+<p>The notion of sparse file, and the ways of handling it from the point
+of view of <acronym>GNU</acronym> <code>tar</code> user have been described in detail in
+<a href="sparse.html">Archiving Sparse Files</a>.  This chapter describes the internal format <acronym>GNU</acronym> <code>tar</code>
+uses to store such files.
+</p>
+<p>The support for sparse files in <acronym>GNU</acronym> <code>tar</code> has a long history.  The
+earliest version featuring this support that I was able to find was 1.09,
+released in November, 1990.  The format introduced back then is called
+<em>old GNU</em> sparse format and in spite of the fact that its design
+contained many flaws, it was the only format <acronym>GNU</acronym> <code>tar</code> supported
+until version 1.14 (May, 2004), which introduced initial support for
+sparse archives in <acronym>PAX</acronym> archives (see <a href="posix.html"><acronym>GNU</acronym> <code>tar</code> and <acronym>POSIX</acronym> <code>tar</code></a>).  This
+format was not free from design flaws, either and it was subsequently
+improved in versions 1.15.2 (November, 2005) and 1.15.92 (June,
+2006).
+</p>
+<p>In addition to GNU sparse format, <acronym>GNU</acronym> <code>tar</code> is able to read and
+extract sparse files archived by <code>star</code>.
+</p>
+<p>The following subsections describe each format in detail.
+</p>
+
+<ul class="section-toc">
+<li><a href="Old-GNU-Format.html" accesskey="1">Old GNU Format</a></li>
+<li><a href="PAX-0.html" accesskey="2">PAX Format, Versions 0.0 and 0.1</a></li>
+<li><a href="PAX-1.html" accesskey="3">PAX Format, Version 1.0</a></li>
+</ul>
+</div>
+
+
+
+</body>
+</html>

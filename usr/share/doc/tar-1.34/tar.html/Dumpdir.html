@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Dumpdir (GNU tar 1.34)</title>
+
+<meta name="description" content="Dumpdir (GNU tar 1.34)">
+<meta name="keywords" content="Dumpdir (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Tar-Internals.html" rel="up" title="Tar Internals">
+<link href="Snapshot-Files.html" rel="prev" title="Snapshot Files">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="unnumberedsec" id="Dumpdir">
+<div class="header">
+<p>
+Previous: <a href="Snapshot-Files.html" accesskey="p" rel="prev">Format of the Incremental Snapshot Files</a>, Up: <a href="Tar-Internals.html" accesskey="u" rel="up">Tar Internals</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Dumpdir-1"></span><h3 class="unnumberedsec">Dumpdir</h3>
+
+<p>Incremental archives keep information about contents of each
+dumped directory in special data blocks called <em>dumpdirs</em>.
+</p>
+<p>Dumpdir is a sequence of entries of the following form:
+</p>
+<div class="example">
+<pre class="example"><var>C</var> <var>filename</var> \0
+</pre></div>
+
+<p>where <var>C</var> is one of the <em>control codes</em> described below,
+<var>filename</var> is the name of the file <var>C</var> operates upon, and
+&lsquo;<samp>\0</samp>&rsquo; represents a nul character (ASCII 0).  The white space
+characters were added for readability, real dumpdirs do not contain
+them.
+</p>
+<p>Each dumpdir ends with a single nul character.
+</p>
+<p>The following table describes control codes and their meanings:
+</p>
+<dl compact="compact">
+<dt><span>&lsquo;<samp>Y</samp>&rsquo;</span></dt>
+<dd><p><var>filename</var> is contained in the archive.
+</p>
+</dd>
+<dt><span>&lsquo;<samp>N</samp>&rsquo;</span></dt>
+<dd><p><var>filename</var> was present in the directory at the time the archive
+was made, yet it was not dumped to the archive, because it had not
+changed since the last backup.
+</p>
+</dd>
+<dt><span>&lsquo;<samp>D</samp>&rsquo;</span></dt>
+<dd><p><var>filename</var> is a directory.
+</p>
+</dd>
+<dt><span>&lsquo;<samp>R</samp>&rsquo;</span></dt>
+<dd><p>This code requests renaming of the <var>filename</var> to the name
+specified with the &lsquo;<samp>T</samp>&rsquo; command, that immediately follows it.
+</p>
+</dd>
+<dt><span>&lsquo;<samp>T</samp>&rsquo;</span></dt>
+<dd><p>Specify target file name for &lsquo;<samp>R</samp>&rsquo; command (see below).
+</p>
+</dd>
+<dt><span>&lsquo;<samp>X</samp>&rsquo;</span></dt>
+<dd><p>Specify <em>temporary directory</em> name for a rename operation (see below).
+</p></dd>
+</dl>
+
+<p>Codes &lsquo;<samp>Y</samp>&rsquo;, &lsquo;<samp>N</samp>&rsquo; and &lsquo;<samp>D</samp>&rsquo; require <var>filename</var> argument
+to be a relative file name to the directory this dumpdir describes,
+whereas codes &lsquo;<samp>R</samp>&rsquo;, &lsquo;<samp>T</samp>&rsquo; and &lsquo;<samp>X</samp>&rsquo; require their argument
+to be an absolute file name.
+</p>
+<p>The three codes &lsquo;<samp>R</samp>&rsquo;, &lsquo;<samp>T</samp>&rsquo; and &lsquo;<samp>X</samp>&rsquo; specify a
+<em>renaming operation</em>.  In the simplest case it is:
+</p>
+<div class="example">
+<pre class="example">R<samp>source</samp>\0T<samp>dest</samp>\0
+</pre></div>
+
+<p>which means &ldquo;rename file <samp>source</samp> to file <samp>dest</samp>&rdquo;.
+</p>
+<p>However, there are cases that require using a <em>temporary
+directory</em>.  For example, consider the following scenario:
+</p>
+<ol>
+<li> Previous run dumped a directory <samp>foo</samp> which contained the
+following three directories:
+
+<div class="example">
+<pre class="example">a
+b
+c
+</pre></div>
+
+</li><li> They were renamed <em>cyclically</em>, so that:
+
+<div class="example">
+<pre class="example"><samp>a</samp> became <samp>b</samp>
+<samp>b</samp> became <samp>c</samp>
+<samp>c</samp> became <samp>a</samp>
+</pre></div>
+
+</li><li> New incremental dump was made.
+</li></ol>
+
+<p>This case cannot be handled by three successive renames, since
+renaming <samp>a</samp> to <samp>b</samp> will destroy the existing directory.
+To correctly process it, <acronym>GNU</acronym> <code>tar</code> needs a temporary directory, so
+it creates the following dumpdir (newlines have been added for
+readability):
+</p>
+<div class="example">
+<pre class="example">Xfoo\0
+Rfoo/a\0T\0
+Rfoo/b\0Tfoo/c\0
+Rfoo/c\0Tfoo/a\0
+R\0Tfoo/a\0
+</pre></div>
+
+<p>The first command, &lsquo;<samp>Xfoo\0</samp>&rsquo;, instructs the extractor to create a
+temporary directory in the directory <samp>foo</samp>.  Second command,
+&lsquo;<samp>Rfoo/aT\0</samp>&rsquo;, says &ldquo;rename file <samp>foo/a</samp> to the temporary
+directory that has just been created&rdquo; (empty file name after a
+command means use temporary directory).  Third and fourth commands
+work as usual, and, finally, the last command, &lsquo;<samp>R\0Tfoo/a\0</samp>&rsquo;
+tells tar to rename the temporary directory to <samp>foo/a</samp>.
+</p>
+<p>The exact placement of a dumpdir in the archive depends on the
+archive format (see <a href="Formats.html">Controlling the Archive Format</a>):
+</p>
+<ul>
+<li> PAX archives
+
+<p>In PAX archives, dumpdir is stored in the extended header of the
+corresponding directory, in variable <code>GNU.dumpdir</code>.
+</p>
+</li><li> GNU and old GNU archives
+
+<p>These formats implement special header type &lsquo;<samp>D</samp>&rsquo;, which is similar
+to ustar header &lsquo;<samp>5</samp>&rsquo; (directory), except that it precedes a data
+block containing the dumpdir.
+</p></li></ul>
+
+
+</div>
+<hr>
+<div class="header">
+<p>
+Previous: <a href="Snapshot-Files.html">Format of the Incremental Snapshot Files</a>, Up: <a href="Tar-Internals.html">Tar Internals</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

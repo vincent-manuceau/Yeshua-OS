@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>multiple (GNU tar 1.34)</title>
+
+<meta name="description" content="multiple (GNU tar 1.34)">
+<meta name="keywords" content="multiple (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="append.html" rel="up" title="append">
+<link href="appending-files.html" rel="prev" title="appending files">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsubsection" id="multiple">
+<div class="header">
+<p>
+Previous: <a href="appending-files.html" accesskey="p" rel="prev">Appending Files to an Archive</a>, Up: <a href="append.html" accesskey="u" rel="up">How to Add Files to Existing Archives: <samp>--append</samp></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Multiple-Members-with-the-Same-Name"></span><h4 class="subsubsection">4.2.2.2 Multiple Members with the Same Name</h4>
+<span id="index-members_002c-multiple"></span>
+<span id="index-multiple-members"></span>
+
+<p>You can use <samp>--append</samp> (<samp>-r</samp>) to add copies of files
+which have been updated since the archive was created.  (However, we
+do not recommend doing this since there is another <code>tar</code>
+option called <samp>--update</samp>; See <a href="update.html">Updating an Archive</a>, for more information.
+We describe this use of <samp>--append</samp> here for the sake of
+completeness.)  When you extract the archive, the older version will
+be effectively lost.  This works because files are extracted from an
+archive in the order in which they were archived.  Thus, when the
+archive is extracted, a file archived later in time will replace a
+file of the same name which was archived earlier, even though the
+older version of the file will remain in the archive unless you delete
+all versions of the file.
+</p>
+<p>Supposing you change the file <samp>blues</samp> and then append the changed
+version to <samp>collection.tar</samp>.  As you saw above, the original
+<samp>blues</samp> is in the archive <samp>collection.tar</samp>.  If you change the
+file and append the new version of the file to the archive, there will
+be two copies in the archive.  When you extract the archive, the older
+version of the file will be extracted first, and then replaced by the
+newer version when it is extracted.
+</p>
+<p>You can append the new, changed copy of the file <samp>blues</samp> to the
+archive in this way:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar --append --verbose --file=collection.tar blues</kbd>
+blues
+</pre></div>
+
+<p>Because you specified the <samp>--verbose</samp> option, <code>tar</code> has
+printed the name of the file being appended as it was acted on.  Now
+list the contents of the archive:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar --list --verbose --file=collection.tar</kbd>
+-rw-r--r-- me/user          28 1996-10-18 16:31 jazz
+-rw-r--r-- me/user          21 1996-09-23 16:44 blues
+-rw-r--r-- me/user          20 1996-09-23 16:44 folk
+-rw-r--r-- me/user          20 1996-09-23 16:44 rock
+-rw-r--r-- me/user          58 1996-10-24 18:30 blues
+</pre></div>
+
+<p>The newest version of <samp>blues</samp> is now at the end of the archive
+(note the different creation dates and file sizes).  If you extract
+the archive, the older version of the file <samp>blues</samp> will be
+replaced by the newer version.  You can confirm this by extracting
+the archive and running &lsquo;<samp>ls</samp>&rsquo; on the directory.
+</p>
+<p>If you wish to extract the first occurrence of the file <samp>blues</samp>
+from the archive, use <samp>--occurrence</samp> option, as shown in
+the following example:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar --extract -vv --occurrence --file=collection.tar blues</kbd>
+-rw-r--r-- me/user          21 1996-09-23 16:44 blues
+</pre></div>
+
+<p>See <a href="Writing.html">Changing How <code>tar</code> Writes Files</a>, for more information on <samp>--extract</samp> and
+see <a href="Option-Summary.html">&ndash;occurrence</a>, for a description of
+<samp>--occurrence</samp> option.
+</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Previous: <a href="appending-files.html">Appending Files to an Archive</a>, Up: <a href="append.html">How to Add Files to Existing Archives: <samp>--append</samp></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

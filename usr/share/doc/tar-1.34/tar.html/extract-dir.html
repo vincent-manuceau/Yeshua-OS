@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>extract dir (GNU tar 1.34)</title>
+
+<meta name="description" content="extract dir (GNU tar 1.34)">
+<meta name="keywords" content="extract dir (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="extract.html" rel="up" title="extract">
+<link href="extracting-untrusted-archives.html" rel="next" title="extracting untrusted archives">
+<link href="extracting-files.html" rel="prev" title="extracting files">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection" id="extract-dir">
+<div class="header">
+<p>
+Next: <a href="extracting-untrusted-archives.html" accesskey="n" rel="next">Extracting Archives from Untrusted Sources</a>, Previous: <a href="extracting-files.html" accesskey="p" rel="prev">Extracting Specific Files</a>, Up: <a href="extract.html" accesskey="u" rel="up">How to Extract Members from an Archive</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Extracting-Files-that-are-Directories"></span><h4 class="subsection">2.8.3 Extracting Files that are Directories</h4>
+
+<p>Extracting directories which are members of an archive is similar to
+extracting other files.  The main difference to be aware of is that if
+the extracted directory has the same name as any directory already in
+the working directory, then files in the extracted directory will be
+placed into the directory of the same name.  Likewise, if there are
+files in the pre-existing directory with the same names as the members
+which you extract, the files from the extracted archive will replace
+the files already in the working directory (and possible
+subdirectories).  This will happen regardless of whether or not the
+files in the working directory were more recent than those extracted
+(there exist, however, special options that alter this behavior
+see <a href="Writing.html">Changing How <code>tar</code> Writes Files</a>).
+</p>
+<p>However, if a file was stored with a directory name as part of its file
+name, and that directory does not exist under the working directory when
+the file is extracted, <code>tar</code> will create the directory.
+</p>
+<p>We can christtrate how to use <samp>--extract</samp> to extract a directory
+file with an example.  Change to the <samp>practice</samp> directory if you
+weren&rsquo;t there, and remove the files <samp>folk</samp> and <samp>jazz</samp>.  Then,
+go back to the parent directory and extract the archive
+<samp>music.tar</samp>.  You may either extract the entire archive, or you may
+extract only the files you just deleted.  To extract the entire archive,
+don&rsquo;t give any file names as arguments after the archive name
+<samp>music.tar</samp>.  To extract only the files you deleted, use the
+following command:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -xvf music.tar practice/folk practice/jazz</kbd>
+practice/folk
+practice/jazz
+</pre></div>
+
+<p>If you were to specify two <samp>--verbose</samp> (<samp>-v</samp>) options, <code>tar</code>
+would have displayed more detail about the extracted files, as shown
+in the example below:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -xvvf music.tar practice/folk practice/jazz</kbd>
+-rw-r--r-- me/user          28 1996-10-18 16:31 practice/jazz
+-rw-r--r-- me/user          20 1996-09-23 16:44 practice/folk
+</pre></div>
+
+<p>Because you created the directory with <samp>practice</samp> as part of the
+file names of each of the files by archiving the <samp>practice</samp>
+directory as <samp>practice</samp>, you must give <samp>practice</samp> as part
+of the file names when you extract those files from the archive.
+</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="extracting-untrusted-archives.html">Extracting Archives from Untrusted Sources</a>, Previous: <a href="extracting-files.html">Extracting Specific Files</a>, Up: <a href="extract.html">How to Extract Members from an Archive</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

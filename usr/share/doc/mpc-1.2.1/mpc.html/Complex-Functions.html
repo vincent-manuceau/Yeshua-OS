@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- This manual is for GNU MPC, a library for multiple precision complex arithmetic,
+version 1.2.1 of October 2020.
+
+Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2016, 2018, 2020 INRIA
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections. A copy of the license is included in the section
+entitled "GNU Free Documentation License." -->
+<title>Complex Functions (GNU MPC 1.2.1)</title>
+
+<meta name="description" content="Complex Functions (GNU MPC 1.2.1)">
+<meta name="keywords" content="Complex Functions (GNU MPC 1.2.1)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Concept-Index.html" rel="index" title="Concept Index">
+<link href="index.html" rel="up" title="Top">
+<link href="References.html" rel="next" title="References">
+<link href="GNU-MPC-Basics.html" rel="prev" title="GNU MPC Basics">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="chapter" id="Complex-Functions">
+<div class="header">
+<p>
+Next: <a href="References.html" accesskey="n" rel="next">References</a>, Previous: <a href="GNU-MPC-Basics.html" accesskey="p" rel="prev">GNU MPC Basics</a>, Up: <a href="index.html" accesskey="u" rel="up">GNU MPC</a> &nbsp; [<a href="Concept-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Complex-Functions-1"></span><h2 class="chapter">5 Complex Functions</h2>
+<span id="index-Complex-functions"></span>
+
+<p>The complex functions expect arguments of type <code>mpc_t</code>.
+</p>
+<p>The GNU MPC floating-point functions have an interface that is similar to the
+GNU MP
+integer functions.  The function prefix for operations on complex numbers is
+<code>mpc_</code>.
+</p>
+<span id="index-User_002ddefined-precision"></span>
+<p>The precision of a computation is defined as follows: Compute the requested
+operation exactly (with &ldquo;infinite precision&rdquo;), and round the result to
+the destination variable precision with the given rounding mode.
+</p>
+<p>The GNU MPC complex functions are intended to be a smooth extension
+of the IEEE P754 arithmetic. The results obtained on one
+computer should not differ from the results obtained on a computer with a
+different word size.
+</p>
+
+
+<ul class="section-toc">
+<li><a href="Initializing-Complex-Numbers.html" accesskey="1">Initialization Functions</a></li>
+<li><a href="Assigning-Complex-Numbers.html" accesskey="2">Assignment Functions</a></li>
+<li><a href="Converting-Complex-Numbers.html" accesskey="3">Conversion Functions</a></li>
+<li><a href="String-and-Stream-Input-and-Output.html" accesskey="4">String and Stream Input and Output</a></li>
+<li><a href="Complex-Comparison.html" accesskey="5">Comparison Functions</a></li>
+<li><a href="Projection-_0026-Decomposing.html" accesskey="6">Projection and Decomposing Functions</a></li>
+<li><a href="Basic-Arithmetic.html" accesskey="7">Basic Arithmetic Functions</a></li>
+<li><a href="Power-Functions-and-Logarithm.html" accesskey="8">Power Functions and Logarithm</a></li>
+<li><a href="Trigonometric-Functions.html" accesskey="9">Trigonometric Functions</a></li>
+<li><a href="Miscellaneous-Complex-Functions.html">Miscellaneous Functions</a></li>
+<li><a href="Advanced-Functions.html">Advanced Functions</a></li>
+<li><a href="Internals.html">Internals</a></li>
+</ul>
+</div>
+
+
+
+</body>
+</html>

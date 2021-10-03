@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Media (GNU tar 1.34)</title>
+
+<meta name="description" content="Media (GNU tar 1.34)">
+<meta name="keywords" content="Media (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html" rel="up" title="Top">
+<link href="Reliability-and-security.html" rel="next" title="Reliability and security">
+<link href="Formats.html" rel="prev" title="Formats">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="chapter" id="Media">
+<div class="header">
+<p>
+Next: <a href="Reliability-and-security.html" accesskey="n" rel="next">Reliability and Security</a>, Previous: <a href="Formats.html" accesskey="p" rel="prev">Controlling the Archive Format</a>, Up: <a href="index.html" accesskey="u" rel="up"><acronym>GNU</acronym> tar: an archiver tool</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Tapes-and-Other-Archive-Media"></span><h2 class="chapter">9 Tapes and Other Archive Media</h2>
+<blockquote>
+<p><em>(This message will disappear, once this node revised.)</em>
+</p></blockquote>
+
+<p>A few special cases about tape handling warrant more detailed
+description.  These special cases are discussed below.
+</p>
+<p>Many complexities surround the use of <code>tar</code> on tape drives.  Since
+the creation and manipulation of archives located on magnetic tape was
+the original purpose of <code>tar</code>, it contains many features making
+such manipulation easier.
+</p>
+<p>Archives are usually written on dismountable media&mdash;tape cartridges,
+mag tapes, or floppy disks.
+</p>
+<p>The amount of data a tape or disk holds depends not only on its size,
+but also on how it is formatted.  A 2400 foot long reel of mag tape
+holds 40 megabytes of data when formatted at 1600 bits per inch.  The
+physically smaller EXABYTE tape cartridge holds 2.3 gigabytes.
+</p>
+<p>Magnetic media are re-usable&mdash;once the archive on a tape is no longer
+needed, the archive can be erased and the tape or disk used over.
+Media quality does deteriorate with use, however.  Most tapes or disks
+should be discarded when they begin to produce data errors.  EXABYTE
+tape cartridges should be discarded when they generate an <em>error
+count</em> (number of non-usable bits) of more than 10k.
+</p>
+<p>Magnetic media are written and erased using magnetic fields, and
+should be protected from such fields to avoid damage to stored data.
+Sticking a floppy disk to a filing cabinet using a magnet is probably
+not a good idea.
+</p>
+
+<ul class="section-toc">
+<li><a href="Device.html" accesskey="1">Device Selection and Switching</a></li>
+<li><a href="Remote-Tape-Server.html" accesskey="2">Remote Tape Server</a></li>
+<li><a href="Common-Problems-and-Solutions.html" accesskey="3">Some Common Problems and their Solutions</a></li>
+<li><a href="Blocking.html" accesskey="4">Blocking</a></li>
+<li><a href="Many.html" accesskey="5">Many Archives on One Tape</a></li>
+<li><a href="Using-Multiple-Tapes.html" accesskey="6">Using Multiple Tapes</a></li>
+<li><a href="label.html" accesskey="7">Including a Label in the Archive</a></li>
+<li><a href="verify.html" accesskey="8">Verifying Data as It is Stored</a></li>
+<li><a href="Write-Protection.html" accesskey="9">Write Protection</a></li>
+</ul>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Reliability-and-security.html">Reliability and Security</a>, Previous: <a href="Formats.html">Controlling the Archive Format</a>, Up: <a href="index.html"><acronym>GNU</acronym> tar: an archiver tool</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

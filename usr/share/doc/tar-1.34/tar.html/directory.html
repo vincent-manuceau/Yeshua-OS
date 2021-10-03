@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>directory (GNU tar 1.34)</title>
+
+<meta name="description" content="directory (GNU tar 1.34)">
+<meta name="keywords" content="directory (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="one.html" rel="up" title="one">
+<link href="absolute.html" rel="next" title="absolute">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection" id="directory">
+<div class="header">
+<p>
+Next: <a href="absolute.html" accesskey="n" rel="next">Absolute File Names</a>, Up: <a href="one.html" accesskey="u" rel="up">Crossing File System Boundaries</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Changing-the-Working-Directory"></span><h4 class="subsection">6.10.1 Changing the Working Directory</h4>
+
+
+
+<span id="index-Changing-directory-mid_002dstream"></span>
+<span id="index-Directory_002c-changing-mid_002dstream"></span>
+<span id="index-Working-directory_002c-specifying"></span>
+<p>To change the working directory in the middle of a list of file names,
+either on the command line or in a file specified using
+<samp>--files-from</samp> (<samp>-T</samp>), use <samp>--directory</samp> (<samp>-C</samp>).
+This will change the working directory to the specified directory
+after that point in the list.
+</p>
+<dl compact="compact">
+<dd><span id="index-directory"></span>
+</dd>
+<dt><span><samp>--directory=<var>directory</var></samp></span></dt>
+<dt><span><samp>-C <var>directory</var></samp></span></dt>
+<dd><p>Changes the working directory in the middle of a command line.
+</p></dd>
+</dl>
+
+<p>For example,
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -c -f jams.tar grape prune -C food cherry</kbd>
+</pre></div>
+
+<p>will place the files <samp>grape</samp> and <samp>prune</samp> from the current
+directory into the archive <samp>jams.tar</samp>, followed by the file
+<samp>cherry</samp> from the directory <samp>food</samp>.  This option is especially
+useful when you have several widely separated files that you want to
+store in the same archive.
+</p>
+<p>Note that the file <samp>cherry</samp> is recorded in the archive under the
+precise name <samp>cherry</samp>, <em>not</em> <samp>food/cherry</samp>.  Thus, the
+archive will contain three files that all appear to have come from the
+same directory; if the archive is extracted with plain &lsquo;<samp>tar
+--extract</samp>&rsquo;, all three files will be written in the current directory.
+</p>
+<p>Contrast this with the command,
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -c -f jams.tar grape prune -C food red/cherry</kbd>
+</pre></div>
+
+<p>which records the third file in the archive under the name
+<samp>red/cherry</samp> so that, if the archive is extracted using
+&lsquo;<samp>tar --extract</samp>&rsquo;, the third file will be written in a subdirectory
+named <samp>red</samp>.
+</p>
+<p>You can use the <samp>--directory</samp> option to make the archive
+independent of the original name of the directory holding the files.
+The following command places the files <samp>/etc/passwd</samp>,
+<samp>/etc/hosts</samp>, and <samp>/lib/libc.a</samp> into the archive
+<samp>foo.tar</samp>:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -c -f foo.tar -C /etc passwd hosts -C /lib libc.a</kbd>
+</pre></div>
+
+<p>However, the names of the archive members will be exactly what they were
+on the command line: <samp>passwd</samp>, <samp>hosts</samp>, and <samp>libc.a</samp>.
+They will not appear to be related by file name to the original
+directories where those files were located.
+</p>
+<p>Note that <samp>--directory</samp> options are interpreted consecutively.  If
+<samp>--directory</samp> specifies a relative file name, it is interpreted
+relative to the then current directory, which might not be the same as
+the original current working directory of <code>tar</code>, due to a previous
+<samp>--directory</samp> option.
+</p>
+<p>When using <samp>--files-from</samp> (see <a href="files.html">Reading Names from a File</a>), you can put various
+<code>tar</code> options (including <samp>-C</samp>) in the file list.  Notice,
+however, that in this case the option and its argument may not be
+separated by whitespace.  If you use short option, its argument must
+either follow the option letter immediately, without any intervening
+whitespace, or occupy the next line.  Otherwise, if you use long
+option, separate its argument by an equal sign.
+</p>
+<p>For instance, the file list for the above example will be:
+</p>
+<div class="example">
+<pre class="example">-C/etc
+passwd
+hosts
+--directory=/lib
+libc.a
+</pre></div>
+
+<p>To use it, you would invoke <code>tar</code> as follows:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -c -f foo.tar --files-from list</kbd>
+</pre></div>
+
+<p>The interpretation of options in file lists is disabled by
+<samp>--verbatim-files-from</samp> and <samp>--null</samp> options.
+</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="absolute.html">Absolute File Names</a>, Up: <a href="one.html">Crossing File System Boundaries</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

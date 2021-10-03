@@ -1,0 +1,400 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>exclude (GNU tar 1.34)</title>
+
+<meta name="description" content="exclude (GNU tar 1.34)">
+<meta name="keywords" content="exclude (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Choosing.html" rel="up" title="Choosing">
+<link href="wildcards.html" rel="next" title="wildcards">
+<link href="files.html" rel="prev" title="files">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section" id="exclude">
+<div class="header">
+<p>
+Next: <a href="wildcards.html" accesskey="n" rel="next">Wildcards Patterns and Matching</a>, Previous: <a href="files.html" accesskey="p" rel="prev">Reading Names from a File</a>, Up: <a href="Choosing.html" accesskey="u" rel="up">Choosing Files and Names for <code>tar</code></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Excluding-Some-Files"></span><h3 class="section">6.4 Excluding Some Files</h3>
+
+<span id="index-File-names_002c-excluding-files-by"></span>
+<span id="index-Excluding-files-by-name-and-pattern"></span>
+<span id="index-Excluding-files-by-file-system"></span>
+<span id="index-exclude-1"></span>
+<span id="index-exclude_002dfrom-1"></span>
+<p>To avoid operating on files whose names match a particular pattern,
+use the <samp>--exclude</samp> or <samp>--exclude-from</samp> options.
+</p>
+<dl compact="compact">
+<dd><span id="index-exclude-2"></span>
+</dd>
+<dt><span><samp>--exclude=<var>pattern</var></samp></span></dt>
+<dd><p>Causes <code>tar</code> to ignore files that match the <var>pattern</var>.
+</p></dd>
+</dl>
+
+<span id="index-exclude"></span>
+<p>The <samp>--exclude=<var>pattern</var></samp> option prevents any file or
+member whose name matches the shell wildcard (<var>pattern</var>) from
+being operated on.
+For example, to create an archive with all the contents of the directory
+<samp>src</samp> except for files whose names end in <samp>.o</samp>, use the
+command &lsquo;<samp>tar -cf src.tar --exclude='*.o' src</samp>&rsquo;.
+</p>
+<p>You may give multiple <samp>--exclude</samp> options.
+</p>
+<dl compact="compact">
+<dd><span id="index-exclude_002dfrom-2"></span>
+</dd>
+<dt><span><samp>--exclude-from=<var>file</var></samp></span></dt>
+<dt><span><samp>-X <var>file</var></samp></span></dt>
+<dd><p>Causes <code>tar</code> to ignore files that match the patterns listed in
+<var>file</var>.
+</p></dd>
+</dl>
+
+<span id="index-exclude_002dfrom"></span>
+<p>Use the <samp>--exclude-from</samp> option to read a
+list of patterns, one per line, from <var>file</var>; <code>tar</code> will
+ignore files matching those patterns.  Thus if <code>tar</code> is
+called as &lsquo;<samp>tar&nbsp;<span class="nolinebreak">-c</span>&nbsp;<span class="nolinebreak">-X</span>&nbsp;foo&nbsp;.</samp>&rsquo;<!-- /@w --> and the file <samp>foo</samp> contains a
+single line <samp>*.o</samp>, no files whose names end in <samp>.o</samp> will be
+added to the archive.
+</p>
+<p>Notice, that lines from <var>file</var> are read verbatim. One of the
+frequent errors is leaving some extra whitespace after a file name,
+which is difficult to catch using text editors.
+</p>
+<p>However, empty lines are OK.
+</p>
+<span id="index-VCS_002c-excluding-patterns-from-ignore-files"></span>
+<span id="index-VCS_002c-ignore-files"></span>
+<span id="index-CVS_002c-ignore-files"></span>
+<span id="index-Git_002c-ignore-files"></span>
+<span id="index-Bazaar_002c-ignore-files"></span>
+<span id="index-Mercurial_002c-ignore-files"></span>
+<p>When archiving directories that are under some version control system (VCS),
+it is often convenient to read exclusion patterns from this VCS&rsquo;
+ignore files (e.g. <samp>.cvsignore</samp>, <samp>.gitignore</samp>, etc.)  The
+following options provide such possibility:
+</p>
+<dl compact="compact">
+<dd><span id="exclude_002dvcs_002dignores"></span><span id="index-exclude_002dvcs_002dignores"></span>
+</dd>
+<dt><span><samp>--exclude-vcs-ignores</samp></span></dt>
+<dd><p>Before archiving a directory, see if it contains any of the following
+files: <samp>cvsignore</samp>, <samp>.gitignore</samp>, <samp>.bzrignore</samp>, or
+<samp>.hgignore</samp>.  If so, read ignore patterns from these files.
+</p>
+<p>The patterns are treated much as the corresponding VCS would treat
+them, i.e.:
+</p>
+<dl compact="compact">
+<dd><span id="index-_002ecvsignore"></span>
+</dd>
+<dt><span><samp>.cvsignore</samp></span></dt>
+<dd><p>Contains shell-style globbing patterns that apply only to the
+directory where this file resides.  No comments are allowed in the
+file.  Empty lines are ignored.
+</p>
+<span id="index-_002egitignore"></span>
+</dd>
+<dt><span><samp>.gitignore</samp></span></dt>
+<dd><p>Contains shell-style globbing patterns.  Applies to the directory
+where <samp>.gitfile</samp> is located and all its subdirectories.
+</p>
+<p>Any line beginning with a &lsquo;<samp>#</samp>&rsquo; is a comment.  Backslash escapes
+the comment character.
+</p>
+<span id="index-_002ebzrignore"></span>
+</dd>
+<dt><span><samp>.bzrignore</samp></span></dt>
+<dd><p>Contains shell globbing-patterns and regular expressions (if prefixed
+with &lsquo;<samp>RE:</samp>&rsquo;<a id="DOCF16" href="#FOOT16"><sup>16</sup></a>.  Patterns affect the directory and all its
+subdirectories.
+</p>
+<p>Any line beginning with a &lsquo;<samp>#</samp>&rsquo; is a comment.
+</p>
+<span id="index-_002ehgignore"></span>
+</dd>
+<dt><span><samp>.hgignore</samp></span></dt>
+<dd><p>Contains posix regular expressions<a id="DOCF17" href="#FOOT17"><sup>17</sup></a>.  The line &lsquo;<samp>syntax:
+glob</samp>&rsquo; switches to shell globbing patterns.  The line &lsquo;<samp>syntax:
+regexp</samp>&rsquo; switches back.  Comments begin with a &lsquo;<samp>#</samp>&rsquo;.  Patterns
+affect the directory and all its subdirectories.
+</p></dd>
+</dl>
+
+<span id="index-exclude_002dignore"></span>
+</dd>
+<dt><span><samp>--exclude-ignore=<var>file</var></samp></span></dt>
+<dd><p>Before dumping a directory, <code>tar</code> checks if it contains
+<var>file</var>.  If so, exclusion patterns are read from this file.
+The patterns affect only the directory itself.
+</p>
+<span id="index-exclude_002dignore_002drecursive"></span>
+</dd>
+<dt><span><samp>--exclude-ignore-recursive=<var>file</var></samp></span></dt>
+<dd><p>Same as <samp>--exclude-ignore</samp>, except that the patterns read
+affect both the directory where <var>file</var> resides and all its
+subdirectories.
+</p></dd>
+</dl>
+
+<dl compact="compact">
+<dd><span id="index-version-control-system_002c-excluding-files"></span>
+<span id="index-VCS_002c-excluding-files"></span>
+<span id="index-SCCS_002c-excluding-files"></span>
+<span id="index-RCS_002c-excluding-files"></span>
+<span id="index-CVS_002c-excluding-files"></span>
+<span id="index-SVN_002c-excluding-files"></span>
+<span id="index-git_002c-excluding-files"></span>
+<span id="index-Bazaar_002c-excluding-files"></span>
+<span id="index-Arch_002c-excluding-files"></span>
+<span id="index-Mercurial_002c-excluding-files"></span>
+<span id="index-Darcs_002c-excluding-files"></span>
+<span id="exclude_002dvcs"></span><span id="index-exclude_002dvcs"></span>
+</dd>
+<dt><span><samp>--exclude-vcs</samp></span></dt>
+<dd><p>Exclude files and directories used by following version control
+systems: &lsquo;<samp>CVS</samp>&rsquo;, &lsquo;<samp>RCS</samp>&rsquo;, &lsquo;<samp>SCCS</samp>&rsquo;, &lsquo;<samp>SVN</samp>&rsquo;, &lsquo;<samp>Arch</samp>&rsquo;,
+&lsquo;<samp>Bazaar</samp>&rsquo;, &lsquo;<samp>Mercurial</samp>&rsquo;, and &lsquo;<samp>Darcs</samp>&rsquo;.
+</p>
+<p>As of version 1.34, the following files are excluded:
+</p>
+<ul>
+<li> <samp>CVS/</samp>, and everything under it
+</li><li> <samp>RCS/</samp>, and everything under it
+</li><li> <samp>SCCS/</samp>, and everything under it
+</li><li> <samp>.git/</samp>, and everything under it
+</li><li> <samp>.gitignore</samp>
+</li><li> <samp>.gitmodules</samp>
+</li><li> <samp>.gitattributes</samp>
+</li><li> <samp>.cvsignore</samp>
+</li><li> <samp>.svn/</samp>, and everything under it
+</li><li> <samp>.arch-ids/</samp>, and everything under it
+</li><li> <samp>{arch}/</samp>, and everything under it
+</li><li> <samp>=RELEASE-ID</samp>
+</li><li> <samp>=meta-update</samp>
+</li><li> <samp>=update</samp>
+</li><li> <samp>.bzr</samp>
+</li><li> <samp>.bzrignore</samp>
+</li><li> <samp>.bzrtags</samp>
+</li><li> <samp>.hg</samp>
+</li><li> <samp>.hgignore</samp>
+</li><li> <samp>.hgrags</samp>
+</li><li> <samp>_darcs</samp>
+</li></ul>
+
+<span id="index-exclude_002dbackups"></span>
+</dd>
+<dt><span><samp>--exclude-backups</samp></span></dt>
+<dd><p>Exclude backup and lock files.  This option causes exclusion of files
+that match the following shell globbing patterns:
+</p>
+<dl compact="compact">
+<dt><span>.#*</span></dt>
+<dt><span>*~</span></dt>
+<dt><span>#*#</span></dt>
+</dl>
+
+</dd>
+</dl>
+
+<span id="index-exclude_002dcaches"></span>
+<p>When creating an archive, the <samp>--exclude-caches</samp> option family
+causes <code>tar</code> to exclude all directories that contain a <em>cache
+directory tag</em>. A cache directory tag is a short file with the
+well-known name <samp>CACHEDIR.TAG</samp> and having a standard header
+specified in <a href="http://www.brynosaurus.com/cachedir/spec.html">http://www.brynosaurus.com/cachedir/spec.html</a>.
+Various applications write cache directory tags into directories they
+use to hold regenerable, non-precious data, so that such data can be
+more easily excluded from backups.
+</p>
+<p>There are three &lsquo;<samp>exclude-caches</samp>&rsquo; options, each providing a different
+exclusion semantics:
+</p>
+<dl compact="compact">
+<dd><span id="index-exclude_002dcaches-1"></span>
+</dd>
+<dt><span><samp>--exclude-caches</samp></span></dt>
+<dd><p>Do not archive the contents of the directory, but archive the
+directory itself and the <samp>CACHEDIR.TAG</samp> file.
+</p>
+<span id="index-exclude_002dcaches_002dunder"></span>
+</dd>
+<dt><span><samp>--exclude-caches-under</samp></span></dt>
+<dd><p>Do not archive the contents of the directory, nor the
+<samp>CACHEDIR.TAG</samp> file, archive only the directory itself.
+</p>
+<span id="index-exclude_002dcaches_002dall"></span>
+</dd>
+<dt><span><samp>--exclude-caches-all</samp></span></dt>
+<dd><p>Omit directories containing <samp>CACHEDIR.TAG</samp> file entirely.
+</p></dd>
+</dl>
+
+<span id="index-exclude_002dtag"></span>
+<p>Another option family, <samp>--exclude-tag</samp>, provides a generalization of
+this concept.  It takes a single argument, a file name to look for.
+Any directory that contains this file will be excluded from the dump.
+Similarly to &lsquo;<samp>exclude-caches</samp>&rsquo;, there are three options in this
+option family:
+</p>
+<dl compact="compact">
+<dd><span id="index-exclude_002dtag-1"></span>
+</dd>
+<dt><span><samp>--exclude-tag=<var>file</var></samp></span></dt>
+<dd><p>Do not dump the contents of the directory, but dump the
+directory itself and the <var>file</var>.
+</p>
+<span id="index-exclude_002dtag_002dunder"></span>
+</dd>
+<dt><span><samp>--exclude-tag-under=<var>file</var></samp></span></dt>
+<dd><p>Do not dump the contents of the directory, nor the
+<var>file</var>, archive only the directory itself.
+</p>
+<span id="index-exclude_002dtag_002dall"></span>
+</dd>
+<dt><span><samp>--exclude-tag-all=<var>file</var></samp></span></dt>
+<dd><p>Omit directories containing <var>file</var> file entirely.
+</p></dd>
+</dl>
+
+<p>Multiple <samp>--exclude-tag*</samp> options can be given.
+</p>
+<p>For example, given this directory:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>find dir</kbd>
+dir
+dir/blues
+dir/jazz
+dir/folk
+dir/folk/tagfile
+dir/folk/sanjuan
+dir/folk/trote
+</pre></div>
+
+<p>The <samp>--exclude-tag</samp> will produce the following:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -cf archive.tar --exclude-tag=tagfile -v dir</kbd>
+dir/
+dir/blues
+dir/jazz
+dir/folk/
+tar: dir/folk/: contains a cache directory tag tagfile;
+  contents not dumped
+dir/folk/tagfile
+</pre></div>
+
+<p>Both the <samp>dir/folk</samp> directory and its tagfile are preserved in
+the archive, however the rest of files in this directory are not.
+</p>
+<p>Now, using the <samp>--exclude-tag-under</samp> option will exclude
+<samp>tagfile</samp> from the dump, while still preserving the directory
+itself, as shown in this example:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -cf archive.tar --exclude-tag-under=tagfile -v dir</kbd>
+dir/
+dir/blues
+dir/jazz
+dir/folk/
+./tar: dir/folk/: contains a cache directory tag tagfile;
+  contents not dumped
+</pre></div>
+
+<p>Finally, using <samp>--exclude-tag-all</samp> omits the <samp>dir/folk</samp>
+directory entirely:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -cf archive.tar --exclude-tag-all=tagfile -v dir</kbd>
+dir/
+dir/blues
+dir/jazz
+./tar: dir/folk/: contains a cache directory tag tagfile;
+  directory not dumped
+</pre></div>
+
+
+<ul class="section-toc">
+<li><a href="problems-with-exclude.html" accesskey="1">Problems with Using the <code>exclude</code> Options</a></li>
+</ul>
+</div>
+<div class="footnote">
+<hr>
+<h4 class="footnotes-heading">Footnotes</h4>
+
+<h5><a id="FOOT16" href="#DOCF16">(16)</a></h5>
+<p>According to the Bazaar docs,
+globbing-patterns are Korn-shell style and regular expressions are
+perl-style.  As of <acronym>GNU</acronym> <code>tar</code> version 1.34, these are
+treated as shell-style globs and posix extended regexps.  This will be
+fixed in future releases.</p>
+<h5><a id="FOOT17" href="#DOCF17">(17)</a></h5>
+<p>Support for perl-style
+regexps will appear in future releases.</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="wildcards.html">Wildcards Patterns and Matching</a>, Previous: <a href="files.html">Reading Names from a File</a>, Up: <a href="Choosing.html">Choosing Files and Names for <code>tar</code></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Backups (GNU tar 1.34)</title>
+
+<meta name="description" content="Backups (GNU tar 1.34)">
+<meta name="keywords" content="Backups (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html" rel="up" title="Top">
+<link href="Choosing.html" rel="next" title="Choosing">
+<link href="operations.html" rel="prev" title="operations">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="chapter" id="Backups">
+<div class="header">
+<p>
+Next: <a href="Choosing.html" accesskey="n" rel="next">Choosing Files and Names for <code>tar</code></a>, Previous: <a href="operations.html" accesskey="p" rel="prev"><acronym>GNU</acronym> <code>tar</code> Operations</a>, Up: <a href="index.html" accesskey="u" rel="up"><acronym>GNU</acronym> tar: an archiver tool</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Performing-Backups-and-Restoring-Files"></span><h2 class="chapter">5 Performing Backups and Restoring Files</h2>
+<span id="index-backups-1"></span>
+
+<p><acronym>GNU</acronym> <code>tar</code> is distributed along with the scripts for performing backups
+and restores.  Even if there is a good chance those scripts may be
+satisfying to you, they are not the only scripts or methods available for doing
+backups and restore.  You may well create your own, or use more
+sophisticated packages dedicated to that purpose.
+</p>
+<p>Some users are enthusiastic about <code>Amanda</code> (The Advanced Maryland
+Automatic Network Disk Archiver), a backup system developed by James
+da Silva <samp>jds@cs.umd.edu</samp> and available on many Unix systems.
+This is free software, and it is available from <a href="http://www.amanda.org">http://www.amanda.org</a>.
+</p>
+
+
+<p>This chapter documents both the provided shell scripts and <code>tar</code>
+options which are more specific to usage as a backup tool.
+</p>
+<p>To <em>back up</em> a file system means to create archives that contain
+all the files in that file system.  Those archives can then be used to
+restore any or all of those files (for instance if a disk crashes or a
+file is accidentally deleted).  File system <em>backups</em> are also
+called <em>dumps</em>.
+</p>
+
+<ul class="section-toc">
+<li><a href="Full-Dumps.html" accesskey="1">Using <code>tar</code> to Perform Full Dumps</a></li>
+<li><a href="Incremental-Dumps.html" accesskey="2">Using <code>tar</code> to Perform Incremental Dumps</a></li>
+<li><a href="Backup-Levels.html" accesskey="3">Levels of Backups</a></li>
+<li><a href="Backup-Parameters.html" accesskey="4">Setting Parameters for Backups and Restoration</a></li>
+<li><a href="Scripted-Backups.html" accesskey="5">Using the Backup Scripts</a></li>
+<li><a href="Scripted-Restoration.html" accesskey="6">Using the Restore Script</a></li>
+</ul>
+</div>
+
+
+
+</body>
+</html>

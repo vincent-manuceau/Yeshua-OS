@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>one (GNU tar 1.34)</title>
+
+<meta name="description" content="one (GNU tar 1.34)">
+<meta name="keywords" content="one (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Choosing.html" rel="up" title="Choosing">
+<link href="recurse.html" rel="prev" title="recurse">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section" id="one">
+<div class="header">
+<p>
+Previous: <a href="recurse.html" accesskey="p" rel="prev">Descending into Directories</a>, Up: <a href="Choosing.html" accesskey="u" rel="up">Choosing Files and Names for <code>tar</code></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Crossing-File-System-Boundaries"></span><h3 class="section">6.10 Crossing File System Boundaries</h3>
+<span id="index-File-system-boundaries_002c-not-crossing"></span>
+
+<p><code>tar</code> will normally automatically cross file system boundaries in
+order to archive files which are part of a directory tree.  You can
+change this behavior by running <code>tar</code> and specifying
+<samp>--one-file-system</samp>.  This option only affects files that are
+archived because they are in a directory that is being archived;
+<code>tar</code> will still archive files explicitly named on the command line
+or through <samp>--files-from</samp>, regardless of where they reside.
+</p>
+<dl compact="compact">
+<dd><span id="index-one_002dfile_002dsystem"></span>
+</dd>
+<dt><span><samp>--one-file-system</samp></span></dt>
+<dd><p>Prevents <code>tar</code> from crossing file system boundaries when
+archiving.  Use in conjunction with any write operation.
+</p></dd>
+</dl>
+
+<p>The <samp>--one-file-system</samp> option causes <code>tar</code> to modify its
+normal behavior in archiving the contents of directories.  If a file in
+a directory is not on the same file system as the directory itself, then
+<code>tar</code> will not archive that file.  If the file is a directory
+itself, <code>tar</code> will not archive anything beneath it; in other words,
+<code>tar</code> will not cross mount points.
+</p>
+<p>This option is useful for making full or incremental archival backups of
+a file system.  If this option is used in conjunction with
+<samp>--verbose</samp> (<samp>-v</samp>), files that are excluded are
+mentioned by name on the standard error.
+</p>
+
+<ul class="section-toc">
+<li><a href="directory.html" accesskey="1">Changing the Working Directory</a></li>
+<li><a href="absolute.html" accesskey="2">Absolute File Names</a></li>
+</ul>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Large or Negative Values (GNU tar 1.34)</title>
+
+<meta name="description" content="Large or Negative Values (GNU tar 1.34)">
+<meta name="keywords" content="Large or Negative Values (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Portability.html" rel="up" title="Portability">
+<link href="Other-Tars.html" rel="next" title="Other Tars">
+<link href="Checksumming.html" rel="prev" title="Checksumming">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection" id="Large-or-Negative-Values">
+<div class="header">
+<p>
+Next: <a href="Other-Tars.html" accesskey="n" rel="next">How to Extract GNU-Specific Data Using Other <code>tar</code> Implementations</a>, Previous: <a href="Checksumming.html" accesskey="p" rel="prev">Checksumming Problems</a>, Up: <a href="Portability.html" accesskey="u" rel="up">Making <code>tar</code> Archives More Portable</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Large-or-Negative-Values-1"></span><h4 class="subsection">8.3.9 Large or Negative Values</h4>
+<span id="index-large-values"></span>
+<span id="index-future-time-stamps"></span>
+<span id="index-negative-time-stamps"></span>
+<blockquote>
+<p><em>(This message will disappear, once this node revised.)</em>
+</p></blockquote>
+
+<p>The above sections suggest to use &lsquo;<samp>oldest possible</samp>&rsquo; archive
+format if in doubt.  However, sometimes it is not possible.  If you
+attempt to archive a file whose metadata cannot be represented using
+required format, <acronym>GNU</acronym> <code>tar</code> will print error message and ignore such a
+file.  You will than have to switch to a format that is able to
+handle such values.  The format summary table (see <a href="Formats.html">Controlling the Archive Format</a>) will
+help you to do so.
+</p>
+<p>In particular, when trying to archive files larger than 8GB or with
+timestamps not in the range 1970-01-01 00:00:00 through 2242-03-16
+12:56:31 <small>UTC</small>, you will have to chose between <acronym>GNU</acronym> and
+<acronym>POSIX</acronym> archive formats.  When considering which format to
+choose, bear in mind that the <acronym>GNU</acronym> format uses
+two&rsquo;s-complement base-256 notation to store values that do not fit
+into standard <acronym>ustar</acronym> range.  Such archives can generally be
+read only by a <acronym>GNU</acronym> <code>tar</code> implementation.  Moreover, they sometimes
+cannot be correctly restored on another hosts even by <acronym>GNU</acronym> <code>tar</code>.  For
+example, using two&rsquo;s complement representation for negative time
+stamps that assumes a signed 32-bit <code>time_t</code> generates archives
+that are not portable to hosts with differing <code>time_t</code>
+representations.
+</p>
+<p>On the other hand, <acronym>POSIX</acronym> archives, generally speaking, can
+be extracted by any tar implementation that understands older
+<acronym>ustar</acronym> format.  The only exception are files larger than 8GB.
+</p>
+
+
+</div>
+
+
+
+</body>
+</html>

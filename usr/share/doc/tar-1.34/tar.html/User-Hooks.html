@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>User Hooks (GNU tar 1.34)</title>
+
+<meta name="description" content="User Hooks (GNU tar 1.34)">
+<meta name="keywords" content="User Hooks (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Backup-Parameters.html" rel="up" title="Backup Parameters">
+<link href="backup_002dspecs-example.html" rel="next" title="backup-specs example">
+<link href="Magnetic-Tape-Control.html" rel="prev" title="Magnetic Tape Control">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection" id="User-Hooks">
+<div class="header">
+<p>
+Next: <a href="backup_002dspecs-example.html" accesskey="n" rel="next">An Example Text of <samp>Backup-specs</samp></a>, Previous: <a href="Magnetic-Tape-Control.html" accesskey="p" rel="prev">Magnetic Tape Control</a>, Up: <a href="Backup-Parameters.html" accesskey="u" rel="up">Setting Parameters for Backups and Restoration</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="User-Hooks-1"></span><h4 class="subsection">5.4.3 User Hooks</h4>
+
+<p><em>User hooks</em> are shell functions executed before and after
+each <code>tar</code> invocation.  Thus, there are <em>backup
+hooks</em>, which are executed before and after dumping each file
+system, and <em>restore hooks</em>, executed before and
+after restoring a file system.  Each user hook is a shell function
+taking four arguments:
+</p>
+<dl class="def">
+<dt id="index-hook"><span class="category">User Hook Function: </span><span><strong>hook</strong> <em><var>level</var> <var>host</var> <var>fs</var> <var>fsname</var></em><a href='#index-hook' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>Its arguments are:
+</p>
+<dl compact="compact">
+<dt><span><var>level</var></span></dt>
+<dd><p>Current backup or restore level.
+</p>
+</dd>
+<dt><span><var>host</var></span></dt>
+<dd><p>Name or IP address of the host machine being dumped or restored.
+</p>
+</dd>
+<dt><span><var>fs</var></span></dt>
+<dd><p>Full file name of the file system being dumped or restored.
+</p>
+</dd>
+<dt><span><var>fsname</var></span></dt>
+<dd><p>File system name with directory separators replaced with colons.  This
+is useful, e.g., for creating unique files.
+</p></dd>
+</dl>
+</dd></dl>
+
+<p>Following variables keep the names of user hook functions:
+</p>
+<dl class="def">
+<dt id="index-DUMP_005fBEGIN"><span class="category">Backup variable: </span><span><strong>DUMP_BEGIN</strong><a href='#index-DUMP_005fBEGIN' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>Dump begin function.  It is executed before dumping the file system.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-DUMP_005fEND"><span class="category">Backup variable: </span><span><strong>DUMP_END</strong><a href='#index-DUMP_005fEND' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>Executed after dumping the file system.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-RESTORE_005fBEGIN"><span class="category">Backup variable: </span><span><strong>RESTORE_BEGIN</strong><a href='#index-RESTORE_005fBEGIN' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>Executed before restoring the file system.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-RESTORE_005fEND"><span class="category">Backup variable: </span><span><strong>RESTORE_END</strong><a href='#index-RESTORE_005fEND' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>Executed after restoring the file system.
+</p></dd></dl>
+
+</div>
+
+
+
+</body>
+</html>

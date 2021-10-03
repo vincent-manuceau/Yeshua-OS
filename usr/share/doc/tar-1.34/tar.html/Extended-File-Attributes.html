@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Extended File Attributes (GNU tar 1.34)</title>
+
+<meta name="description" content="Extended File Attributes (GNU tar 1.34)">
+<meta name="keywords" content="Extended File Attributes (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="create-options.html" rel="up" title="create options">
+<link href="Ignore-Failed-Read.html" rel="next" title="Ignore Failed Read">
+<link href="override.html" rel="prev" title="override">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection" id="Extended-File-Attributes">
+<div class="header">
+<p>
+Next: <a href="Ignore-Failed-Read.html" accesskey="n" rel="next">Ignore Failed Read</a>, Previous: <a href="override.html" accesskey="p" rel="prev">Overriding File Metadata</a>, Up: <a href="create-options.html" accesskey="u" rel="up">Options Used by <samp>--create</samp></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Extended-File-Attributes-1"></span><h4 class="subsection">4.3.2 Extended File Attributes</h4>
+
+<p>Extended file attributes are name-value pairs that can be
+associated with each node in a file system.  Despite the fact that
+POSIX.1e draft which proposed them has been withdrawn, the extended
+file attributes are supported by many file systems.  <acronym>GNU</acronym> <code>tar</code> can
+store extended file attributes along with the files.  This feature is
+controlled by the following command line arguments:
+</p>
+<dl compact="compact">
+<dt><span><samp>--xattrs</samp></span></dt>
+<dd><p>Enable extended attributes support.  When used with <samp>--create</samp>,
+this option instructs <acronym>GNU</acronym> <code>tar</code> to store extended file attribute in the
+created archive.  This implies POSIX.1-2001 archive format
+(<samp>--format=pax</samp>).
+</p>
+<p>When used with <samp>--extract</samp>, this option tells <code>tar</code>,
+for each file extracted, to read stored attributes from the archive
+and to apply them to the file.
+</p>
+</dd>
+<dt><span><samp>--no-xattrs</samp></span></dt>
+<dd><p>Disable extended attributes support.  This is the default.
+</p></dd>
+</dl>
+
+<p>Attribute names are strings prefixed by a <em>namespace</em> name and a dot.
+Currently, four namespaces exist: &lsquo;<samp>user</samp>&rsquo;, &lsquo;<samp>trusted</samp>&rsquo;,
+&lsquo;<samp>security</samp>&rsquo; and &lsquo;<samp>system</samp>&rsquo;.  By default, when <samp>--xattr</samp>
+is used, all names are stored in the archive (or extracted, if using
+<samp>--extract</samp>).  This can be controlled using the following
+options:
+</p>
+<dl compact="compact">
+<dt><span><samp>--xattrs-exclude=<var>pattern</var></samp></span></dt>
+<dd><p>Specify exclude pattern for extended attributes.
+</p>
+</dd>
+<dt><span><samp>--xattrs-include=<var>pattern</var></samp></span></dt>
+<dd><p>Specify include pattern for extended attributes.
+</p></dd>
+</dl>
+
+<p>Here, the <var>pattern</var> is a globbing pattern.  For example, the
+following command:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar --xattrs --xattrs-exclude='user.*' -c a.tar .</kbd>
+</pre></div>
+
+<p>will include in the archive <samp>a.tar</samp> all attributes, except those
+from the &lsquo;<samp>user</samp>&rsquo; namespace.
+</p>
+<p>Any number of these options can be given, thereby creating lists of
+include and exclude patterns.
+</p>
+<p>When both options are used, first <samp>--xattrs-include</samp> is applied
+to select the set of attribute names to keep, and then
+<samp>--xattrs-exclude</samp> is applied to the resulting set.  In other
+words, only those attributes will be stored, whose names match one
+of the regexps in <samp>--xattrs-include</samp> and don&rsquo;t match any of
+the regexps from <samp>--xattrs-exclude</samp>.
+</p>
+<p>When listing the archive, if both <samp>--xattrs</samp> and
+<samp>--verbose</samp> options are given, files that have extended
+attributes are marked with an asterisk following their permission
+mask.  For example:
+</p>
+<div class="example">
+<pre class="example">-rw-r--r--* smith/users      110 2016-03-16 16:07 file
+</pre></div>
+
+<p>When two or more <samp>--verbose</samp> options are given, a detailed
+listing of extended attributes is printed after each file entry.  Each
+attribute is listed on a separate line, which begins with two spaces
+and the letter &lsquo;<samp>x</samp>&rsquo; indicating extended attribute.  It is followed
+by a colon, length of the attribute and its name, e.g.:
+</p>
+<div class="example">
+<pre class="example">-rw-r--r--* smith/users      110 2016-03-16 16:07 file
+  x:  7 user.mime_type
+  x: 32 trusted.md5sum
+</pre></div>
+
+<p>File access control lists (<em>ACL</em>) are another actively used feature
+proposed by the POSIX.1e standard.  Each ACL consists of a set of ACL
+entries, each of which describes the access permissions on the file for
+an individual user or a group of users as a combination of read, write
+and search/execute permissions.
+</p>
+<p>Whether or not to use ACLs is controlled by the following two options:
+</p>
+<dl compact="compact">
+<dt><span><samp>--acls</samp></span></dt>
+<dd><p>Enable POSIX ACLs support.  When used with <samp>--create</samp>,
+this option instructs <acronym>GNU</acronym> <code>tar</code> to store ACLs in the
+created archive.  This implies POSIX.1-2001 archive format
+(<samp>--format=pax</samp>).
+</p>
+<p>When used with <samp>--extract</samp>, this option tells <code>tar</code>,
+to restore ACLs for each file extracted (provided they are present
+in the archive).
+</p>
+</dd>
+<dt><span><samp>--no-acls</samp></span></dt>
+<dd><p>Disable POSIX ACLs support.  This is the default.
+</p></dd>
+</dl>
+
+<p>When listing the archive, if both <samp>--acls</samp> and
+<samp>--verbose</samp> options are given, files that have ACLs are marked
+with a plus sign following their permission mask.  For example:
+</p>
+<div class="example">
+<pre class="example">-rw-r--r--+ smith/users      110 2016-03-16 16:07 file
+</pre></div>
+
+<p>When two or more <samp>--verbose</samp> options are given, a detailed
+listing of ACL is printed after each file entry:
+</p>
+<div class="example">
+<pre class="example">-rw-r--r--+ smith/users      110 2016-03-16 16:07 file
+  a: user::rw-,user:gray:-w-,group::r--,mask::rw-,other::r--
+</pre></div>
+
+<p><em>Security-Enhanced Linux</em> (<em>SELinux</em> for short) is a Linux
+kernel security module that provides a mechanism for supporting access
+control security policies, including so-called mandatory access
+controls (<em>MAC</em>).  Support for SELinux attributes is controlled by
+the following command line options:
+</p>
+<dl compact="compact">
+<dt><span><samp>--selinux</samp></span></dt>
+<dd><p>Enable the SELinux context support.
+</p>
+</dd>
+<dt><span><samp>--no-selinux</samp></span></dt>
+<dd><p>Disable SELinux context support.
+</p></dd>
+</dl>
+
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Ignore-Failed-Read.html">Ignore Failed Read</a>, Previous: <a href="override.html">Overriding File Metadata</a>, Up: <a href="create-options.html">Options Used by <samp>--create</samp></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

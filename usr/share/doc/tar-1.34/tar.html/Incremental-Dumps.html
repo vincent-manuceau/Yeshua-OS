@@ -1,0 +1,313 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Incremental Dumps (GNU tar 1.34)</title>
+
+<meta name="description" content="Incremental Dumps (GNU tar 1.34)">
+<meta name="keywords" content="Incremental Dumps (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Backups.html" rel="up" title="Backups">
+<link href="Backup-Levels.html" rel="next" title="Backup Levels">
+<link href="Full-Dumps.html" rel="prev" title="Full Dumps">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section" id="Incremental-Dumps">
+<div class="header">
+<p>
+Next: <a href="Backup-Levels.html" accesskey="n" rel="next">Levels of Backups</a>, Previous: <a href="Full-Dumps.html" accesskey="p" rel="prev">Using <code>tar</code> to Perform Full Dumps</a>, Up: <a href="Backups.html" accesskey="u" rel="up">Performing Backups and Restoring Files</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Using-tar-to-Perform-Incremental-Dumps"></span><h3 class="section">5.2 Using <code>tar</code> to Perform Incremental Dumps</h3>
+
+<p><em>Incremental backup</em> is a special form of <acronym>GNU</acronym> <code>tar</code> archive that
+stores additional metadata so that exact state of the file system
+can be restored when extracting the archive.
+</p>
+<p><acronym>GNU</acronym> <code>tar</code> currently offers two options for handling incremental
+backups: <samp>--listed-incremental=<var>snapshot-file</var></samp> (<samp>-g
+<var>snapshot-file</var></samp>) and <samp>--incremental</samp> (<samp>-G</samp>).
+</p>
+<span id="index-listed_002dincremental_002c-described"></span>
+<p>The option <samp>--listed-incremental</samp> instructs tar to operate on
+an incremental archive with additional metadata stored in a standalone
+file, called a <em>snapshot file</em>.  The purpose of this file is to help
+determine which files have been changed, added or deleted since the
+last backup, so that the next incremental backup will contain only
+modified files.  The name of the snapshot file is given as an argument
+to the option:
+</p>
+<dl compact="compact">
+<dt><span><samp>--listed-incremental=<var>file</var></samp></span></dt>
+<dt><span><samp>-g <var>file</var></samp></span></dt>
+<dd><p>Handle incremental backups with snapshot data in <var>file</var>.
+</p></dd>
+</dl>
+
+<p>To create an incremental backup, you would use
+<samp>--listed-incremental</samp> together with <samp>--create</samp>
+(see <a href="create.html">How to Create Archives</a>).  For example:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar --create \
+           --file=archive.1.tar \
+           --listed-incremental=/var/log/usr.snar \
+           /usr</kbd>
+</pre></div>
+
+<p>This will create in <samp>archive.1.tar</samp> an incremental backup of
+the <samp>/usr</samp> file system, storing additional metadata in the file
+<samp>/var/log/usr.snar</samp>.  If this file does not exist, it will be
+created.  The created archive will then be a <em>level 0 backup</em>;
+please see the next section for more on backup levels.
+</p>
+<p>Otherwise, if the file <samp>/var/log/usr.snar</samp> exists, it
+determines which files are modified.  In this case only these files will be
+stored in the archive.  Suppose, for example, that after running the
+above command, you delete file <samp>/usr/doc/old</samp> and create
+directory <samp>/usr/local/db</samp> with the following contents:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>ls /usr/local/db</kbd>
+/usr/local/db/data
+/usr/local/db/index
+</pre></div>
+
+<p>Some time later you create another incremental backup.  You will
+then see:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar --create \
+           --file=archive.2.tar \
+           --listed-incremental=/var/log/usr.snar \
+           /usr</kbd>
+tar: usr/local/db: Directory is new
+usr/local/db/
+usr/local/db/data
+usr/local/db/index
+</pre></div>
+
+<p>The created archive <samp>archive.2.tar</samp> will contain only these
+three members.  This archive is called a <em>level 1 backup</em>.  Notice
+that <samp>/var/log/usr.snar</samp> will be updated with the new data, so if
+you plan to create more &lsquo;<samp>level 1</samp>&rsquo; backups, it is necessary to
+create a working copy of the snapshot file before running
+<code>tar</code>.  The above example will then be modified as follows:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>cp /var/log/usr.snar /var/log/usr.snar-1</kbd>
+$ <kbd>tar --create \
+           --file=archive.2.tar \
+           --listed-incremental=/var/log/usr.snar-1 \
+           /usr</kbd>
+</pre></div>
+
+<span id="g_t_002d_002dlevel_003d0"></span><span id="index-level_002c-described"></span>
+<p>You can force &lsquo;<samp>level 0</samp>&rsquo; backups either by removing the snapshot
+file before running <code>tar</code>, or by supplying the
+<samp>--level=0</samp> option, e.g.:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar --create \
+           --file=archive.2.tar \
+           --listed-incremental=/var/log/usr.snar-0 \
+           --level=0 \
+           /usr</kbd>
+</pre></div>
+
+<p>Incremental dumps depend crucially on time stamps, so the results are
+unreliable if you modify a file&rsquo;s time stamps during dumping (e.g.,
+with the <samp>--atime-preserve=replace</samp> option), or if you set the clock
+backwards.
+</p>
+<span id="device-numbers"></span><span id="index-Device-numbers_002c-using-in-incremental-backups"></span>
+<p>Metadata stored in snapshot files include device numbers, which,
+obviously are supposed to be non-volatile values.  However, it turns
+out that <acronym>NFS</acronym> devices have undependable values when an automounter
+gets in the picture.  This can lead to a great deal of spurious
+redumping in incremental dumps, so it is somewhat useless to compare
+two <acronym>NFS</acronym> devices numbers over time.  The solution implemented
+currently is to consider all <acronym>NFS</acronym> devices as being equal
+when it comes to comparing directories; this is fairly gross, but
+there does not seem to be a better way to go.
+</p>
+<p>Apart from using <acronym>NFS</acronym>, there are a number of cases where
+relying on device numbers can cause spurious redumping of unmodified
+files.  For example, this occurs when archiving <acronym>LVM</acronym> snapshot
+volumes.  To avoid this, use <samp>--no-check-device</samp> option:
+</p>
+<dl compact="compact">
+<dd><span id="index-no_002dcheck_002ddevice_002c-described"></span>
+</dd>
+<dt><span><samp>--no-check-device</samp></span></dt>
+<dd><p>Do not rely on device numbers when preparing a list of changed files
+for an incremental dump.
+</p>
+<span id="index-check_002ddevice_002c-described"></span>
+</dd>
+<dt><span><samp>--check-device</samp></span></dt>
+<dd><p>Use device numbers when preparing a list of changed files
+for an incremental dump.  This is the default behavior.  The purpose
+of this option is to undo the effect of the <samp>--no-check-device</samp>
+if it was given in <code>TAR_OPTIONS</code> environment variable
+(see <a href="using-tar-options.html#TAR_005fOPTIONS">TAR_OPTIONS</a>).
+</p></dd>
+</dl>
+
+<p>There is also another way to cope with changing device numbers.  It is
+described in detail in <a href="Fixing-Snapshot-Files.html">Fixing Snapshot Files</a>.
+</p>
+<p>Note that incremental archives use <code>tar</code> extensions and may
+not be readable by non-<acronym>GNU</acronym> versions of the <code>tar</code> program.
+</p>
+<span id="index-listed_002dincremental_002c-using-with-_002d_002dextract"></span>
+<span id="index-extract_002c-using-with-_002d_002dlisted_002dincremental"></span>
+<p>To extract from the incremental dumps, use
+<samp>--listed-incremental</samp> together with <samp>--extract</samp>
+option (see <a href="extracting-files.html">Extracting Specific Files</a>).  In this case, <code>tar</code> does
+not need to access snapshot file, since all the data necessary for
+extraction are stored in the archive itself.  So, when extracting, you
+can give whatever argument to <samp>--listed-incremental</samp>, the usual
+practice is to use <samp>--listed-incremental=/dev/null</samp>.
+Alternatively, you can use <samp>--incremental</samp>, which needs no
+arguments.  In general, <samp>--incremental</samp> (<samp>-G</samp>) can be
+used as a shortcut for <samp>--listed-incremental</samp> when listing or
+extracting incremental backups (for more information regarding this
+option, see <a href="#incremental_002dop">incremental-op</a>).
+</p>
+<p>When extracting from the incremental backup <acronym>GNU</acronym> <code>tar</code> attempts to
+restore the exact state the file system had when the archive was
+created.  In particular, it will <em>delete</em> those files in the file
+system that did not exist in their directories when the archive was
+created.  If you have created several levels of incremental files,
+then in order to restore the exact contents the file system  had when
+the last level was created, you will need to restore from all backups
+in turn.  Continuing our example, to restore the state of <samp>/usr</samp>
+file system, one would do<a id="DOCF12" href="#FOOT12"><sup>12</sup></a>:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar --extract \
+           --listed-incremental=/dev/null \
+           --file archive.1.tar</kbd>
+$ <kbd>tar --extract \
+           --listed-incremental=/dev/null \
+           --file archive.2.tar</kbd>
+</pre></div>
+
+<p>To list the contents of an incremental archive, use <samp>--list</samp>
+(see <a href="list.html">How to List Archives</a>), as usual.  To obtain more information about the
+archive, use <samp>--listed-incremental</samp> or <samp>--incremental</samp>
+combined with two <samp>--verbose</samp> options<a id="DOCF13" href="#FOOT13"><sup>13</sup></a>:
+</p>
+<div class="example">
+<pre class="example"><kbd>tar --list --incremental --verbose --verbose --file archive.tar</kbd>
+</pre></div>
+
+<p>This command will print, for each directory in the archive, the list
+of files in that directory at the time the archive was created.  This
+information is put out in a format which is both human-readable and
+unambiguous for a program: each file name is printed as
+</p>
+<div class="example">
+<pre class="example"><var>x</var> <var>file</var>
+</pre></div>
+
+<p>where <var>x</var> is a letter describing the status of the file: &lsquo;<samp>Y</samp>&rsquo;
+if the file  is present in the archive, &lsquo;<samp>N</samp>&rsquo; if the file is not
+included in the archive, or a &lsquo;<samp>D</samp>&rsquo; if the file is a directory (and
+is included in the archive).  See <a href="Dumpdir.html">Dumpdir</a>, for the detailed
+description of dumpdirs and status codes.  Each such
+line is terminated by a newline character.  The last line is followed
+by an additional newline to indicate the end of the data.
+</p>
+<span id="incremental_002dop"></span><p>The option <samp>--incremental</samp> (<samp>-G</samp>)
+gives the same behavior as <samp>--listed-incremental</samp> when used
+with <samp>--list</samp> and <samp>--extract</samp> options.  When used with
+<samp>--create</samp> option, it creates an incremental archive without
+creating snapshot file.  Thus, it is impossible to create several
+levels of incremental backups with <samp>--incremental</samp> option.
+</p>
+</div>
+<div class="footnote">
+<hr>
+<h4 class="footnotes-heading">Footnotes</h4>
+
+<h5><a id="FOOT12" href="#DOCF12">(12)</a></h5>
+<p>Notice, that since both archives
+were created without <samp>-P</samp> option (see <a href="absolute.html">Absolute File Names</a>), these
+commands should be run from the root file system.</p>
+<h5><a id="FOOT13" href="#DOCF13">(13)</a></h5>
+<p>Two
+<samp>--verbose</samp> options were selected to avoid breaking usual
+verbose listing output (<samp>--list --verbose</samp>) when using in
+scripts.
+</p>
+<span id="index-incremental_002c-using-with-_002d_002dlist"></span>
+<span id="index-listed_002dincremental_002c-using-with-_002d_002dlist"></span>
+<span id="index-list_002c-using-with-_002d_002dincremental"></span>
+<span id="index-list_002c-using-with-_002d_002dlisted_002dincremental"></span>
+<p>Versions of <acronym>GNU</acronym> <code>tar</code> up to 1.15.1 used to dump verbatim binary
+contents of the DUMPDIR header (with terminating nulls) when
+<samp>--incremental</samp> or <samp>--listed-incremental</samp> option was
+given, no matter what the verbosity level.  This behavior, and,
+especially, the binary output it produced were considered inconvenient
+and were changed in version 1.16.</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Backup-Levels.html">Levels of Backups</a>, Previous: <a href="Full-Dumps.html">Using <code>tar</code> to Perform Full Dumps</a>, Up: <a href="Backups.html">Performing Backups and Restoring Files</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

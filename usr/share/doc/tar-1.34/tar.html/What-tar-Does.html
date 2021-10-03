@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>What tar Does (GNU tar 1.34)</title>
+
+<meta name="description" content="What tar Does (GNU tar 1.34)">
+<meta name="keywords" content="What tar Does (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Introduction.html" rel="up" title="Introduction">
+<link href="Naming-tar-Archives.html" rel="next" title="Naming tar Archives">
+<link href="Definitions.html" rel="prev" title="Definitions">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section" id="What-tar-Does">
+<div class="header">
+<p>
+Next: <a href="Naming-tar-Archives.html" accesskey="n" rel="next">How <code>tar</code> Archives are Named</a>, Previous: <a href="Definitions.html" accesskey="p" rel="prev">Some Definitions</a>, Up: <a href="Introduction.html" accesskey="u" rel="up">Introduction</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="What-tar-Does-1"></span><h3 class="section">1.3 What <code>tar</code> Does</h3>
+
+<span id="index-tar"></span>
+<p>The <code>tar</code> program provides the ability to create <code>tar</code>
+archives, as well as various other kinds of manipulation.  For example,
+you can use <code>tar</code> on previously created archives to extract files,
+to store additional files, or to update or list files which were already
+stored.
+</p>
+<p>Initially, <code>tar</code> archives were used to store files conveniently on
+magnetic tape.  The name <code>tar</code> comes from this use; it stands for
+<code>t</code>ape <code>ar</code>chiver.  Despite the utility&rsquo;s name, <code>tar</code> can
+direct its output to available devices, files, or other programs (using
+pipes).  <code>tar</code> may even access remote devices or files (as archives).
+</p>
+<p>You can use <code>tar</code> archives in many ways.  We want to stress a few
+of them: storage, backup, and transportation.
+</p>
+
+<dl compact="compact">
+<dt><span>Storage</span></dt>
+<dd><p>Often, <code>tar</code> archives are used to store related files for
+convenient file transfer over a network.  For example, the
+<acronym>GNU</acronym> Project distributes its software bundled into
+<code>tar</code> archives, so that all the files relating to a particular
+program (or set of related programs) can be transferred as a single
+unit.
+</p>
+<p>A magnetic tape can store several files in sequence.  However, the tape
+has no names for these files; it only knows their relative position on
+the tape.  One way to store several files on one tape and retain their
+names is by creating a <code>tar</code> archive.  Even when the basic transfer
+mechanism can keep track of names, as FTP can, the nuisance of handling
+multiple files, directories, and multiple links makes <code>tar</code>
+archives useful.
+</p>
+<p>Archive files are also used for long-term storage.  You can think of
+this as transportation from the present into the future.  (It is a
+science-fiction idiom that you can move through time as well as in
+space; the idea here is that <code>tar</code> can be used to move archives in
+all dimensions, even time!)
+</p>
+</dd>
+<dt><span>Backup</span></dt>
+<dd><p>Because the archive created by <code>tar</code> is capable of preserving
+file information and directory structure, <code>tar</code> is commonly
+used for performing full and incremental backups of disks.  A backup
+puts a collection of files (possibly pertaining to many users and
+projects) together on a disk or a tape.  This guards against
+accidental destruction of the information in those files.
+<acronym>GNU</acronym> <code>tar</code> has special features that allow it to be
+used to make incremental and full dumps of all the files in a
+file system.
+</p>
+</dd>
+<dt><span>Transportation</span></dt>
+<dd><p>You can create an archive on one system, transfer it to another system,
+and extract the contents there.  This allows you to transport a group of
+files from one system to another.
+</p></dd>
+</dl>
+
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Naming-tar-Archives.html">How <code>tar</code> Archives are Named</a>, Previous: <a href="Definitions.html">Some Definitions</a>, Up: <a href="Introduction.html">Introduction</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Remote Tape Server (GNU tar 1.34)</title>
+
+<meta name="description" content="Remote Tape Server (GNU tar 1.34)">
+<meta name="keywords" content="Remote Tape Server (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Media.html" rel="up" title="Media">
+<link href="Common-Problems-and-Solutions.html" rel="next" title="Common Problems and Solutions">
+<link href="Device.html" rel="prev" title="Device">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section" id="Remote-Tape-Server">
+<div class="header">
+<p>
+Next: <a href="Common-Problems-and-Solutions.html" accesskey="n" rel="next">Some Common Problems and their Solutions</a>, Previous: <a href="Device.html" accesskey="p" rel="prev">Device Selection and Switching</a>, Up: <a href="Media.html" accesskey="u" rel="up">Tapes and Other Archive Media</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Remote-Tape-Server-1"></span><h3 class="section">9.2 Remote Tape Server</h3>
+
+<span id="index-remote-tape-drive"></span>
+<span id="index-rmt"></span>
+<p>In order to access the tape drive on a remote machine, <code>tar</code>
+uses the remote tape server written at the University of California at
+Berkeley.  The remote tape server must be installed as
+<samp><var>prefix</var>/libexec/rmt</samp> on any machine whose tape drive you
+want to use.  <code>tar</code> calls <code>rmt</code> by running an
+<code>rsh</code> or <code>remsh</code> to the remote machine, optionally
+using a different login name if one is supplied.
+</p>
+<p>A copy of the source for the remote tape server is provided.  Its
+source code can be freely distributed.  It is compiled and
+installed by default.
+</p>
+<span id="index-absolute-file-names-1"></span>
+<p>Unless you use the <samp>--absolute-names</samp> (<samp>-P</samp>) option,
+<acronym>GNU</acronym> <code>tar</code> will not allow you to create an archive that contains
+absolute file names (a file name beginning with &lsquo;<samp>/</samp>&rsquo;).  If you try,
+<code>tar</code> will automatically remove the leading &lsquo;<samp>/</samp>&rsquo; from the
+file names it stores in the archive.  It will also type a warning
+message telling you what it is doing.
+</p>
+<p>When reading an archive that was created with a different
+<code>tar</code> program, <acronym>GNU</acronym> <code>tar</code> automatically
+extracts entries in the archive which have absolute file names as if
+the file names were not absolute.  This is an important feature.  A
+visitor here once gave a <code>tar</code> tape to an operator to restore;
+the operator used Sun <code>tar</code> instead of <acronym>GNU</acronym> <code>tar</code>,
+and the result was that it replaced large portions of
+our <samp>/bin</samp> and friends with versions from the tape; needless to
+say, we were unhappy about having to recover the file system from
+backup tapes.
+</p>
+<p>For example, if the archive contained a file <samp>/usr/bin/computoy</samp>,
+<acronym>GNU</acronym> <code>tar</code> would extract the file to <samp>usr/bin/computoy</samp>,
+relative to the current directory.  If you want to extract the files in
+an archive to the same absolute names that they had when the archive
+was created, you should do a &lsquo;<samp>cd /</samp>&rsquo; before extracting the files
+from the archive, or you should either use the <samp>--absolute-names</samp>
+option, or use the command &lsquo;<samp>tar -C / &hellip;</samp>&rsquo;.
+</p>
+<span id="index-Ultrix-3_002e1-and-write-failure"></span>
+<p>Some versions of Unix (Ultrix 3.1 is known to have this problem),
+can claim that a short write near the end of a tape succeeded,
+when it actually failed.  This will result in the -M option not
+working correctly.  The best workaround at the moment is to use a
+significantly larger blocking factor than the default 20.
+</p>
+<p>In order to update an archive, <code>tar</code> must be able to backspace the
+archive in order to reread or rewrite a record that was just read (or
+written).  This is currently possible only on two kinds of files: normal
+disk files (or any other file that can be backspaced with &lsquo;<samp>lseek</samp>&rsquo;),
+and industry-standard 9-track magnetic tape (or any other kind of tape
+that can be backspaced with the <code>MTIOCTOP</code> <code>ioctl</code>).
+</p>
+<p>This means that the <samp>--append</samp>, <samp>--concatenate</samp>, and
+<samp>--delete</samp> commands will not work on any other kind of file.
+Some media simply cannot be backspaced, which means these commands and
+options will never be able to work on them.  These non-backspacing
+media include pipes and cartridge tape drives.
+</p>
+<p>Some other media can be backspaced, and <code>tar</code> will work on them
+once <code>tar</code> is modified to do so.
+</p>
+<p>Archives created with the <samp>--multi-volume</samp>, <samp>--label</samp>, and
+<samp>--incremental</samp> (<samp>-G</samp>) options may not be readable by other version
+of <code>tar</code>.  In particular, restoring a file that was split over
+a volume boundary will require some careful work with <code>dd</code>, if
+it can be done at all.  Other versions of <code>tar</code> may also create
+an empty file whose name is that of the volume header.  Some versions
+of <code>tar</code> may create normal files instead of directories archived
+with the <samp>--incremental</samp> (<samp>-G</samp>) option.
+</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Common-Problems-and-Solutions.html">Some Common Problems and their Solutions</a>, Previous: <a href="Device.html">Device Selection and Switching</a>, Up: <a href="Media.html">Tapes and Other Archive Media</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

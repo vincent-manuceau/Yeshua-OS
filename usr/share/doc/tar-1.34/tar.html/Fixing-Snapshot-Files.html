@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Fixing Snapshot Files (GNU tar 1.34)</title>
+
+<meta name="description" content="Fixing Snapshot Files (GNU tar 1.34)">
+<meta name="keywords" content="Fixing Snapshot Files (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html" rel="up" title="Top">
+<link href="Tar-Internals.html" rel="next" title="Tar Internals">
+<link href="Configuring-Help-Summary.html" rel="prev" title="Configuring Help Summary">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="appendix" id="Fixing-Snapshot-Files">
+<div class="header">
+<p>
+Next: <a href="Tar-Internals.html" accesskey="n" rel="next">Tar Internals</a>, Previous: <a href="Configuring-Help-Summary.html" accesskey="p" rel="prev">Configuring Help Summary</a>, Up: <a href="index.html" accesskey="u" rel="up"><acronym>GNU</acronym> tar: an archiver tool</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Fixing-Snapshot-Files-1"></span><h2 class="appendix">Appendix D Fixing Snapshot Files</h2>
+
+<span id="index-Device-numbers_002c-changing"></span>
+<span id="index-snapshot-files_002c-editing"></span>
+<span id="index-snapshot-files_002c-fixing-device-numbers"></span>
+<p>Various situations can cause device numbers to change: upgrading your
+kernel version, reconfiguring your hardware, loading kernel modules in a
+different order, using virtual volumes that are assembled dynamically
+(such as with <acronym>LVM</acronym> or <acronym>RAID</acronym>), hot-plugging drives
+(e.g. external USB or Firewire drives), etc.  In the majority of 
+cases this change is unnoticed by the users.  However, it influences
+<code>tar</code> incremental backups: the device number is stored in tar
+snapshot files (see <a href="Snapshot-Files.html">Format of the Incremental Snapshot Files</a>) and is used to determine whether
+the file has changed since the last backup.  If the device numbers
+change for some reason, by default the next backup you run will be a
+full backup.
+</p>
+
+<span id="index-tar_002dsnapshot_002dedit"></span>
+<p>To minimize the impact in these cases, GNU <code>tar</code> comes with
+the <code>tar-snapshot-edit</code> utility for inspecting and updating
+device numbers in snapshot files.  (The utility, written by
+Dustin J. Mitchell, is also available from the
+<a href="http://www.gnu.org/software/tar/utils/tar-snapshot-edit.html"><acronym>GNU</acronym> <code>tar</code> home page</a>.)
+</p>
+<p>To obtain a summary of the device numbers found in the snapshot file, run
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar-snapshot-edit <var>snapfile</var></kbd>
+</pre></div>
+
+<p>where <var>snapfile</var> is the name of the snapshot file (you can supply as many
+files as you wish in a single command line).  You can then compare the 
+numbers across snapshot files, or against those currently in use on the
+live filesystem (using <code>ls -l</code> or <code>stat</code>).
+</p>
+<p>Assuming the device numbers have indeed changed, it&rsquo;s often possible
+to simply tell <acronym>GNU</acronym> <code>tar</code> to ignore the device number when processing the
+incremental snapshot files for these backups, using the
+<samp>--no-check-device</samp> option (see <a href="Incremental-Dumps.html#device-numbers">device numbers</a>).
+</p>
+<p>Alternatively, you can use the <code>tar-edit-snapshot</code> script&rsquo;s 
+<samp>-r</samp> option to update all occurrences of the given device
+number in the snapshot file(s).  It takes a single argument
+of the form
+&lsquo;<samp><var>olddev</var>-<var>newdev</var></samp>&rsquo;,  where <var>olddev</var> is the device number
+used in the snapshot file, and <var>newdev</var> is the corresponding new device
+number.  Both numbers may be specified in hex (e.g., &lsquo;<samp>0xfe01</samp>&rsquo;),
+decimal (e.g., &lsquo;<samp>65025</samp>&rsquo;), or as a major:minor number pair (e.g.,
+&lsquo;<samp>254:1</samp>&rsquo;).  To change several device numbers at once, specify them
+in a single comma-separated list, as in
+<samp>-r 0x3060-0x4500,0x307-0x4600</samp>.
+</p>
+<p>Before updating the snapshot file, it is a good idea to create a backup
+copy of it.  This is accomplished by &lsquo;<samp>-b</samp>&rsquo; option.  The name of the
+backup file is obtained by appending &lsquo;<samp>~</samp>&rsquo; to the original file name.
+</p>
+<p>An example session:
+</p><div class="example">
+<pre class="example">$ <kbd>tar-snapshot-edit root_snap.0 boot_snap.0</kbd>
+File: root_snap.0
+  Detected snapshot file version: 2
+
+  Device 0x0000 occurs 1 times.
+  Device 0x0003 occurs 1 times.
+  Device 0x0005 occurs 1 times.
+  Device 0x0013 occurs 1 times.
+  Device 0x6801 occurs 1 times.
+  Device 0x6803 occurs 6626 times.
+  Device 0xfb00 occurs 1 times.
+
+File: boot_snap.0
+  Detected snapshot file version: 2
+
+  Device 0x6801 occurs 3 times.
+$ <kbd>tar-snapshot-edit -b -r 0x6801-0x6901,0x6803-0x6903 root_snap.0 boot_snap.0</kbd>
+File: root_snap.0
+  Detected snapshot file version: 2
+
+  Updated 6627 records.
+
+File: boot_snap.0
+  Detected snapshot file version: 2
+
+  Updated 3 records.
+</pre></div>
+
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Tar-Internals.html">Tar Internals</a>, Previous: <a href="Configuring-Help-Summary.html">Configuring Help Summary</a>, Up: <a href="index.html"><acronym>GNU</acronym> tar: an archiver tool</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

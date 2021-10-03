@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- This manual is for GNU MPC, a library for multiple precision complex arithmetic,
+version 1.2.1 of October 2020.
+
+Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2016, 2018, 2020 INRIA
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections. A copy of the license is included in the section
+entitled "GNU Free Documentation License." -->
+<title>Basic Arithmetic (GNU MPC 1.2.1)</title>
+
+<meta name="description" content="Basic Arithmetic (GNU MPC 1.2.1)">
+<meta name="keywords" content="Basic Arithmetic (GNU MPC 1.2.1)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Concept-Index.html" rel="index" title="Concept Index">
+<link href="Complex-Functions.html" rel="up" title="Complex Functions">
+<link href="Power-Functions-and-Logarithm.html" rel="next" title="Power Functions and Logarithm">
+<link href="Projection-_0026-Decomposing.html" rel="prev" title="Projection &amp; Decomposing">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section" id="Basic-Arithmetic">
+<div class="header">
+<p>
+Next: <a href="Power-Functions-and-Logarithm.html" accesskey="n" rel="next">Power Functions and Logarithm</a>, Previous: <a href="Projection-_0026-Decomposing.html" accesskey="p" rel="prev">Projection and Decomposing Functions</a>, Up: <a href="Complex-Functions.html" accesskey="u" rel="up">Complex Functions</a> &nbsp; [<a href="Concept-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Basic-Arithmetic-Functions"></span><h3 class="section">5.7 Basic Arithmetic Functions</h3>
+<span id="index-Complex-arithmetic-functions"></span>
+<span id="index-Arithmetic-functions"></span>
+
+<p>All the following functions are designed in such a way that, when working
+with real numbers instead of complex numbers, their complexity should
+essentially be the same as with the GNU MPFR library, with only a marginal
+overhead due to the GNU MPC layer.
+</p>
+<dl class="def">
+<dt id="index-mpc_005fadd"><span class="category">Function: </span><span><em>int</em> <strong>mpc_add</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, const mpc_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em><a href='#index-mpc_005fadd' class='copiable-anchor'> &para;</a></span></dt>
+<dt id="index-mpc_005fadd_005fui"><span class="category">Function: </span><span><em>int</em> <strong>mpc_add_ui</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, unsigned long int <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em><a href='#index-mpc_005fadd_005fui' class='copiable-anchor'> &para;</a></span></dt>
+<dt id="index-mpc_005fadd_005ffr"><span class="category">Function: </span><span><em>int</em> <strong>mpc_add_fr</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, const mpfr_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em><a href='#index-mpc_005fadd_005ffr' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>Set <var>rop</var> to <var>op1</var> <em class='math'>+</em> <var>op2</var> rounded according to <var>rnd</var>.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-mpc_005fsub"><span class="category">Function: </span><span><em>int</em> <strong>mpc_sub</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, const mpc_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em><a href='#index-mpc_005fsub' class='copiable-anchor'> &para;</a></span></dt>
+<dt id="index-mpc_005fsub_005ffr"><span class="category">Function: </span><span><em>int</em> <strong>mpc_sub_fr</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, const mpfr_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em><a href='#index-mpc_005fsub_005ffr' class='copiable-anchor'> &para;</a></span></dt>
+<dt id="index-mpc_005ffr_005fsub"><span class="category">Function: </span><span><em>int</em> <strong>mpc_fr_sub</strong> <em>(mpc_t <var>rop</var>, const mpfr_t <var>op1</var>, const mpc_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em><a href='#index-mpc_005ffr_005fsub' class='copiable-anchor'> &para;</a></span></dt>
+<dt id="index-mpc_005fsub_005fui"><span class="category">Function: </span><span><em>int</em> <strong>mpc_sub_ui</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, unsigned long int <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em><a href='#index-mpc_005fsub_005fui' class='copiable-anchor'> &para;</a></span></dt>
+<dt id="index-mpc_005fui_005fsub"><span class="category">Macro: </span><span><em>int</em> <strong>mpc_ui_sub</strong> <em>(mpc_t <var>rop</var>, unsigned long int <var>op1</var>, const mpc_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em><a href='#index-mpc_005fui_005fsub' class='copiable-anchor'> &para;</a></span></dt>
+<dt id="index-mpc_005fui_005fui_005fsub"><span class="category">Function: </span><span><em>int</em> <strong>mpc_ui_ui_sub</strong> <em>(mpc_t <var>rop</var>, unsigned long int <var>re1</var>, unsigned long int <var>im1</var>, mpc_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em><a href='#index-mpc_005fui_005fui_005fsub' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>Set <var>rop</var> to <var>op1</var> - <var>op2</var> rounded according to <var>rnd</var>.
+For <code>mpc_ui_ui_sub</code>, <var>op1</var> is <var>re1</var> + <var>im1</var>.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-mpc_005fneg"><span class="category">Function: </span><span><em>int</em> <strong>mpc_neg</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em><a href='#index-mpc_005fneg' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>Set <var>rop</var> to -<var>op</var> rounded according to <var>rnd</var>.
+Just changes the sign if <var>rop</var> and <var>op</var> are the same variable.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-mpc_005fsum"><span class="category">Function: </span><span><em>int</em> <strong>mpc_sum</strong> <em>(mpc_t <var>rop</var>, const mpc_ptr* <var>op</var>, unsigned long <var>n</var>, mpc_rnd_t <var>rnd</var>)</em><a href='#index-mpc_005fsum' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>Set <var>rop</var> to the sum of the elements in the array <var>op</var> of
+length <var>n</var>, rounded according to <var>rnd</var>.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-mpc_005fmul"><span class="category">Function: </span><span><em>int</em> <strong>mpc_mul</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, const mpc_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em><a href='#index-mpc_005fmul' class='copiable-anchor'> &para;</a></span></dt>
+<dt id="index-mpc_005fmul_005fui"><span class="category">Function: </span><span><em>int</em> <strong>mpc_mul_ui</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, unsigned long int <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em><a href='#index-mpc_005fmul_005fui' class='copiable-anchor'> &para;</a></span></dt>
+<dt id="index-mpc_005fmul_005fsi"><span class="category">Function: </span><span><em>int</em> <strong>mpc_mul_si</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, long int <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em><a href='#index-mpc_005fmul_005fsi' class='copiable-anchor'> &para;</a></span></dt>
+<dt id="index-mpc_005fmul_005ffr"><span class="category">Function: </span><span><em>int</em> <strong>mpc_mul_fr</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, const mpfr_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em><a href='#index-mpc_005fmul_005ffr' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>Set <var>rop</var> to <var>op1</var> times <var>op2</var> rounded according to <var>rnd</var>.
+Note: for <code>mpc_mul</code>, in case <var>op1</var> and <var>op2</var> have the same value,
+use <code>mpc_sqr</code> for better efficiency.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-mpc_005fmul_005fi"><span class="category">Function: </span><span><em>int</em> <strong>mpc_mul_i</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op</var>, int <var>sgn</var>, mpc_rnd_t <var>rnd</var>)</em><a href='#index-mpc_005fmul_005fi' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>Set <var>rop</var> to <var>op</var> times the imaginary unit i if <var>sgn</var> is
+non-negative, set <var>rop</var> to <var>op</var> times -i otherwise,
+in both cases rounded according to <var>rnd</var>.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-mpc_005fsqr"><span class="category">Function: </span><span><em>int</em> <strong>mpc_sqr</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em><a href='#index-mpc_005fsqr' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>Set <var>rop</var> to the square of <var>op</var> rounded according to <var>rnd</var>.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-mpc_005ffma"><span class="category">Function: </span><span><em>int</em> <strong>mpc_fma</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, const mpc_t <var>op2</var>, const mpc_t <var>op3</var>, mpc_rnd_t <var>rnd</var>)</em><a href='#index-mpc_005ffma' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>Set <var>rop</var> to <var>op1</var>*<var>op2</var>+<var>op3</var>,
+rounded according to <var>rnd</var>, with only one final rounding.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-mpc_005fdot"><span class="category">Function: </span><span><em>int</em> <strong>mpc_dot</strong> <em>(mpc_t <var>rop</var>, const mpc_ptr* <var>op1</var>, mpc_ptr* <var>op2</var>, unsigned long <var>n</var>, mpc_rnd_t <var>rnd</var>)</em><a href='#index-mpc_005fdot' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>Set <var>rop</var> to the dot product of the elements in the arrays <var>op1</var> and
+<var>op2</var>, both of length <var>n</var>, rounded according to <var>rnd</var>.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-mpc_005fdiv"><span class="category">Function: </span><span><em>int</em> <strong>mpc_div</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, const mpc_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em><a href='#index-mpc_005fdiv' class='copiable-anchor'> &para;</a></span></dt>
+<dt id="index-mpc_005fdiv_005fui"><span class="category">Function: </span><span><em>int</em> <strong>mpc_div_ui</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, unsigned long int <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em><a href='#index-mpc_005fdiv_005fui' class='copiable-anchor'> &para;</a></span></dt>
+<dt id="index-mpc_005fdiv_005ffr"><span class="category">Function: </span><span><em>int</em> <strong>mpc_div_fr</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, const mpfr_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em><a href='#index-mpc_005fdiv_005ffr' class='copiable-anchor'> &para;</a></span></dt>
+<dt id="index-mpc_005fui_005fdiv"><span class="category">Function: </span><span><em>int</em> <strong>mpc_ui_div</strong> <em>(mpc_t <var>rop</var>, unsigned long int <var>op1</var>, const mpc_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em><a href='#index-mpc_005fui_005fdiv' class='copiable-anchor'> &para;</a></span></dt>
+<dt id="index-mpc_005ffr_005fdiv"><span class="category">Function: </span><span><em>int</em> <strong>mpc_fr_div</strong> <em>(mpc_t <var>rop</var>, const mpfr_t <var>op1</var>, const mpc_t <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em><a href='#index-mpc_005ffr_005fdiv' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>Set <var>rop</var> to <var>op1</var>/<var>op2</var> rounded according to <var>rnd</var>.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-mpc_005fconj"><span class="category">Function: </span><span><em>int</em> <strong>mpc_conj</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op</var>, mpc_rnd_t <var>rnd</var>)</em><a href='#index-mpc_005fconj' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>Set <var>rop</var> to the conjugate of <var>op</var> rounded according to <var>rnd</var>.
+Just changes the sign of the imaginary part
+if <var>rop</var> and <var>op</var> are the same variable.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-mpc_005fabs"><span class="category">Function: </span><span><em>int</em> <strong>mpc_abs</strong> <em>(mpfr_t <var>rop</var>, const mpc_t <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em><a href='#index-mpc_005fabs' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>Set the floating-point number <var>rop</var> to the absolute value of <var>op</var>,
+rounded in the direction <var>rnd</var>.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-mpc_005fnorm"><span class="category">Function: </span><span><em>int</em> <strong>mpc_norm</strong> <em>(mpfr_t <var>rop</var>, const mpc_t <var>op</var>, mpfr_rnd_t <var>rnd</var>)</em><a href='#index-mpc_005fnorm' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>Set the floating-point number <var>rop</var> to the norm of <var>op</var>
+(i.e., the square of its absolute value),
+rounded in the direction <var>rnd</var>.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-mpc_005fmul_005f2ui"><span class="category">Function: </span><span><em>int</em> <strong>mpc_mul_2ui</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, unsigned long int <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em><a href='#index-mpc_005fmul_005f2ui' class='copiable-anchor'> &para;</a></span></dt>
+<dt id="index-mpc_005fmul_005f2si"><span class="category">Function: </span><span><em>int</em> <strong>mpc_mul_2si</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, long int <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em><a href='#index-mpc_005fmul_005f2si' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>Set <var>rop</var> to <var>op1</var> times 2 raised to <var>op2</var>
+rounded according to <var>rnd</var>. Just modifies the exponents
+of the real and imaginary parts by <var>op2</var>
+when <var>rop</var> and <var>op1</var> are identical.
+</p></dd></dl>
+
+<dl class="def">
+<dt id="index-mpc_005fdiv_005f2ui"><span class="category">Function: </span><span><em>int</em> <strong>mpc_div_2ui</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, unsigned long int <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em><a href='#index-mpc_005fdiv_005f2ui' class='copiable-anchor'> &para;</a></span></dt>
+<dt id="index-mpc_005fdiv_005f2si"><span class="category">Function: </span><span><em>int</em> <strong>mpc_div_2si</strong> <em>(mpc_t <var>rop</var>, const mpc_t <var>op1</var>, long int <var>op2</var>, mpc_rnd_t <var>rnd</var>)</em><a href='#index-mpc_005fdiv_005f2si' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>Set <var>rop</var> to <var>op1</var> divided by 2 raised to <var>op2</var>
+rounded according to <var>rnd</var>. Just modifies the exponents
+of the real and imaginary parts by <var>op2</var>
+when <var>rop</var> and <var>op1</var> are identical.
+</p></dd></dl>
+
+
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Power-Functions-and-Logarithm.html">Power Functions and Logarithm</a>, Previous: <a href="Projection-_0026-Decomposing.html">Projection and Decomposing Functions</a>, Up: <a href="Complex-Functions.html">Complex Functions</a> &nbsp; [<a href="Concept-Index.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

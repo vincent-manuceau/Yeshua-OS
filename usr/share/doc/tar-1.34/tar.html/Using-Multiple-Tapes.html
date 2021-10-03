@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Using Multiple Tapes (GNU tar 1.34)</title>
+
+<meta name="description" content="Using Multiple Tapes (GNU tar 1.34)">
+<meta name="keywords" content="Using Multiple Tapes (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Media.html" rel="up" title="Media">
+<link href="label.html" rel="next" title="label">
+<link href="Many.html" rel="prev" title="Many">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section" id="Using-Multiple-Tapes">
+<div class="header">
+<p>
+Next: <a href="label.html" accesskey="n" rel="next">Including a Label in the Archive</a>, Previous: <a href="Many.html" accesskey="p" rel="prev">Many Archives on One Tape</a>, Up: <a href="Media.html" accesskey="u" rel="up">Tapes and Other Archive Media</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Using-Multiple-Tapes-1"></span><h3 class="section">9.6 Using Multiple Tapes</h3>
+
+<p>Often you might want to write a large archive, one larger than will fit
+on the actual tape you are using.  In such a case, you can run multiple
+<code>tar</code> commands, but this can be inconvenient, particularly if you
+are using options like <samp>--exclude=<var>pattern</var></samp> or dumping entire file systems.
+Therefore, <code>tar</code> provides a special mode for creating
+multi-volume archives.
+</p>
+<p><em>Multi-volume</em> archive is a single <code>tar</code> archive, stored
+on several media volumes of fixed size.  Although in this section we will
+often call &lsquo;<samp>volume</samp>&rsquo; a <em>tape</em>, there is absolutely no
+requirement for multi-volume archives to be stored on tapes.  Instead,
+they can use whatever media type the user finds convenient, they can
+even be located on files.
+</p>
+<p>When creating a multi-volume archive, <acronym>GNU</acronym> <code>tar</code> continues to fill
+current volume until it runs out of space, then it switches to
+next volume (usually the operator is queried to replace the tape on
+this point), and continues working on the new volume.  This operation
+continues until all requested files are dumped.  If <acronym>GNU</acronym> <code>tar</code> detects
+end of media while dumping a file, such a file is archived in split
+form.  Some very big files can even be split across several volumes.
+</p>
+<p>Each volume is itself a valid <acronym>GNU</acronym> <code>tar</code> archive, so it can be read
+without any special options.  Consequently any file member residing
+entirely on one volume can be extracted or otherwise operated upon
+without needing the other volume.  Sure enough, to extract a split
+member you would need all volumes its parts reside on.
+</p>
+<p>Multi-volume archives suffer from several limitations.  In particular,
+they cannot be compressed.
+</p>
+<p><acronym>GNU</acronym> <code>tar</code> is able to create multi-volume archives of two formats
+(see <a href="Formats.html">Controlling the Archive Format</a>): &lsquo;<samp>GNU</samp>&rsquo; and &lsquo;<samp>POSIX</samp>&rsquo;.
+</p>
+
+<ul class="section-toc">
+<li><a href="Multi_002dVolume-Archives.html" accesskey="1">Archives Longer than One Tape or Disk</a></li>
+<li><a href="Tape-Files.html" accesskey="2">Tape Files</a></li>
+<li><a href="Tarcat.html" accesskey="3">Concatenate Volumes into a Single Archive</a></li>
+</ul>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="label.html">Including a Label in the Archive</a>, Previous: <a href="Many.html">Many Archives on One Tape</a>, Up: <a href="Media.html">Tapes and Other Archive Media</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

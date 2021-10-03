@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>label (GNU tar 1.34)</title>
+
+<meta name="description" content="label (GNU tar 1.34)">
+<meta name="keywords" content="label (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Media.html" rel="up" title="Media">
+<link href="verify.html" rel="next" title="verify">
+<link href="Using-Multiple-Tapes.html" rel="prev" title="Using Multiple Tapes">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section" id="label">
+<div class="header">
+<p>
+Next: <a href="verify.html" accesskey="n" rel="next">Verifying Data as It is Stored</a>, Previous: <a href="Using-Multiple-Tapes.html" accesskey="p" rel="prev">Using Multiple Tapes</a>, Up: <a href="Media.html" accesskey="u" rel="up">Tapes and Other Archive Media</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Including-a-Label-in-the-Archive"></span><h3 class="section">9.7 Including a Label in the Archive</h3>
+<span id="index-Labeling-an-archive"></span>
+<span id="index-Labels-on-the-archive-media"></span>
+<span id="index-Labeling-multi_002dvolume-archives"></span>
+
+<span id="index-label-1"></span>
+<p>To avoid problems caused by misplaced paper labels on the archive
+media, you can include a <em>label</em> entry &mdash; an archive member which
+contains the name of the archive &mdash; in the archive itself.  Use the
+<samp>--label=<var>archive-label</var></samp> (<samp>-V <var>archive-label</var></samp>)
+option<a id="DOCF28" href="#FOOT28"><sup>28</sup></a> in
+conjunction with the <samp>--create</samp> operation to include a label
+entry in the archive as it is being created.
+</p>
+<dl compact="compact">
+<dt><span><samp>--label=<var>archive-label</var></samp></span></dt>
+<dt><span><samp>-V <var>archive-label</var></samp></span></dt>
+<dd><p>Includes an <em>archive-label</em> at the beginning of the archive when
+the archive is being created, when used in conjunction with the
+<samp>--create</samp> operation.  Checks to make sure the archive label
+matches the one specified (when used in conjunction with any other
+operation).
+</p></dd>
+</dl>
+
+<p>If you create an archive using both
+<samp>--label=<var>archive-label</var></samp> (<samp>-V <var>archive-label</var></samp>)
+and <samp>--multi-volume</samp> (<samp>-M</samp>), each volume of the archive
+will have an archive label of the form &lsquo;<samp><var>archive-label</var>
+Volume <var>n</var></samp>&rsquo;, where <var>n</var> is 1 for the first volume, 2 for the
+next, and so on. See <a href="Using-Multiple-Tapes.html">Using Multiple Tapes</a>, for information on
+creating multiple volume archives.
+</p>
+<span id="index-Volume-label_002c-listing"></span>
+<span id="index-Listing-volume-label"></span>
+<p>The volume label will be displayed by <samp>--list</samp> along with
+the file contents.  If verbose display is requested, it will also be
+explicitly marked as in the example below:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar --verbose --list --file=iamanarchive</kbd>
+V--------- 0/0               0 1992-03-07 12:01 iamalabel--Volume Header--
+-rw-r--r-- ringo/user       40 1990-05-21 13:30 iamafilename
+</pre></div>
+
+<span id="index-test_002dlabel"></span>
+<span id="g_t_002d_002dtest_002dlabel-option"></span><p>However, <samp>--list</samp> option will cause listing entire
+contents of the archive, which may be undesirable (for example, if the
+archive is stored on a tape).  You can request checking only the volume
+label by specifying <samp>--test-label</samp> option.  This option reads only the
+first block of an archive, so it can be used with slow storage
+devices.  For example:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar --test-label --file=iamanarchive</kbd>
+iamalabel
+</pre></div>
+
+<p>If <samp>--test-label</samp> is used with one or more command line
+arguments, <code>tar</code> compares the volume label with each
+argument.  It exits with code 0 if a match is found, and with code 1
+otherwise<a id="DOCF29" href="#FOOT29"><sup>29</sup></a>.  No output is displayed, unless you also used the
+<samp>--verbose</samp> option.  For example:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar --test-label --file=iamanarchive 'iamalabel'</kbd>
+&rArr; 0
+$ <kbd>tar --test-label --file=iamanarchive 'alabel'</kbd>
+&rArr; 1
+</pre></div>
+
+<p>When used with the <samp>--verbose</samp> option, <code>tar</code>
+prints the actual volume label (if any), and a verbose diagnostics in
+case of a mismatch:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar --test-label --verbose --file=iamanarchive 'iamalabel'</kbd>
+iamalabel
+&rArr; 0
+$ <kbd>tar --test-label --verbose --file=iamanarchive 'alabel'</kbd>
+iamalabel
+tar: Archive label mismatch
+&rArr; 1
+</pre></div>
+
+<p>If you request any operation, other than <samp>--create</samp>, along
+with using <samp>--label</samp> option, <code>tar</code> will first check if
+the archive label matches the one specified and will refuse to proceed
+if it does not.  Use this as a safety precaution to avoid accidentally
+overwriting existing archives.  For example, if you wish to add files
+to <samp>archive</samp>, presumably labeled with string &lsquo;<samp>My volume</samp>&rsquo;,
+you will get:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -rf archive --label 'My volume' .</kbd>
+tar: Archive not labeled to match 'My volume'
+</pre></div>
+
+<p>in case its label does not match.  This will work even if
+<samp>archive</samp> is not labeled at all.
+</p>
+<p>Similarly, <code>tar</code> will refuse to list or extract the
+archive if its label doesn&rsquo;t match the <var>archive-label</var>
+specified.  In those cases, <var>archive-label</var> argument is interpreted
+as a globbing-style pattern which must match the actual magnetic
+volume label.  See <a href="exclude.html">Excluding Some Files</a>, for a precise description of how match
+is attempted<a id="DOCF30" href="#FOOT30"><sup>30</sup></a>.  If the switch <samp>--multi-volume</samp> (<samp>-M</samp>) is being used,
+the volume label matcher will also suffix <var>archive-label</var> by
+&lsquo;<samp>&nbsp;Volume&nbsp;<span class="nolinebreak">[1-9]*</span></samp>&rsquo;<!-- /@w --> if the initial match fails, before giving
+up.  Since the volume numbering is automatically added in labels at
+creation time, it sounded logical to equally help the user taking care
+of it when the archive is being read.
+</p>
+<p>You can also use <samp>--label</samp> to get a common information on
+all tapes of a series.  For having this information different in each
+series created through a single script used on a regular basis, just
+manage to get some date string as part of the label.  For example:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -cM -f /dev/tape -V &quot;Daily backup for `date +%Y-%m-%d`&quot;</kbd>
+$ <kbd>tar --create --file=/dev/tape --multi-volume \
+     --label=&quot;Daily backup for `date +%Y-%m-%d`&quot;</kbd>
+</pre></div>
+
+<p>Some more notes about volume labels:
+</p>
+<ul>
+<li> Each label has its own date and time, which corresponds
+to the time when <acronym>GNU</acronym> <code>tar</code> initially attempted to write it,
+often soon after the operator launches <code>tar</code> or types the
+carriage return telling that the next tape is ready.
+
+</li><li> Comparing date labels to get an idea of tape throughput is
+unreliable.  It gives correct results only if the delays for rewinding
+tapes and the operator switching them were negligible, which is
+usually not the case.
+</li></ul>
+
+</div>
+<div class="footnote">
+<hr>
+<h4 class="footnotes-heading">Footnotes</h4>
+
+<h5><a id="FOOT28" href="#DOCF28">(28)</a></h5>
+<p>Until version 1.10, that option was called
+<samp>--volume</samp>, but is not available under that name anymore.</p>
+<h5><a id="FOOT29" href="#DOCF29">(29)</a></h5>
+<p>Note that <acronym>GNU</acronym> <code>tar</code> versions up to 1.23 indicated
+mismatch with an exit code 2 and printed a spurious diagnostics on
+stderr.</p>
+<h5><a id="FOOT30" href="#DOCF30">(30)</a></h5>
+<p>Previous versions of <code>tar</code> used full
+regular expression matching, or before that, only exact string
+matching, instead of wildcard matchers.  We decided for the sake of
+simplicity to use a uniform matching device through
+<code>tar</code>.</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="verify.html">Verifying Data as It is Stored</a>, Previous: <a href="Using-Multiple-Tapes.html">Using Multiple Tapes</a>, Up: <a href="Media.html">Tapes and Other Archive Media</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>create verbose (GNU tar 1.34)</title>
+
+<meta name="description" content="create verbose (GNU tar 1.34)">
+<meta name="keywords" content="create verbose (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="create.html" rel="up" title="create">
+<link href="short-create.html" rel="next" title="short create">
+<link href="Creating-the-archive.html" rel="prev" title="Creating the archive">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection" id="create-verbose">
+<div class="header">
+<p>
+Next: <a href="short-create.html" accesskey="n" rel="next">Short Forms with &lsquo;<samp>create</samp>&rsquo;</a>, Previous: <a href="Creating-the-archive.html" accesskey="p" rel="prev">Creating the Archive</a>, Up: <a href="create.html" accesskey="u" rel="up">How to Create Archives</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Running-_002d_002dcreate-with-_002d_002dverbose"></span><h4 class="subsection">2.6.3 Running <samp>--create</samp> with <samp>--verbose</samp></h4>
+
+<span id="index-create_002c-using-with-_002d_002dverbose"></span>
+<span id="index-verbose_002c-using-with-_002d_002dcreate"></span>
+<p>If you include the <samp>--verbose</samp> (<samp>-v</samp>) option on the command line,
+<code>tar</code> will list the files it is acting on as it is working.  In
+verbose mode, the <code>create</code> example above would appear as:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar --create --verbose --file=collection.tar blues folk jazz</kbd>
+blues
+folk
+jazz
+</pre></div>
+
+<p>This example is just like the example we showed which did not use
+<samp>--verbose</samp>, except that <code>tar</code> generated the remaining
+</p>
+<p>In the rest of the examples in this chapter, we will frequently use
+<code>verbose</code> mode so we can show actions or <code>tar</code> responses that
+you would otherwise not see, and which are important for you to
+understand.
+</p>
+</div>
+
+
+
+</body>
+</html>

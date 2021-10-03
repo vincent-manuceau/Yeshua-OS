@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Tape Files (GNU tar 1.34)</title>
+
+<meta name="description" content="Tape Files (GNU tar 1.34)">
+<meta name="keywords" content="Tape Files (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Using-Multiple-Tapes.html" rel="up" title="Using Multiple Tapes">
+<link href="Tarcat.html" rel="next" title="Tarcat">
+<link href="Multi_002dVolume-Archives.html" rel="prev" title="Multi-Volume Archives">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection" id="Tape-Files">
+<div class="header">
+<p>
+Next: <a href="Tarcat.html" accesskey="n" rel="next">Concatenate Volumes into a Single Archive</a>, Previous: <a href="Multi_002dVolume-Archives.html" accesskey="p" rel="prev">Archives Longer than One Tape or Disk</a>, Up: <a href="Using-Multiple-Tapes.html" accesskey="u" rel="up">Using Multiple Tapes</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Tape-Files-1"></span><h4 class="subsection">9.6.2 Tape Files</h4>
+<span id="index-labeling-archives"></span>
+<span id="index-label"></span>
+<blockquote>
+<p><em>(This message will disappear, once this node revised.)</em>
+</p></blockquote>
+
+<p>To give the archive a name which will be recorded in it, use the
+<samp>--label=<var>volume-label</var></samp> (<samp>-V <var>volume-label</var></samp>)
+option.  This will write a special block identifying
+<var>volume-label</var> as the name of the archive to the front of the
+archive which will be displayed when the archive is listed with
+<samp>--list</samp>.  If you are creating a multi-volume archive with
+<samp>--multi-volume</samp> (see <a href="Using-Multiple-Tapes.html">Using Multiple Tapes</a>), then the
+volume label will have &lsquo;<samp>Volume <var>nnn</var></samp>&rsquo; appended to the name
+you give, where <var>nnn</var> is the number of the volume of the archive.
+If you use the <samp>--label=<var>volume-label</var></samp> option when
+reading an archive, it checks to make sure the label on the tape
+matches the one you gave.  See <a href="label.html">Including a Label in the Archive</a>.
+</p>
+<p>When <code>tar</code> writes an archive to tape, it creates a single
+tape file.  If multiple archives are written to the same tape, one
+after the other, they each get written as separate tape files.  When
+extracting, it is necessary to position the tape at the right place
+before running <code>tar</code>.  To do this, use the <code>mt</code> command.
+For more information on the <code>mt</code> command and on the organization
+of tapes into a sequence of tape files, see <a href="mt.html">The <code>mt</code> Utility</a>.
+</p>
+<p>People seem to often do:
+</p>
+<div class="example">
+<pre class="example"><kbd>--label=&quot;<var>some-prefix</var> `date +<var>some-format</var>`&quot;</kbd>
+</pre></div>
+
+<p>or such, for pushing a common date in all volumes or an archive set.
+</p>
+</div>
+
+
+
+</body>
+</html>

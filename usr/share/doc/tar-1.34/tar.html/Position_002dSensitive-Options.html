@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Position-Sensitive Options (GNU tar 1.34)</title>
+
+<meta name="description" content="Position-Sensitive Options (GNU tar 1.34)">
+<meta name="keywords" content="Position-Sensitive Options (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="All-Options.html" rel="up" title="All Options">
+<link href="Short-Option-Summary.html" rel="prev" title="Short Option Summary">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection" id="Position_002dSensitive-Options">
+<div class="header">
+<p>
+Previous: <a href="Short-Option-Summary.html" accesskey="p" rel="prev">Short Options Cross Reference</a>, Up: <a href="All-Options.html" accesskey="u" rel="up">All <code>tar</code> Options</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Position_002dSensitive-Options-1"></span><h4 class="subsection">3.4.4 Position-Sensitive Options</h4>
+
+<p>Some <acronym>GNU</acronym> <code>tar</code> options can be used multiple times in the same
+invocation and affect all arguments that appear after them.  These are
+options that control how file names are selected and what kind of
+pattern matching is used.
+</p>
+<p>The most obvious example is the <samp>-C</samp> option.  It instructs <code>tar</code>
+to change to the directory given as its argument prior to processing
+the rest of command line (see <a href="directory.html">Changing the Working Directory</a>).  Thus, in the following
+command:
+</p>
+<div class="example">
+<pre class="example"><kbd>tar -c -f a.tar -C /etc passwd -C /var log spool</kbd>
+</pre></div>
+
+<p>the file <samp>passwd</samp> will be searched in the directory <samp>/etc</samp>,
+and files <samp>log</samp> and <samp>spool</samp> &ndash; in <samp>/var</samp>.
+</p>
+<p>These options can also be used in a file list supplied with the
+<samp>--files-from</samp> (<samp>-T</samp>) option (see <a href="files.html">Reading Names from a File</a>).  In that
+case they affect all files (patterns) appearing in that file after
+them and remain in effect for any arguments processed after that file.
+For example, if the file <samp>list.txt</samp> contained:
+</p>
+<div class="example">
+<pre class="example">README
+-C src
+main.c
+</pre></div>
+
+<p>and <code>tar</code> were invoked as follows:
+</p>
+<div class="example">
+<pre class="example"><kbd>tar -c -f a.tar -T list.txt Makefile</kbd>
+</pre></div>
+
+<p>then the file <samp>README</samp> would be looked up in the current working
+directory, and files <samp>main.c</samp> and <samp>Makefile</samp> would be looked
+up in the directory <samp>src</samp>.
+</p>
+<p>Many options can be prefixed with <samp>--no-</samp> to cancel the effect
+of the original option.
+</p>
+<p>For example, the <samp>--recursion</samp> option controls whether to
+recurse in the subdirectories.  It&rsquo;s counterpart
+<samp>--no-recursion</samp> disables this.  Consider the command below.  It will
+store in the archive the directory <samp>/usr</samp> with all files and
+directories that are located in it as well as any files and
+directories in <samp>/var</samp>, without recursing into them<a id="DOCF6" href="#FOOT6"><sup>6</sup></a>:
+</p>
+<div class="example">
+<pre class="example">tar -cf a.tar --recursion /usr --no-recursion /var/*
+</pre></div>
+
+<p>During archive creation, <acronym>GNU</acronym> <code>tar</code> keeps track of positional options
+used and arguments affected by them.  If it finds out that any such
+options are used in an obviously erroneous way, the fact is reported
+and exit code is set to 2.  E.g.:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -cf a.tar . --exclude '*.o'</kbd>
+tar: The following options were used after any non-optional
+arguments in archive create or update mode.  These options are
+positional and affect only arguments that follow them.  Please,
+rearrange them properly.
+tar: --exclude '*.o' has no effect
+tar: Exiting with failure status due to previous errors
+</pre></div>
+
+<p>The following table summarizes all position-sensitive options.
+</p>
+<dl compact="compact">
+<dt><span><samp>--directory=<var>dir</var></samp></span></dt>
+<dt><span><samp>-C <var>dir</var></samp></span></dt>
+<dd><p>See <a href="directory.html">Changing the Working Directory</a>.
+</p>
+</dd>
+<dt><span><samp>--null</samp></span></dt>
+<dt><span><samp>--no-null</samp></span></dt>
+<dd><p>See <a href="nul.html"><code>NUL</code>-Terminated File Names</a>.
+</p>
+</dd>
+<dt><span><samp>--unquote</samp></span></dt>
+<dt><span><samp>--no-unquote</samp></span></dt>
+<dd><p>See <a href="Selecting-Archive-Members.html#input-name-quoting">input name quoting</a>.
+</p>
+</dd>
+<dt><span><samp>--verbatim-files-from</samp></span></dt>
+<dt><span><samp>--no-verbatim-files-from</samp></span></dt>
+<dd><p>See <a href="files.html#verbatim_002dfiles_002dfrom">verbatim-files-from</a>.
+</p>
+</dd>
+<dt><span><samp>--recursion</samp></span></dt>
+<dt><span><samp>--no-recursion</samp></span></dt>
+<dd><p>See <a href="recurse.html">Descending into Directories</a>.
+</p>
+</dd>
+<dt><span><samp>--anchored</samp></span></dt>
+<dt><span><samp>--no-anchored</samp></span></dt>
+<dd><p>See <a href="controlling-pattern_002dmatching.html#anchored-patterns">anchored patterns</a>.
+</p>
+</dd>
+<dt><span><samp>--ignore-case</samp></span></dt>
+<dt><span><samp>--no-ignore-case</samp></span></dt>
+<dd><p>See <a href="controlling-pattern_002dmatching.html#case_002dinsensitive-matches">case-insensitive matches</a>.
+</p>
+</dd>
+<dt><span><samp>--wildcards</samp></span></dt>
+<dt><span><samp>--no-wildcards</samp></span></dt>
+<dd><p>See <a href="controlling-pattern_002dmatching.html">Controlling Pattern-Matching</a>.
+</p>
+</dd>
+<dt><span><samp>--wildcards-match-slash</samp></span></dt>
+<dt><span><samp>--no-wildcards-match-slash</samp></span></dt>
+<dd><p>See <a href="controlling-pattern_002dmatching.html">Controlling Pattern-Matching</a>.
+</p>
+</dd>
+<dt><span><samp>--exclude</samp></span></dt>
+<dd><p>See <a href="exclude.html">Excluding Some Files</a>.
+</p>
+</dd>
+<dt><span><samp>--exclude-from</samp></span></dt>
+<dt><span><samp>-X</samp></span></dt>
+<dt><span><samp>--exclude-caches</samp></span></dt>
+<dt><span><samp>--exclude-caches-under</samp></span></dt>
+<dt><span><samp>--exclude-caches-all</samp></span></dt>
+<dt><span><samp>--exclude-tag</samp></span></dt>
+<dt><span><samp>--exclude-ignore</samp></span></dt>
+<dt><span><samp>--exclude-ignore-recursive</samp></span></dt>
+<dt><span><samp>--exclude-tag-under</samp></span></dt>
+<dt><span><samp>--exclude-tag-all</samp></span></dt>
+<dt><span><samp>--exclude-vcs</samp></span></dt>
+<dt><span><samp>--exclude-vcs-ignores</samp></span></dt>
+<dt><span><samp>--exclude-backups</samp></span></dt>
+<dd><p>See <a href="exclude.html">Excluding Some Files</a>.
+</p></dd>
+</dl>
+
+</div>
+<div class="footnote">
+<hr>
+<h4 class="footnotes-heading">Footnotes</h4>
+
+<h5><a id="FOOT6" href="#DOCF6">(6)</a></h5>
+<p>The <samp>--recursion</samp>
+option is the default and is used here for clarity.  The same example
+can be written as:
+</p>
+<div class="example">
+<pre class="example">tar -cf a.tar /usr --no-recursion /var/*
+</pre></div>
+</div>
+<hr>
+<div class="header">
+<p>
+Previous: <a href="Short-Option-Summary.html">Short Options Cross Reference</a>, Up: <a href="All-Options.html">All <code>tar</code> Options</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

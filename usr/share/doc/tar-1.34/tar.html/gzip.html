@@ -1,0 +1,393 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>gzip (GNU tar 1.34)</title>
+
+<meta name="description" content="gzip (GNU tar 1.34)">
+<meta name="keywords" content="gzip (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Compression.html" rel="up" title="Compression">
+<link href="sparse.html" rel="next" title="sparse">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection" id="gzip">
+<div class="header">
+<p>
+Next: <a href="sparse.html" accesskey="n" rel="next">Archiving Sparse Files</a>, Up: <a href="Compression.html" accesskey="u" rel="up">Using Less Space through Compression</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Creating-and-Reading-Compressed-Archives"></span><h4 class="subsection">8.1.1 Creating and Reading Compressed Archives</h4>
+<span id="index-Compressed-archives"></span>
+<span id="index-Storing-archives-in-compressed-format"></span>
+
+<span id="index-gzip"></span>
+<span id="index-bzip2"></span>
+<span id="index-lzip"></span>
+<span id="index-lzma"></span>
+<span id="index-lzop"></span>
+<span id="index-compress"></span>
+<span id="index-zstd"></span>
+<p><acronym>GNU</acronym> <code>tar</code> is able to create and read compressed archives.  It supports
+a wide variety of compression programs, namely: <code>gzip</code>,
+<code>bzip2</code>, <code>lzip</code>, <code>lzma</code>, <code>lzop</code>,
+<code>zstd</code>, <code>xz</code> and traditional <code>compress</code>. The
+latter is supported mostly for backward compatibility, and we recommend
+against using it, because it is by far less effective than the other
+compression programs<a id="DOCF20" href="#FOOT20"><sup>20</sup></a>.
+</p>
+<p>Creating a compressed archive is simple: you just specify a
+<em>compression option</em> along with the usual archive creation
+commands.  Available compression options are summarized in the
+table below:
+</p>
+<table>
+<thead><tr><th width="40%">Long</th><th width="20%">Short</th><th width="40%">Archive format</th></tr></thead>
+<tr><td width="40%"><samp>--gzip</samp></td><td width="20%"><samp>-z</samp></td><td width="40%"><code>gzip</code></td></tr>
+<tr><td width="40%"><samp>--bzip2</samp></td><td width="20%"><samp>-j</samp></td><td width="40%"><code>bzip2</code></td></tr>
+<tr><td width="40%"><samp>--xz</samp></td><td width="20%"><samp>-J</samp></td><td width="40%"><code>xz</code></td></tr>
+<tr><td width="40%"><samp>--lzip</samp></td><td width="20%"></td><td width="40%"><code>lzip</code></td></tr>
+<tr><td width="40%"><samp>--lzma</samp></td><td width="20%"></td><td width="40%"><code>lzma</code></td></tr>
+<tr><td width="40%"><samp>--lzop</samp></td><td width="20%"></td><td width="40%"><code>lzop</code></td></tr>
+<tr><td width="40%"><samp>--zstd</samp></td><td width="20%"></td><td width="40%"><code>zstd</code></td></tr>
+<tr><td width="40%"><samp>--compress</samp></td><td width="20%"><samp>-Z</samp></td><td width="40%"><code>compress</code></td></tr>
+</table>
+
+<p>For example:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar czf archive.tar.gz .</kbd>
+</pre></div>
+
+<p>You can also let <acronym>GNU</acronym> <code>tar</code> select the compression program based on
+the suffix of the archive file name. This is done using
+<samp>--auto-compress</samp> (<samp>-a</samp>) command line option. For
+example, the following invocation will use <code>bzip2</code> for
+compression:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar caf archive.tar.bz2 .</kbd>
+</pre></div>
+
+<p>whereas the following one will use <code>lzma</code>:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar caf archive.tar.lzma .</kbd>
+</pre></div>
+
+<p>For a complete list of file name suffixes recognized by <acronym>GNU</acronym> <code>tar</code>,
+see <a href="#auto_002dcompress">auto-compress</a>.
+</p>
+<p>Reading compressed archive is even simpler: you don&rsquo;t need to specify
+any additional options as <acronym>GNU</acronym> <code>tar</code> recognizes its format
+automatically.  Thus, the following commands will list and extract the
+archive created in previous example:
+</p>
+<div class="example">
+<pre class="example"># List the compressed archive
+$ <kbd>tar tf archive.tar.gz</kbd>
+# Extract the compressed archive
+$ <kbd>tar xf archive.tar.gz</kbd>
+</pre></div>
+
+<p>The format recognition algorithm is based on <em>signatures</em>, a
+special byte sequences in the beginning of file, that are specific for
+certain compression formats.  If this approach fails, <code>tar</code>
+falls back to using archive name suffix to determine its format
+(see <a href="#auto_002dcompress">auto-compress</a>, for a list of recognized suffixes).
+</p>
+<span id="alternative-decompression-programs"></span><span id="index-alternative-decompression-programs"></span>
+<p>Some compression programs are able to handle different compression
+formats.  <acronym>GNU</acronym> <code>tar</code> uses this, if the principal decompressor for the
+given format is not available.  For example, if <code>compress</code> is
+not installed, <code>tar</code> will try to use <code>gzip</code>.  As of
+version 1.34 the following alternatives are
+tried<a id="DOCF21" href="#FOOT21"><sup>21</sup></a>:
+</p>
+<table>
+<thead><tr><th width="30%">Format</th><th width="30%">Main decompressor</th><th width="30%">Alternatives</th></tr></thead>
+<tr><td width="30%">compress</td><td width="30%">compress</td><td width="30%">gzip</td></tr>
+<tr><td width="30%">lzma</td><td width="30%">lzma</td><td width="30%">xz</td></tr>
+<tr><td width="30%">bzip2</td><td width="30%">bzip2</td><td width="30%">lbzip2</td></tr>
+</table>
+
+<p>The only case when you have to specify a decompression option while
+reading the archive is when reading from a pipe or from a tape drive
+that does not support random access.  However, in this case <acronym>GNU</acronym> <code>tar</code>
+will indicate which option you should use.  For example:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>cat archive.tar.gz | tar tf -</kbd>
+tar: Archive is compressed.  Use -z option
+tar: Error is not recoverable: exiting now
+</pre></div>
+
+<p>If you see such diagnostics, just add the suggested option to the
+invocation of <acronym>GNU</acronym> <code>tar</code>:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>cat archive.tar.gz | tar tzf -</kbd>
+</pre></div>
+
+<p>Notice also, that there are several restrictions on operations on
+compressed archives.  First of all, compressed archives cannot be
+modified, i.e., you cannot update (<samp>--update</samp>, alias <samp>-u</samp>)
+them or delete (<samp>--delete</samp>) members from them or
+add (<samp>--append</samp>, alias <samp>-r</samp>) members to them.  Likewise, you
+cannot append another <code>tar</code> archive to a compressed archive using
+<samp>--concatenate</samp> (<samp>-A</samp>).  Secondly, multi-volume
+archives cannot be compressed.
+</p>
+<p>The following options allow to select a particular compressor program:
+</p>
+<dl compact="compact">
+<dd><span id="index-gzip-1"></span>
+<span id="index-ungzip"></span>
+</dd>
+<dt><span><samp>-z</samp></span></dt>
+<dt><span><samp>--gzip</samp></span></dt>
+<dt><span><samp>--ungzip</samp></span></dt>
+<dd><p>Filter the archive through <code>gzip</code>.
+</p>
+<span id="index-xz"></span>
+</dd>
+<dt><span><samp>-J</samp></span></dt>
+<dt><span><samp>--xz</samp></span></dt>
+<dd><p>Filter the archive through <code>xz</code>.
+</p>
+</dd>
+<dt><span><samp>-j</samp></span></dt>
+<dt><span><samp>--bzip2</samp></span></dt>
+<dd><p>Filter the archive through <code>bzip2</code>.
+</p>
+<span id="index-lzip-1"></span>
+</dd>
+<dt><span><samp>--lzip</samp></span></dt>
+<dd><p>Filter the archive through <code>lzip</code>.
+</p>
+<span id="index-lzma-1"></span>
+</dd>
+<dt><span><samp>--lzma</samp></span></dt>
+<dd><p>Filter the archive through <code>lzma</code>.
+</p>
+<span id="index-lzop-1"></span>
+</dd>
+<dt><span><samp>--lzop</samp></span></dt>
+<dd><p>Filter the archive through <code>lzop</code>.
+</p>
+<span id="index-zstd-1"></span>
+</dd>
+<dt><span><samp>--zstd</samp></span></dt>
+<dd><p>Filter the archive through <code>zstd</code>.
+</p>
+<span id="index-compress-1"></span>
+<span id="index-uncompress"></span>
+</dd>
+<dt><span><samp>-Z</samp></span></dt>
+<dt><span><samp>--compress</samp></span></dt>
+<dt><span><samp>--uncompress</samp></span></dt>
+<dd><p>Filter the archive through <code>compress</code>.
+</p></dd>
+</dl>
+
+<p>When any of these options is given, <acronym>GNU</acronym> <code>tar</code> searches the compressor
+binary in the current path and invokes it.  The name of the compressor
+program is specified at compilation time using a corresponding
+<samp>--with-<var>compname</var></samp> option to <code>configure</code>, e.g.
+<samp>--with-bzip2</samp> to select a specific <code>bzip2</code> binary.
+See <a href="lbzip2.html">Using lbzip2 with <acronym>GNU</acronym> <code>tar</code>.</a>, for a detailed discussion.
+</p>
+<p>The output produced by <code>tar --help</code> shows the actual
+compressor names along with each of these options.
+</p>
+<p>You can use any of these options on physical devices (tape drives,
+etc.) and remote files as well as on normal files; data to or from
+such devices or remote files is reblocked by another copy of the
+<code>tar</code> program to enforce the specified (or default) record
+size.  The default compression parameters are used.
+You can override them by using the <samp>-I</samp> option (see
+below), e.g.:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -cf archive.tar.gz -I 'gzip -9 -n' subdir</kbd>
+</pre></div>
+
+<p>A more traditional way to do this is to use a pipe:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar cf - subdir | gzip -9 -n &gt; archive.tar.gz</kbd>
+</pre></div>
+
+<span id="index-corrupted-archives-1"></span>
+<p>Compressed archives are easily corrupted, because compressed files
+have little redundancy.  The adaptive nature of the
+compression scheme means that the compression tables are implicitly
+spread all over the archive.  If you lose a few blocks, the dynamic
+construction of the compression tables becomes unsynchronized, and there
+is little chance that you could recover later in the archive.
+</p>
+<p>Other compression options provide better control over creating
+compressed archives.  These are:
+</p>
+<dl compact="compact">
+<dd><span id="auto_002dcompress"></span><span id="index-auto_002dcompress"></span>
+</dd>
+<dt><span><samp>--auto-compress</samp></span></dt>
+<dt><span><samp>-a</samp></span></dt>
+<dd><p>Select a compression program to use by the archive file name
+suffix.  The following suffixes are recognized:
+</p>
+<table>
+<thead><tr><th width="30%">Suffix</th><th width="60%">Compression program</th></tr></thead>
+<tr><td width="30%">&lsquo;<samp>.gz</samp>&rsquo;</td><td width="60%"><code>gzip</code></td></tr>
+<tr><td width="30%">&lsquo;<samp>.tgz</samp>&rsquo;</td><td width="60%"><code>gzip</code></td></tr>
+<tr><td width="30%">&lsquo;<samp>.taz</samp>&rsquo;</td><td width="60%"><code>gzip</code></td></tr>
+<tr><td width="30%">&lsquo;<samp>.Z</samp>&rsquo;</td><td width="60%"><code>compress</code></td></tr>
+<tr><td width="30%">&lsquo;<samp>.taZ</samp>&rsquo;</td><td width="60%"><code>compress</code></td></tr>
+<tr><td width="30%">&lsquo;<samp>.bz2</samp>&rsquo;</td><td width="60%"><code>bzip2</code></td></tr>
+<tr><td width="30%">&lsquo;<samp>.tz2</samp>&rsquo;</td><td width="60%"><code>bzip2</code></td></tr>
+<tr><td width="30%">&lsquo;<samp>.tbz2</samp>&rsquo;</td><td width="60%"><code>bzip2</code></td></tr>
+<tr><td width="30%">&lsquo;<samp>.tbz</samp>&rsquo;</td><td width="60%"><code>bzip2</code></td></tr>
+<tr><td width="30%">&lsquo;<samp>.lz</samp>&rsquo;</td><td width="60%"><code>lzip</code></td></tr>
+<tr><td width="30%">&lsquo;<samp>.lzma</samp>&rsquo;</td><td width="60%"><code>lzma</code></td></tr>
+<tr><td width="30%">&lsquo;<samp>.tlz</samp>&rsquo;</td><td width="60%"><code>lzma</code></td></tr>
+<tr><td width="30%">&lsquo;<samp>.lzo</samp>&rsquo;</td><td width="60%"><code>lzop</code></td></tr>
+<tr><td width="30%">&lsquo;<samp>.xz</samp>&rsquo;</td><td width="60%"><code>xz</code></td></tr>
+<tr><td width="30%">&lsquo;<samp>.zst</samp>&rsquo;</td><td width="60%"><code>zstd</code></td></tr>
+<tr><td width="30%">&lsquo;<samp>.tzst</samp>&rsquo;</td><td width="60%"><code>zstd</code></td></tr>
+</table>
+
+<span id="use_002dcompress_002dprogram"></span><span id="index-use_002dcompress_002dprogram"></span>
+</dd>
+<dt><span><samp>--use-compress-program=<var>command</var></samp></span></dt>
+<dt><span><samp>-I=<var>command</var></samp></span></dt>
+<dd><p>Use external compression program <var>command</var>.  Use this option if you
+want to specify options for the compression program, or if you
+are not happy with the compression program associated with the suffix
+at compile time, or if you have a compression program that <acronym>GNU</acronym> <code>tar</code>
+does not support.  The <var>command</var> argument is a valid command
+invocation, as you would type it at the command line prompt, with any
+additional options as needed.  Enclose it in quotes if it contains
+white space (see <a href="external.html">Running External Commands</a>).
+</p>
+<p>The <var>command</var> should follow two conventions:
+</p>
+<p>First, when invoked without additional options, it should read data
+from standard input, compress it and output it on standard output.
+</p>
+<p>Secondly, if invoked with the additional <samp>-d</samp> option, it should
+do exactly the opposite, i.e., read the compressed data from the
+standard input and produce uncompressed data on the standard output.
+</p>
+<p>The latter requirement means that you must not use the <samp>-d</samp>
+option as a part of the <var>command</var> itself.
+</p></dd>
+</dl>
+
+<span id="index-gpg_002c-using-with-tar"></span>
+<span id="index-gnupg_002c-using-with-tar"></span>
+<span id="index-Using-encrypted-archives"></span>
+<p>The <samp>--use-compress-program</samp> option, in particular, lets you
+implement your own filters, not necessarily dealing with
+compression/decompression.  For example, suppose you wish to implement
+PGP encryption on top of compression, using <code>gpg</code> (see <a data-manual="gpg" href="../gpg/index.html#Top">gpg &mdash;- encryption and signing tool</a> in <cite>GNU Privacy Guard
+Manual</cite>).  The following script does that:
+</p>
+<div class="example">
+<pre class="example">#! /bin/sh
+case $1 in
+-d) gpg --decrypt - | gzip -d -c;;
+'') gzip -c | gpg -s;;
+*)  echo &quot;Unknown option $1&quot;&gt;&amp;2; exit 1;;
+esac
+</pre></div>
+
+<p>Suppose you name it <samp>gpgz</samp> and save it somewhere in your
+<code>PATH</code>.  Then the following command will create a compressed
+archive signed with your private key:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -cf foo.tar.gpgz -Igpgz .</kbd>
+</pre></div>
+
+<p>Likewise, the command below will list its contents:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -tf foo.tar.gpgz -Igpgz .</kbd>
+</pre></div>
+
+
+
+<ul class="section-toc">
+<li><a href="lbzip2.html" accesskey="1">Using lbzip2 with <acronym>GNU</acronym> <code>tar</code>.</a></li>
+</ul>
+</div>
+<div class="footnote">
+<hr>
+<h4 class="footnotes-heading">Footnotes</h4>
+
+<h5><a id="FOOT20" href="#DOCF20">(20)</a></h5>
+<p>It also had patent problems in the past.</p>
+<h5><a id="FOOT21" href="#DOCF21">(21)</a></h5>
+<p>To verbosely trace the decompressor selection, use the
+<samp>--warning=decompress-program</samp> option
+(see <a href="warnings.html">decompress-program</a>).</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="sparse.html">Archiving Sparse Files</a>, Up: <a href="Compression.html">Using Less Space through Compression</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

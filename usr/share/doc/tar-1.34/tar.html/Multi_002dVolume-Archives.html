@@ -1,0 +1,371 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>Multi-Volume Archives (GNU tar 1.34)</title>
+
+<meta name="description" content="Multi-Volume Archives (GNU tar 1.34)">
+<meta name="keywords" content="Multi-Volume Archives (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Using-Multiple-Tapes.html" rel="up" title="Using Multiple Tapes">
+<link href="Tape-Files.html" rel="next" title="Tape Files">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection" id="Multi_002dVolume-Archives">
+<div class="header">
+<p>
+Next: <a href="Tape-Files.html" accesskey="n" rel="next">Tape Files</a>, Up: <a href="Using-Multiple-Tapes.html" accesskey="u" rel="up">Using Multiple Tapes</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Archives-Longer-than-One-Tape-or-Disk"></span><h4 class="subsection">9.6.1 Archives Longer than One Tape or Disk</h4>
+<span id="index-Multi_002dvolume-archives"></span>
+
+<span id="index-multi_002dvolume"></span>
+<p>To create an archive that is larger than will fit on a single unit of
+the media, use the <samp>--multi-volume</samp> (<samp>-M</samp>) option in conjunction with
+the <samp>--create</samp> option (see <a href="create.html">How to Create Archives</a>).  A <em>multi-volume</em>
+archive can be manipulated like any other archive (provided the
+<samp>--multi-volume</samp> option is specified), but is stored on more
+than one tape or file.
+</p>
+<p>When you specify <samp>--multi-volume</samp>, <code>tar</code> does not report an
+error when it comes to the end of an archive volume (when reading), or
+the end of the media (when writing).  Instead, it prompts you to load
+a new storage volume.  If the archive is on a magnetic tape, you
+should change tapes when you see the prompt; if the archive is on a
+floppy disk, you should change disks; etc.
+</p>
+<dl compact="compact">
+<dt><span><samp>--multi-volume</samp></span></dt>
+<dt><span><samp>-M</samp></span></dt>
+<dd><p>Creates a multi-volume archive, when used in conjunction with
+<samp>--create</samp> (<samp>-c</samp>).  To perform any other operation on a multi-volume
+archive, specify <samp>--multi-volume</samp> in conjunction with that
+operation.
+For example:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar --create --multi-volume --file=/dev/tape <var>files</var></kbd>
+</pre></div>
+</dd>
+</dl>
+
+<p>The method <code>tar</code> uses to detect end of tape is not perfect, and
+fails on some operating systems or on some devices.  If <code>tar</code>
+cannot detect the end of the tape itself, you can use
+<samp>--tape-length</samp> option to inform it about the capacity of the
+tape:
+</p>
+<span id="tape_002dlength"></span><dl compact="compact">
+<dd><span id="index-tape_002dlength"></span>
+</dd>
+<dt><span><samp>--tape-length=<var>size</var>[<var>suf</var>]</samp></span></dt>
+<dt><span><samp>-L <var>size</var>[<var>suf</var>]</samp></span></dt>
+<dd><p>Set maximum length of a volume.  The <var>suf</var>, if given, specifies
+units in which <var>size</var> is expressed, e.g. &lsquo;<samp>2M</samp>&rsquo; mean 2
+megabytes (see <a href="Device.html#size_002dsuffixes">Table 9.1</a>, for a list of allowed size
+suffixes).  Without <var>suf</var>, units of 1024 bytes (kilobyte) are
+assumed.
+</p>
+<p>This option selects <samp>--multi-volume</samp> automatically.  For example:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar --create --tape-length=41943040 --file=/dev/tape <var>files</var></kbd>
+</pre></div>
+
+<p>or, which is equivalent:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar --create --tape-length=4G --file=/dev/tape <var>files</var></kbd>
+</pre></div>
+</dd>
+</dl>
+
+<span id="change-volume-prompt"></span><p>When <acronym>GNU</acronym> <code>tar</code> comes to the end of a storage media, it asks you to
+change the volume.  The built-in prompt for POSIX locale
+is<a id="DOCF26" href="#FOOT26"><sup>26</sup></a>:
+</p>
+<div class="example">
+<pre class="example">Prepare volume #<var>n</var> for '<var>archive</var>' and hit return:
+</pre></div>
+
+<p>where <var>n</var> is the ordinal number of the volume to be created and
+<var>archive</var> is archive file or device name.
+</p>
+<p>When prompting for a new tape, <code>tar</code> accepts any of the following
+responses:
+</p>
+<dl compact="compact">
+<dt><span><kbd>?</kbd></span></dt>
+<dd><p>Request <code>tar</code> to explain possible responses.
+</p></dd>
+<dt><span><kbd>q</kbd></span></dt>
+<dd><p>Request <code>tar</code> to exit immediately.
+</p></dd>
+<dt><span><kbd>n <var>file-name</var></kbd></span></dt>
+<dd><p>Request <code>tar</code> to write the next volume on the file <var>file-name</var>.
+</p></dd>
+<dt><span><kbd>!</kbd></span></dt>
+<dd><p>Request <code>tar</code> to run a subshell.  This option can be disabled
+by giving <samp>--restrict</samp> command line option to
+<code>tar</code><a id="DOCF27" href="#FOOT27"><sup>27</sup></a>.
+</p></dd>
+<dt><span><kbd>y</kbd></span></dt>
+<dd><p>Request <code>tar</code> to begin writing the next volume.
+</p></dd>
+</dl>
+
+<p>(You should only type &lsquo;<samp>y</samp>&rsquo; after you have changed the tape;
+otherwise <code>tar</code> will write over the volume it just finished.)
+</p>
+<span id="index-Volume-number-file"></span>
+<span id="index-volno-file"></span>
+<span id="volno_002dfile"></span><span id="index-volno_002dfile"></span>
+<p>The volume number used by <code>tar</code> in its tape-changing prompt
+can be changed; if you give the
+<samp>--volno-file=<var>file-of-number</var></samp> option, then
+<var>file-of-number</var> should be an non-existing file to be created, or
+else, a file already containing a decimal number.  That number will be
+used as the volume number of the first volume written.  When
+<code>tar</code> is finished, it will rewrite the file with the
+now-current volume number. (This does not change the volume number
+written on a tape label, as per <a href="label.html">Including a Label in the Archive</a>, it <em>only</em> affects
+the number used in the prompt.)
+</p>
+<span id="index-End_002dof_002darchive-info-script"></span>
+<span id="index-Info-script"></span>
+<span id="info_002dscript"></span><span id="index-info_002dscript"></span>
+<span id="index-new_002dvolume_002dscript"></span>
+<p>If you want more elaborate behavior than this, you can write a special
+<em>new volume script</em>, that will be responsible for changing the
+volume, and instruct <code>tar</code> to use it instead of its normal
+prompting procedure:
+</p>
+<dl compact="compact">
+<dt><span><samp>--info-script=<var>command</var></samp></span></dt>
+<dt><span><samp>--new-volume-script=<var>command</var></samp></span></dt>
+<dt><span><samp>-F <var>command</var></samp></span></dt>
+<dd><p>Specify the command to invoke when switching volumes.  The <var>command</var>
+can be used to eject cassettes, or to broadcast messages such as
+&lsquo;<samp>Someone please come change my tape</samp>&rsquo; when performing unattended
+backups.
+</p></dd>
+</dl>
+
+<p>The <var>command</var> can contain additional options, if such are needed.
+See <a href="external.html">Running External Commands</a>, for a detailed discussion
+of the way <acronym>GNU</acronym> <code>tar</code> runs external commands.  It inherits
+<code>tar</code>&rsquo;s shell environment.  Additional data is passed to it
+via the following environment variables:
+</p>
+<dl compact="compact">
+<dd><span id="index-TAR_005fVERSION_002c-info-script-environment-variable"></span>
+</dd>
+<dt><span><code>TAR_VERSION</code></span></dt>
+<dd><p><acronym>GNU</acronym> <code>tar</code> version number.
+</p>
+<span id="index-TAR_005fARCHIVE_002c-info-script-environment-variable"></span>
+</dd>
+<dt><span><code>TAR_ARCHIVE</code></span></dt>
+<dd><p>The name of the archive <code>tar</code> is processing.
+</p>
+<span id="index-TAR_005fBLOCKING_005fFACTOR_002c-info-script-environment-variable"></span>
+</dd>
+<dt><span><code>TAR_BLOCKING_FACTOR</code></span></dt>
+<dd><p>Current blocking factor (see <a href="Blocking.html">Blocking</a>).
+</p>
+<span id="index-TAR_005fVOLUME_002c-info-script-environment-variable"></span>
+</dd>
+<dt><span><code>TAR_VOLUME</code></span></dt>
+<dd><p>Ordinal number of the volume <code>tar</code> is about to start.
+</p>
+<span id="index-TAR_005fSUBCOMMAND_002c-info-script-environment-variable"></span>
+</dd>
+<dt><span><code>TAR_SUBCOMMAND</code></span></dt>
+<dd><p>A short option describing the operation <code>tar</code> is executing.
+See <a href="Operations.html">The Five Advanced <code>tar</code> Operations</a>, for a complete list of subcommand options.
+</p>
+<span id="index-TAR_005fFORMAT_002c-info-script-environment-variable"></span>
+</dd>
+<dt><span><code>TAR_FORMAT</code></span></dt>
+<dd><p>Format of the archive being processed. See <a href="Formats.html">Controlling the Archive Format</a>, for a complete
+list of archive format names.
+</p>
+<span id="index-TAR_005fFD_002c-info-script-environment-variable"></span>
+</dd>
+<dt><span><code>TAR_FD</code></span></dt>
+<dd><p>File descriptor which can be used to communicate the new volume
+name to <code>tar</code>.
+</p></dd>
+</dl>
+
+<p>These variables can be used in the <var>command</var> itself, provided that
+they are properly quoted to prevent them from being expanded by the
+shell that invokes <code>tar</code>.
+</p>
+<p>The volume script can instruct <code>tar</code> to use new archive name,
+by writing in to file descriptor <code>$TAR_FD</code> (see below for an example).
+</p>
+<p>If the info script fails, <code>tar</code> exits; otherwise, it begins
+writing the next volume.
+</p>
+<p>If you want <code>tar</code> to cycle through a series of files or tape
+drives, there are three approaches to choose from.  First of all, you
+can give <code>tar</code> multiple <samp>--file</samp> options.  In this case
+the specified files will be used, in sequence, as the successive
+volumes of the archive.  Only when the first one in the sequence needs
+to be used again will <code>tar</code> prompt for a tape change (or run
+the info script).  For example, suppose someone has two tape drives on
+a system named <samp>/dev/tape0</samp> and <samp>/dev/tape1</samp>.  For having
+<acronym>GNU</acronym> <code>tar</code> to switch to the second drive when it needs to write the
+second tape, and then back to the first tape, etc., just do either of:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar --create --multi-volume --file=/dev/tape0 --file=/dev/tape1 <var>files</var></kbd>
+$ <kbd>tar -cM -f /dev/tape0 -f /dev/tape1 <var>files</var></kbd>
+</pre></div>
+
+<p>The second method is to use the &lsquo;<samp>n</samp>&rsquo; response to the tape-change
+prompt.
+</p>
+<p>Finally, the most flexible approach is to use a volume script, that
+writes new archive name to the file descriptor <code>$TAR_FD</code>.  For example, the
+following volume script will create a series of archive files, named
+<samp><var>archive</var>-<var>vol</var></samp>, where <var>archive</var> is the name of the
+archive being created (as given by <samp>--file</samp> option) and
+<var>vol</var> is the ordinal number of the archive being created:
+</p>
+<div class="example">
+<pre class="example">#! /bin/bash
+# For this script it's advisable to use a shell, such as Bash,
+# that supports a TAR_FD value greater than 9.
+
+echo Preparing volume $TAR_VOLUME of $TAR_ARCHIVE.
+
+name=`expr $TAR_ARCHIVE : '\(.*\)-.*'`
+case $TAR_SUBCOMMAND in
+-c)       ;;
+-d|-x|-t) test -r ${name:-$TAR_ARCHIVE}-$TAR_VOLUME || exit 1
+          ;;
+*)        exit 1
+esac
+
+echo ${name:-$TAR_ARCHIVE}-$TAR_VOLUME &gt;&amp;$TAR_FD
+</pre></div>
+
+<p>The same script can be used while listing, comparing or extracting
+from the created archive.  For example:
+</p>
+<div class="example">
+<pre class="example"># <span class="roman">Create a multi-volume archive:</span>
+$ <kbd>tar -c -L1024 -f archive.tar -F new-volume .</kbd>
+# <span class="roman">Extract from the created archive:</span>
+$ <kbd>tar -x -f archive.tar -F new-volume .</kbd>
+</pre></div>
+
+<p>Notice, that the first command had to use <samp>-L</samp> option, since
+otherwise <acronym>GNU</acronym> <code>tar</code> will end up writing everything to file
+<samp>archive.tar</samp>.
+</p>
+<p>You can read each individual volume of a multi-volume archive as if it
+were an archive by itself.  For example, to list the contents of one
+volume, use <samp>--list</samp>, without <samp>--multi-volume</samp> specified.
+To extract an archive member from one volume (assuming it is described
+that volume), use <samp>--extract</samp>, again without
+<samp>--multi-volume</samp>.
+</p>
+<p>If an archive member is split across volumes (i.e., its entry begins on
+one volume of the media and ends on another), you need to specify
+<samp>--multi-volume</samp> to extract it successfully.  In this case, you
+should load the volume where the archive member starts, and use
+&lsquo;<samp>tar --extract --multi-volume</samp>&rsquo;&mdash;<code>tar</code> will prompt for later
+volumes as it needs them.  See <a href="extracting-archives.html">Extracting an Entire Archive</a>, for more
+information about extracting archives.
+</p>
+<p>Multi-volume archives can be modified like any other archive.  To add
+files to a multi-volume archive, you need to only mount the last
+volume of the archive media (and new volumes, if needed).  For all
+other operations, you need to use the entire archive.
+</p>
+<p>If a multi-volume archive was labeled using
+<samp>--label=<var>archive-label</var></samp> (see <a href="label.html">Including a Label in the Archive</a>) when it was
+created, <code>tar</code> will not automatically label volumes which are
+added later.  To label subsequent volumes, specify
+<samp>--label=<var>archive-label</var></samp> again in conjunction with the
+<samp>--append</samp>, <samp>--update</samp> or <samp>--concatenate</samp> operation.
+</p>
+<p>Notice that multi-volume support is a GNU extension and the archives
+created in this mode should be read only using <acronym>GNU</acronym> <code>tar</code>.  If you
+absolutely have to process such archives using a third-party <code>tar</code>
+implementation, read <a href="Split-Recovery.html">Extracting Members Split Between Volumes</a>.
+</p>
+</div>
+<div class="footnote">
+<hr>
+<h4 class="footnotes-heading">Footnotes</h4>
+
+<h5><a id="FOOT26" href="#DOCF26">(26)</a></h5>
+<p>If you run <acronym>GNU</acronym> <code>tar</code> under a different locale, the
+translation to the locale&rsquo;s language will be used.</p>
+<h5><a id="FOOT27" href="#DOCF27">(27)</a></h5>
+<p>See <a href="Option-Summary.html#g_t_002d_002drestrict">--restrict</a>, for more information about
+this option.</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Tape-Files.html">Tape Files</a>, Up: <a href="Using-Multiple-Tapes.html">Using Multiple Tapes</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

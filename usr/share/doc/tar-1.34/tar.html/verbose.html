@@ -1,0 +1,247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 
+This manual is for GNU tar (version
+1.34, 2 October 2021), which creates and extracts files
+from archives.
+
+Copyright (C) 1992, 1994-1997, 1999-2001, 2003-2017, 2021
+Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "GNU General Public License", with the
+Front-Cover Texts being "A GNU Manual", and with the Back-Cover Texts
+as in (a) below.  A copy of the license is included in the section
+entitled "GNU Free Documentation License".
+
+(a) The FSF's Back-Cover Text is: "You have the freedom to
+copy and modify this GNU manual." -->
+<title>verbose (GNU tar 1.34)</title>
+
+<meta name="description" content="verbose (GNU tar 1.34)">
+<meta name="keywords" content="verbose (GNU tar 1.34)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Index-of-Command-Line-Options.html" rel="index" title="Index of Command Line Options">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="tar-invocation.html" rel="up" title="tar invocation">
+<link href="checkpoints.html" rel="next" title="checkpoints">
+<link href="defaults.html" rel="prev" title="defaults">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section" id="verbose">
+<div class="header">
+<p>
+Next: <a href="checkpoints.html" accesskey="n" rel="next">Checkpoints</a>, Previous: <a href="defaults.html" accesskey="p" rel="prev">Obtaining <acronym>GNU</acronym> <code>tar</code> default values</a>, Up: <a href="tar-invocation.html" accesskey="u" rel="up">Invoking <acronym>GNU</acronym> <code>tar</code></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Checking-tar-progress"></span><h3 class="section">3.7 Checking <code>tar</code> progress</h3>
+
+<p>Typically, <code>tar</code> performs most operations without reporting any
+information to the user except error messages.  When using <code>tar</code>
+with many options, particularly ones with complicated or
+difficult-to-predict behavior, it is possible to make serious mistakes.
+<code>tar</code> provides several options that make observing <code>tar</code>
+easier.  These options cause <code>tar</code> to print information as it
+progresses in its job, and you might want to use them just for being
+more careful about what is going on, or merely for entertaining
+yourself.  If you have encountered a problem when operating on an
+archive, however, you may need more information than just an error
+message in order to solve the problem.  The following options can be
+helpful diagnostic tools.
+</p>
+<span id="index-Verbose-operation"></span>
+<span id="index-verbose"></span>
+<p>Normally, the <samp>--list</samp> (<samp>-t</samp>) command to list an archive
+prints just the file names (one per line) and the other commands are
+silent. When used with most operations, the <samp>--verbose</samp>
+(<samp>-v</samp>) option causes <code>tar</code> to print the name of each
+file or archive member as it is processed.  This and the other options
+which make <code>tar</code> print status information can be useful in
+monitoring <code>tar</code>.
+</p>
+<p>With <samp>--create</samp> or <samp>--extract</samp>, <samp>--verbose</samp> used
+once just prints the names of the files or members as they are processed.
+Using it twice causes <code>tar</code> to print a longer listing
+(See <a href="verbose-tutorial.html#verbose-member-listing">verbose member listing</a>, for the description) for each member.
+Since <samp>--list</samp> already prints  the names of the members,
+<samp>--verbose</samp> used once with <samp>--list</samp> causes <code>tar</code>
+to print an &lsquo;<samp>ls -l</samp>&rsquo; type listing of the files in the archive.
+The following examples both extract members with long list output:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar --extract --file=archive.tar --verbose --verbose</kbd>
+$ <kbd>tar xvvf archive.tar</kbd>
+</pre></div>
+
+<p>Verbose output appears on the standard output except when an archive is
+being written to the standard output, as with &lsquo;<samp>tar --create
+--file=- --verbose</samp>&rsquo; (&lsquo;<samp>tar cvf -</samp>&rsquo;, or even &lsquo;<samp>tar cv</samp>&rsquo;&mdash;if the
+installer let standard output be the default archive).  In that case
+<code>tar</code> writes verbose output to the standard error stream.
+</p>
+<p>If <samp>--index-file=<var>file</var></samp> is specified, <code>tar</code> sends
+verbose output to <var>file</var> rather than to standard output or standard
+error.
+</p>
+<span id="totals"></span><span id="index-Obtaining-total-status-information"></span>
+<span id="index-totals"></span>
+<p>The <samp>--totals</samp> option causes <code>tar</code> to print on the
+standard error the total amount of bytes transferred when processing
+an archive.  When creating or appending to an archive, this option
+prints the number of bytes written to the archive and the average
+speed at which they have been written, e.g.:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -c -f archive.tar --totals /home</kbd>
+Total bytes written: 7924664320 (7.4GiB, 85MiB/s)
+</pre></div>
+
+<p>When reading an archive, this option displays the number of bytes
+read:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -x -f archive.tar --totals</kbd>
+Total bytes read: 7924664320 (7.4GiB, 95MiB/s)
+</pre></div>
+
+<p>Finally, when deleting from an archive, the <samp>--totals</samp> option
+displays both numbers plus number of bytes removed from the archive:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar --delete -f foo.tar --totals --wildcards '*~'</kbd>
+Total bytes read: 9543680 (9.2MiB, 201MiB/s)
+Total bytes written: 3829760 (3.7MiB, 81MiB/s)
+Total bytes deleted: 1474048
+</pre></div>
+
+<p>You can also obtain this information on request.  When
+<samp>--totals</samp> is used with an argument, this argument is
+interpreted as a symbolic name of a signal, upon delivery of which the
+statistics is to be printed:
+</p>
+<dl compact="compact">
+<dt><span><samp>--totals=<var>signo</var></samp></span></dt>
+<dd><p>Print statistics upon delivery of signal <var>signo</var>.  Valid arguments
+are: <code>SIGHUP</code>, <code>SIGQUIT</code>, <code>SIGINT</code>, <code>SIGUSR1</code> and
+<code>SIGUSR2</code>.  Shortened names without &lsquo;<samp>SIG</samp>&rsquo; prefix are also
+accepted.
+</p></dd>
+</dl>
+
+<p>Both forms of <samp>--totals</samp> option can be used simultaneously.
+Thus, <kbd>tar -x --totals --totals=USR1</kbd> instructs <code>tar</code> to
+extract all members from its default archive and print statistics
+after finishing the extraction, as well as when receiving signal
+<code>SIGUSR1</code>.
+</p>
+<span id="Progress-information"></span><span id="index-Progress-information"></span>
+<p>The <samp>--checkpoint</samp> option prints an occasional message
+as <code>tar</code> reads or writes the archive.  It is designed for
+those who don&rsquo;t need the more detailed (and voluminous) output of
+<samp>--block-number</samp> (<samp>-R</samp>), but do want visual confirmation
+that <code>tar</code> is actually making forward progress.  By default it
+prints a message each 10 records read or written.  This can be changed
+by giving it a numeric argument after an equal sign:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -c --checkpoint=1000</kbd> /var
+tar: Write checkpoint 1000
+tar: Write checkpoint 2000
+tar: Write checkpoint 3000
+</pre></div>
+
+<p>This example shows the default checkpoint message used by
+<code>tar</code>.  If you place a dot immediately after the equal
+sign, it will print a &lsquo;<samp>.</samp>&rsquo; at each checkpoint<a id="DOCF8" href="#FOOT8"><sup>8</sup></a>.  For example:
+</p>
+<div class="example">
+<pre class="example">$ <kbd>tar -c --checkpoint=.1000</kbd> /var
+...
+</pre></div>
+
+<p>The <samp>--checkpoint</samp> option provides a flexible mechanism for
+executing arbitrary actions upon hitting checkpoints, see the next
+section (see <a href="checkpoints.html">Checkpoints</a>), for more information on it.
+</p>
+<span id="index-show_002domitted_002ddirs"></span>
+<span id="show_002domitted_002ddirs"></span><p>The <samp>--show-omitted-dirs</samp> option, when reading an archive&mdash;with
+<samp>--list</samp> or <samp>--extract</samp>, for example&mdash;causes a message
+to be printed for each directory in the archive which is skipped.
+This happens regardless of the reason for skipping: the directory might
+not have been named on the command line (implicitly or explicitly),
+it might be excluded by the use of the
+<samp>--exclude=<var>pattern</var></samp> option, or some other reason.
+</p>
+<span id="index-block_002dnumber"></span>
+<span id="index-Block-number-where-error-occurred"></span>
+<span id="block_002dnumber"></span><p>If <samp>--block-number</samp> (<samp>-R</samp>) is used, <code>tar</code> prints, along with
+every message it would normally produce, the block number within the
+archive where the message was triggered.  Also, supplementary messages
+are triggered when reading blocks full of NULs, or when hitting end of
+file on the archive.  As of now, if the archive is properly terminated
+with a NUL block, the reading of the file may stop before end of file
+is met, so the position of end of file will not usually show when
+<samp>--block-number</samp> (<samp>-R</samp>) is used.  Note that <acronym>GNU</acronym> <code>tar</code>
+drains the archive before exiting when reading the
+archive from a pipe.
+</p>
+<span id="index-Error-message_002c-block-number-of"></span>
+<p>This option is especially useful when reading damaged archives, since
+it helps pinpoint the damaged sections.  It can also be used with
+<samp>--list</samp> (<samp>-t</samp>) when listing a file-system backup tape, allowing you to
+choose among several backup tapes when retrieving a file later, in
+favor of the tape where the file appears earliest (closest to the
+front of the tape).  See <a href="backup.html">Backup options</a>.
+</p>
+</div>
+<div class="footnote">
+<hr>
+<h4 class="footnotes-heading">Footnotes</h4>
+
+<h5><a id="FOOT8" href="#DOCF8">(8)</a></h5>
+<p>This is
+actually a shortcut for <samp>--checkpoint=<var>n</var>
+--checkpoint-action=dot</samp>.  See <a href="checkpoints.html">dot</a>.</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="checkpoints.html">Checkpoints</a>, Previous: <a href="defaults.html">Obtaining <acronym>GNU</acronym> <code>tar</code> default values</a>, Up: <a href="tar-invocation.html">Invoking <acronym>GNU</acronym> <code>tar</code></a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index-of-Command-Line-Options.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>
