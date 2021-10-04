@@ -1,5 +1,4 @@
-# Yeshua-OS
-## Ultra-Lightweight SystemV Linux OS compiled from ground up
+# Ultra-Lightweight SystemV Linux OS compiled from ground up
 (up in 3.9sec a 2.2GHz single core, 20MB RAM once fully loaded) 
 ```
              __ 
